@@ -1,0 +1,129 @@
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Newsreader", Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  --color-canvas: #fbf9f3;
+  --color-canvas-low: #f5f3ed;
+  --color-canvas-card: #f0eee8;
+  --color-canvas-high: #eae8e2;
+  --color-canvas-highest: #e4e2dd;
+  --color-ink: #1b1c18;
+  --color-ink-muted: #757872;
+  --color-ink-faint: #9ea099;
+  --color-hairline: #d8d7ce;
+  --color-hairline-dark: #3a3d36;
+  --color-substrate: #e9e7df;
+  --color-substrate-high: #e4e2dd;
+  --color-terminal: #171a18;
+  --color-terminal-surface: #1e221f;
+  --color-terminal-card: #252a26;
+  --color-lime: #b7d83d;
+  --color-lime-bright: #cef053;
+  --color-lime-muted: #536600;
+  --color-error: #ba1a1a;
+}
+
+/* Silicon Observatory Geometric Orthodoxy: Strict 0px radius universally */
+*, *::before, *::after {
+  border-radius: 0px !important;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+html, body {
+  background-color: #fbf9f3;
+  color: #1b1c18;
+  font-family: var(--font-sans);
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  max-width: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Subtle silicon wafer & reticle grid pattern */
+.silicon-grid-pattern {
+  background-image: 
+    linear-gradient(to right, rgba(27, 28, 24, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(27, 28, 24, 0.04) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+.silicon-grid-pattern-dense {
+  background-image: 
+    linear-gradient(to right, rgba(27, 28, 24, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(27, 28, 24, 0.06) 1px, transparent 1px);
+  background-size: 14px 14px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+::selection {
+  background-color: #cef053;
+  color: #171916;
+}
+
+/* Custom hairline borders for photolithography reticle aesthetic */
+.border-reticle {
+  border-color: #d8d7ce;
+}
+
+.border-terminal-reticle {
+  border-color: #333833;
+}
+
+/* Monospace coordinate taxonomy styles */
+.font-technical {
+  font-family: var(--font-mono);
+  letter-spacing: 0.04em;
+}
+
+.font-editorial {
+  font-family: var(--font-serif);
+}
+
+/* Custom scrollbar for EDA telemetry tables and code terminals */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f0eee8;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c5c7c1;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #757872;
+}
+
+.dark-scroll::-webkit-scrollbar-track {
+  background: #171a18;
+}
+
+.dark-scroll::-webkit-scrollbar-thumb {
+  background: #333833;
+}
+
+.dark-scroll::-webkit-scrollbar-thumb:hover {
+  background: #757872;
+}
