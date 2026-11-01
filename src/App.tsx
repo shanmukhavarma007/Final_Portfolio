@@ -16,6 +16,7 @@ import { TechnicalJournal } from './components/TechnicalJournal';
 import { EdaTerminalConsole } from './components/EdaTerminalConsole';
 import { PersistentFooter } from './components/PersistentFooter';
 import { Cva6EngineeringEvidenceGallery } from './components/Cva6EngineeringEvidenceGallery';
+import { Cva6TimingVsDensityCaseStudy } from './components/Cva6TimingVsDensityCaseStudy';
 import { GitHubStatus } from './components/GitHubStatus';
 import { SiliconTraceReveal } from './components/SiliconTraceReveal';
 import { TechnicalSkillsMatrix } from './components/TechnicalSkillsMatrix';
@@ -504,6 +505,11 @@ export default function App() {
 
                   {/* 3 Original Engineering Screenshots Gallery (Collapsible via button) */}
                   <Cva6EngineeringEvidenceGallery isExpanded={isCva6EvidenceExpanded} />
+
+                  {/* Case Study: Timing vs. Cell Density (Engineering Decisions // CVA6-01) */}
+                  <div className="pt-2">
+                    <Cva6TimingVsDensityCaseStudy />
+                  </div>
                 </motion.section>
 
                 {/* Subordinate: CVA6 Netlist & Handoff Status Ledger */}
@@ -663,6 +669,9 @@ export default function App() {
 
                 {/* Dedicated CVA6 Actual Engineering Screenshots & QoR Gallery (Collapsible via button) */}
                 <Cva6EngineeringEvidenceGallery isExpanded={isCva6EvidenceExpanded} />
+
+                {/* Case Study: Timing vs. Cell Density (Engineering Decisions // CVA6-01) */}
+                <Cva6TimingVsDensityCaseStudy />
 
                 <NetlistLedger
                   onOpenCandidateProfile={() => setIsProfileModalOpen(true)}
