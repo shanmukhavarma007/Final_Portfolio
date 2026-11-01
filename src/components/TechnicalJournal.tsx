@@ -21,8 +21,10 @@ export const TechnicalJournal: React.FC = () => {
       <div className="p-5 bg-[#f5f3ed] border-b border-[#d8d7ce]">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <div className="font-technical text-xs text-[#757872] uppercase tracking-wider">
-              [SECTION 05 // CURRICULUM & KNOWLEDGE LEDGER]
+            <div className="flex items-center gap-2 font-technical text-xs text-[#757872] uppercase tracking-wider">
+              <span className="font-bold text-[#1b1c18] text-sm">05 // ENGINEERING</span>
+              <span className="text-[#c5c7c1]">·</span>
+              <span className="text-[#536600] font-bold">CURRICULUM & KNOWLEDGE LEDGER</span>
             </div>
             <h2 className="font-serif text-2xl md:text-3xl text-[#1b1c18] font-normal mt-1">
               ASIC Physical Design Technical Insights

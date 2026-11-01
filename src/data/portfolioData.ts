@@ -61,7 +61,7 @@ export const ENGINEER_PROFILE = {
   linkedin: 'https://www.linkedin.com/in/shanmukhavarma-penmetsa/',
   statusBadge: 'ENTRY-LEVEL ASIC PHYSICAL DESIGN CANDIDATE',
   summary:
-    "B.Tech Electronics and Communication Engineering student (2022–2026) at Vignan's Institute of Information Technology with hands-on ASIC Physical Design training from Sumedha IT. Experienced in RTL synthesis using Cadence Genus, SDC timing constraints, floorplanning, macro placement, and standard-cell placement using Cadence Innovus.",
+    "Interested in the engineering that takes digital designs from RTL towards physical implementation, I’m an Electronics and Communication Engineering graduate building my career in ASIC Physical Design. Through hands-on training at Sumedha IT, I’ve worked across RTL synthesis and SDC-driven timing constraints using Cadence Genus, followed by floorplanning, macro placement and standard-cell placement using Cadence Innovus. My work is documented through practical CVA6 implementation and AES synthesis projects, supported by original EDA tool outputs and engineering evidence.",
   edaTools: [
     { name: 'Cadence Genus', role: 'RTL Synthesis, QoR Analysis, SDC constraint application' },
     { name: 'Cadence Innovus', role: 'Floorplanning, Macro Placement, Standard-Cell Placement' }
@@ -85,6 +85,140 @@ export const ENGINEER_PROFILE = {
     { area: 'Physical Signoff (DRC/LVS)', tool: 'Physical Verification', status: 'PLANNED_NOT_STARTED' as TechnicalStatus }
   ]
 };
+
+export interface RecruiterSkillItem {
+  name: string;
+  level: 'HANDS-ON FLOW' | 'THEORETICAL STUDY' | 'TOOL AUTOMATION';
+  toolOrContext: string;
+  details: string;
+}
+
+export interface RecruiterSkillGroup {
+  groupLetter: string;
+  groupTitle: string;
+  category: string;
+  description: string;
+  skills: RecruiterSkillItem[];
+}
+
+export const RECRUITER_SKILL_GROUPS: RecruiterSkillGroup[] = [
+  {
+    groupLetter: 'A',
+    groupTitle: 'EDA Tools',
+    category: 'PRIMARY ASIC EDA TOOLCHAINS',
+    description: 'Hands-on flow execution in Cadence synthesis and physical implementation suites.',
+    skills: [
+      {
+        name: 'Cadence Genus',
+        level: 'HANDS-ON FLOW',
+        toolOrContext: 'Synthesis Solution v25.1',
+        details: 'RTL logic synthesis, technology library (.lib) compilation, generic mapping, SDC constraint application, and timing QoR analysis.'
+      },
+      {
+        name: 'Cadence Innovus',
+        level: 'HANDS-ON FLOW',
+        toolOrContext: 'Physical Design System',
+        details: 'Core & die floorplanning, halo keepouts, SRAM macro placement, global & detailed standard-cell placement, and placement-stage QoR verification.'
+      }
+    ]
+  },
+  {
+    groupLetter: 'B',
+    groupTitle: 'ASIC Physical Design',
+    category: 'NETLIST-TO-PLACEMENT IMPLEMENTATION',
+    description: 'Complete floorplanning and placement flow implementation with post-placement CTS readiness.',
+    skills: [
+      {
+        name: 'Core & Die Floorplanning',
+        level: 'HANDS-ON FLOW',
+        toolOrContext: 'Cadence Innovus',
+        details: 'Aspect ratio configuration, core-to-die margin definition, and core boundary establishment for 64-bit CVA6 RISC-V.'
+      },
+      {
+        name: 'Macro Placement & Pin Access',
+        level: 'HANDS-ON FLOW',
+        toolOrContext: 'Cadence Innovus',
+        details: 'SRAM memory macro placement along periphery, halo keepout margins (15um), and maintaining unblocked channel access.'
+      },
+      {
+        name: 'Standard-Cell Placement',
+        level: 'HANDS-ON FLOW',
+        toolOrContext: 'Cadence Innovus',
+        details: 'Global & detailed standard-cell placement across core rows with checkPlace legalization checks.'
+      },
+      {
+        name: 'Placement-Stage QoR Analysis',
+        level: 'HANDS-ON FLOW',
+        toolOrContext: 'Cadence Innovus',
+        details: 'Evaluating pre-CTS cell density distribution, congestion check, and preliminary path delays.'
+      },
+      {
+        name: 'Clock Tree Synthesis (CTS) Architecture',
+        level: 'THEORETICAL STUDY',
+        toolOrContext: 'Coursework & Training',
+        details: 'Clock tree structures (H-tree, clock mesh), clock buffer insertion, global skew targets, and clock latency balancing.'
+      },
+      {
+        name: 'Power Distribution & IR Drop',
+        level: 'THEORETICAL STUDY',
+        toolOrContext: 'Coursework & Training',
+        details: 'Power rings, orthogonal VDD/VSS strap grids, static vs dynamic IR drop theory, and decap placement fundamentals.'
+      }
+    ]
+  },
+  {
+    groupLetter: 'C',
+    groupTitle: 'Synthesis and Timing',
+    category: 'FRONT-TO-BACK TIMING RIGOR',
+    description: 'Constraining and optimizing digital circuits to meet target clock frequency constraints.',
+    skills: [
+      {
+        name: 'RTL Logic Synthesis',
+        level: 'HANDS-ON FLOW',
+        toolOrContext: 'Cadence Genus',
+        details: 'Elaborating Verilog HDL into optimized gate-level netlists (178,799 leaf cells in CVA6, 9,474 leaf cells in AES).'
+      },
+      {
+        name: 'SDC Timing Constraints',
+        level: 'HANDS-ON FLOW',
+        toolOrContext: 'Genus & Innovus',
+        details: 'Defining clock periods (1.700 ns for CVA6, 1000.0 ps for AES), input/output delays, and multi-cycle paths.'
+      },
+      {
+        name: 'Timing Report Analysis (STA)',
+        level: 'HANDS-ON FLOW',
+        toolOrContext: 'Cadence Genus / Innovus',
+        details: 'Setup & hold slack analysis, Total Negative Slack (TNS) inspection, critical path identification, and max fanout reporting.'
+      }
+    ]
+  },
+  {
+    groupLetter: 'D',
+    groupTitle: 'Hardware Description and Scripting',
+    category: 'AUTOMATION & CODING',
+    description: 'Hardware description modeling and command-line automation scripts.',
+    skills: [
+      {
+        name: 'Verilog HDL',
+        level: 'HANDS-ON FLOW',
+        toolOrContext: 'RTL Design & Simulation',
+        details: 'Synthesizable structural and behavioral digital logic design, testbench simulation, and register-transfer level evaluation.'
+      },
+      {
+        name: 'Tcl (Tool Command Language)',
+        level: 'TOOL AUTOMATION',
+        toolOrContext: 'Genus & Innovus Batch Flows',
+        details: 'Scripting batch runs, automated floorplan setup commands, design constraint scripts, and QoR report extraction.'
+      },
+      {
+        name: 'Linux & Bash Shell Scripting',
+        level: 'TOOL AUTOMATION',
+        toolOrContext: 'EDA Workstation Environment',
+        details: 'Environment setup, file system management, run automation, and batch log parsing on Linux engineering workstations.'
+      }
+    ]
+  }
+];
 
 export const VERIFIED_PROJECTS: VerifiedProject[] = [
   {

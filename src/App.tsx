@@ -18,8 +18,9 @@ import { PersistentFooter } from './components/PersistentFooter';
 import { Cva6EngineeringEvidenceGallery } from './components/Cva6EngineeringEvidenceGallery';
 import { GitHubStatus } from './components/GitHubStatus';
 import { SiliconTraceReveal } from './components/SiliconTraceReveal';
+import { TechnicalSkillsMatrix } from './components/TechnicalSkillsMatrix';
 import { VERIFIED_PROJECTS, VerifiedProject, ENGINEER_PROFILE } from './data/portfolioData';
-import { ArrowRight, ShieldCheck, CheckCircle2, Clock, GraduationCap, Award, Cpu } from 'lucide-react';
+import { ArrowRight, ShieldCheck, CheckCircle2, Clock, GraduationCap, Award, Cpu, Mail, Linkedin, Github, FileText, ExternalLink } from 'lucide-react';
 import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 
 export default function App() {
@@ -210,6 +211,10 @@ export default function App() {
                     <div className="flex items-center gap-2">
                       <span className="w-2 h-2 bg-[#b7d83d] inline-block" />
                       <span className="font-bold text-[#1b1c18]">
+                        01 // OVERVIEW
+                      </span>
+                      <span className="text-[#c5c7c1]">·</span>
+                      <span className="font-bold text-[#1b1c18]">
                         [ENGINEERING PORTFOLIO // ASIC PHYSICAL DESIGN // IMPLEMENTATION JOURNAL]
                       </span>
                     </div>
@@ -218,6 +223,17 @@ export default function App() {
 
                   <div className="relative z-10 mt-6 md:mt-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                     <div className="lg:col-span-8">
+                      {/* Immediate Recruiter Identification */}
+                      <div className="flex flex-wrap items-center gap-2 mb-2 font-technical text-xs">
+                        <span className="font-bold text-[#1b1c18] uppercase tracking-wider">
+                          SHANMUKHA VARMA PENMETSA
+                        </span>
+                        <span className="text-[#c5c7c1]">/</span>
+                        <span className="text-[#536600] font-semibold uppercase">
+                          ENTRY-LEVEL ASIC PHYSICAL DESIGN ENGINEER
+                        </span>
+                      </div>
+
                       {/* Line-by-Line / Staggered Headline Reveal */}
                       <motion.h1
                         initial={{ opacity: 0, y: 14 }}
@@ -235,34 +251,88 @@ export default function App() {
                         transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
                         className="mt-4 text-base sm:text-lg text-[#454843] leading-relaxed max-w-3xl"
                       >
-                        Electronics and Communication Engineering graduate with hands-on ASIC Physical Design training at Sumedha IT. Working with Cadence Genus for RTL synthesis and SDC constraints, and Cadence Innovus for floorplanning, macro placement and standard-cell placement.
+                        Interested in the engineering that takes digital designs from RTL towards physical implementation, I’m an Electronics and Communication Engineering graduate building my career in ASIC Physical Design. Through hands-on training at Sumedha IT, I’ve worked across RTL synthesis and SDC-driven timing constraints using Cadence Genus, followed by floorplanning, macro placement and standard-cell placement using Cadence Innovus. My work is documented through practical CVA6 implementation and AES synthesis projects, supported by original EDA tool outputs and engineering evidence.
                       </motion.p>
 
-                      {/* Action Triggers with Hover & Tap Animations */}
+                      {/* Recruiter-First Action Triggers with Hover & Tap Animations */}
                       <motion.div
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                        className="mt-6 flex flex-wrap items-center gap-3 font-technical text-xs"
+                        className="mt-6 flex flex-wrap items-center gap-2.5 font-technical text-xs"
                       >
                         <motion.button
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
-                          onClick={() => handleNavigate('cva6-placement')}
-                          className="group px-4 py-2.5 bg-[#1b1c18] text-[#fbf9f3] hover:text-[#cef053] font-bold uppercase tracking-wider transition-colors border border-[#1b1c18] cursor-pointer flex items-center gap-2"
+                          onClick={() => {
+                            const el = document.getElementById('projects-section');
+                            if (el) el.scrollIntoView({ behavior: 'smooth' });
+                            else handleNavigate('projects');
+                          }}
+                          className="group px-3.5 py-2.5 bg-[#1b1c18] text-[#fbf9f3] hover:text-[#cef053] font-bold uppercase tracking-wider transition-colors border border-[#1b1c18] cursor-pointer flex items-center gap-1.5"
                         >
-                          <span>[ INSPECT CVA6 PLACEMENT VIEWPORT ]</span>
+                          <span>[ VIEW FEATURED PROJECTS ↓ ]</span>
                           <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                         </motion.button>
+
                         <motion.button
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
-                          onClick={() => handleNavigate('cts-handoff')}
-                          className="px-4 py-2.5 bg-[#ffffff] hover:bg-[#e9e7df] text-[#1b1c18] font-bold uppercase tracking-wider transition-colors border border-[#d8d7ce] hover:border-[#1b1c18] cursor-pointer flex items-center gap-2"
+                          onClick={() => handleNavigate('cva6-placement')}
+                          className="px-3.5 py-2.5 bg-[#ffffff] hover:bg-[#e9e7df] text-[#1b1c18] font-bold uppercase tracking-wider transition-colors border border-[#d8d7ce] hover:border-[#1b1c18] cursor-pointer flex items-center gap-1.5"
                         >
                           <span className="w-2 h-2 bg-[#b7d83d]" />
-                          <span>[ VIEW CTS HANDOFF STATUS ]</span>
+                          <span>[ INSPECT CVA6 CAD ]</span>
                         </motion.button>
+
+                        <motion.button
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          onClick={() => setIsProfileModalOpen(true)}
+                          className="px-3.5 py-2.5 bg-[#f5f3ed] hover:bg-[#e9e7df] text-[#1b1c18] font-bold uppercase tracking-wider transition-colors border border-[#d8d7ce] hover:border-[#1b1c18] cursor-pointer flex items-center gap-1.5"
+                        >
+                          <FileText className="w-3.5 h-3.5 text-[#536600]" />
+                          <span>[ CANDIDATE DOSSIER ]</span>
+                        </motion.button>
+
+                        <div className="flex items-center gap-2">
+                          <motion.a
+                            whileHover={{ scale: 1.04 }}
+                            whileTap={{ scale: 0.96 }}
+                            href="https://www.linkedin.com/in/shanmukhavarma-penmetsa/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="px-3 py-2.5 bg-[#ffffff] hover:bg-[#f5f3ed] text-[#1b1c18] border border-[#d8d7ce] hover:border-[#1b1c18] flex items-center gap-1.5 transition-colors font-technical text-xs font-semibold"
+                            title="LinkedIn Profile"
+                          >
+                            <Linkedin className="w-3.5 h-3.5 text-[#536600]" />
+                            <span className="hidden sm:inline">LINKEDIN</span>
+                          </motion.a>
+
+                          <motion.a
+                            whileHover={{ scale: 1.04 }}
+                            whileTap={{ scale: 0.96 }}
+                            href="https://github.com/shanmukhavarma007"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="px-3 py-2.5 bg-[#ffffff] hover:bg-[#f5f3ed] text-[#1b1c18] border border-[#d8d7ce] hover:border-[#1b1c18] flex items-center gap-1.5 transition-colors font-technical text-xs font-semibold"
+                            title="GitHub Profile"
+                          >
+                            <Github className="w-3.5 h-3.5 text-[#536600]" />
+                            <span className="hidden sm:inline">GITHUB</span>
+                          </motion.a>
+
+                          <motion.a
+                            whileHover={{ scale: 1.04 }}
+                            whileTap={{ scale: 0.96 }}
+                            href="mailto:psvarma.e@gmail.com"
+                            className="px-3 py-2.5 bg-[#ffffff] hover:bg-[#f5f3ed] text-[#1b1c18] border border-[#d8d7ce] hover:border-[#1b1c18] flex items-center gap-1.5 transition-colors font-technical text-xs font-semibold"
+                            title="Email Shanmukha Varma"
+                          >
+                            <Mail className="w-3.5 h-3.5 text-[#536600]" />
+                            <span className="hidden sm:inline">EMAIL</span>
+                          </motion.a>
+                        </div>
                       </motion.div>
                     </div>
 
@@ -286,6 +356,10 @@ export default function App() {
                         </div>
 
                         <div className="space-y-2 text-[#454843]">
+                          <div className="flex justify-between">
+                            <span className="text-[#757872]">Candidate:</span>
+                            <span className="font-bold text-[#1b1c18]">Shanmukha Varma</span>
+                          </div>
                           <div className="flex justify-between">
                             <span className="text-[#757872]">Education:</span>
                             <span className="font-bold text-[#1b1c18]">B.Tech ECE (2022–2026)</span>
@@ -338,49 +412,54 @@ export default function App() {
                       transition={{ duration: 0.6, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
                       className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-y lg:divide-y-0 divide-[#d8d7ce] border border-[#d8d7ce] bg-[#fbf9f3] text-xs font-technical"
                     >
-                    <div className="p-4 transition-colors hover:bg-[#ffffff]">
-                      <div className="text-[#757872] uppercase text-[11px] flex items-center gap-1">
-                        <GraduationCap className="w-3.5 h-3.5 text-[#536600]" />
-                        DEGREE
+                      <div className="p-4 transition-colors hover:bg-[#ffffff]">
+                        <div className="text-[#757872] uppercase text-[11px] flex items-center gap-1">
+                          <GraduationCap className="w-3.5 h-3.5 text-[#536600]" />
+                          DEGREE
+                        </div>
+                        <div className="text-base font-bold text-[#1b1c18] mt-1">
+                          B.Tech ECE (2022–2026)
+                        </div>
+                        <div className="text-[10px] text-[#757872] mt-0.5">Vignan's IIT</div>
                       </div>
-                      <div className="text-base font-bold text-[#1b1c18] mt-1">
-                        B.Tech ECE (2022–2026)
-                      </div>
-                      <div className="text-[10px] text-[#757872] mt-0.5">Vignan's IIT</div>
-                    </div>
 
-                    <div className="p-4 transition-colors hover:bg-[#ffffff]">
-                      <div className="text-[#757872] uppercase text-[11px] flex items-center gap-1">
-                        <Award className="w-3.5 h-3.5 text-[#536600]" />
-                        TRAINING
+                      <div className="p-4 transition-colors hover:bg-[#ffffff]">
+                        <div className="text-[#757872] uppercase text-[11px] flex items-center gap-1">
+                          <Award className="w-3.5 h-3.5 text-[#536600]" />
+                          TRAINING
+                        </div>
+                        <div className="text-base font-bold text-[#1b1c18] mt-1">
+                          ASIC Physical Design
+                        </div>
+                        <div className="text-[10px] text-[#757872] mt-0.5">Sumedha IT</div>
                       </div>
-                      <div className="text-base font-bold text-[#1b1c18] mt-1">
-                        ASIC Physical Design
-                      </div>
-                      <div className="text-[10px] text-[#757872] mt-0.5">Sumedha IT</div>
-                    </div>
 
-                    <div className="p-4 transition-colors hover:bg-[#ffffff]">
-                      <div className="text-[#757872] uppercase text-[11px] flex items-center gap-1">
-                        <Cpu className="w-3.5 h-3.5 text-[#536600]" />
-                        EDA TOOLS
+                      <div className="p-4 transition-colors hover:bg-[#ffffff]">
+                        <div className="text-[#757872] uppercase text-[11px] flex items-center gap-1">
+                          <Cpu className="w-3.5 h-3.5 text-[#536600]" />
+                          EDA TOOLS
+                        </div>
+                        <div className="text-base font-bold text-[#1b1c18] mt-1">
+                          Cadence Genus & Innovus
+                        </div>
+                        <div className="text-[10px] text-[#757872] mt-0.5">Synthesis & Placement</div>
                       </div>
-                      <div className="text-base font-bold text-[#1b1c18] mt-1">
-                        Cadence Genus & Innovus
-                      </div>
-                      <div className="text-[10px] text-[#757872] mt-0.5">Synthesis & Placement</div>
-                    </div>
 
-                    <div className="p-4 transition-colors hover:bg-[#ffffff]">
-                      <div className="text-[#757872] uppercase text-[11px]">PROJECTS</div>
-                      <div className="text-base font-bold text-[#1b1c18] mt-1">
-                        CVA6 & AES Core
+                      <div className="p-4 transition-colors hover:bg-[#ffffff]">
+                        <div className="text-[#757872] uppercase text-[11px]">PROJECTS</div>
+                        <div className="text-base font-bold text-[#1b1c18] mt-1">
+                          CVA6 & AES Core
+                        </div>
+                        <div className="text-[10px] text-[#757872] mt-0.5">2 Verified Projects</div>
                       </div>
-                      <div className="text-[10px] text-[#757872] mt-0.5">2 Verified Projects</div>
+                    </motion.div>
+
+                    {/* Recruiter-First 4-Pillar Technical Skills Matrix */}
+                    <div className="mt-6">
+                      <TechnicalSkillsMatrix />
                     </div>
-                  </motion.div>
-                </div>
-              </section>
+                  </div>
+                </section>
 
                 {/* Boundary 03: Technical Skills → CVA6 Project (Signature Motion System: Silicon Trace Reveal STR-01) */}
                 <SiliconTraceReveal
@@ -388,7 +467,7 @@ export default function App() {
                   className="my-4"
                 />
 
-                {/* Section 01: CVA6 Silicon Die Viewport & Interactive CAD Inspector */}
+                {/* Section 02: CVA6 Silicon Die Viewport & Interactive CAD Inspector */}
                 <motion.section
                   id="cva6-viewport"
                   initial={{ opacity: 0, y: 20 }}
@@ -400,7 +479,7 @@ export default function App() {
                   <div className="flex items-center justify-between pb-2 border-b border-[#d8d7ce]">
                     <div className="flex items-center gap-2">
                       <span className="font-technical text-xs font-bold uppercase text-[#1b1c18]">
-                        01 / CVA6 64-BIT CORE FLOORPLAN & MACRO PLACEMENT
+                        02 // CVA6 64-BIT CORE FLOORPLAN & MACRO PLACEMENT
                       </span>
                       <span className="text-[#c5c7c1]">·</span>
                       <span className="font-technical text-xs text-[#536600] font-bold">
@@ -427,7 +506,7 @@ export default function App() {
                   <Cva6EngineeringEvidenceGallery isExpanded={isCva6EvidenceExpanded} />
                 </motion.section>
 
-                {/* Section 02: Netlist & Handoff Status Ledger */}
+                {/* Subordinate: CVA6 Netlist & Handoff Status Ledger */}
                 <motion.section
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -456,7 +535,7 @@ export default function App() {
                   <div className="flex items-center justify-between pb-2 border-b border-[#d8d7ce]">
                     <div className="flex items-center gap-2">
                       <span className="font-technical text-xs font-bold uppercase text-[#1b1c18]">
-                        02 / CLOCK TREE SYNTHESIS (CTS) HANDOFF
+                        03 // CLOCK TREE SYNTHESIS (CTS) HANDOFF
                       </span>
                       <span className="text-[#c5c7c1]">·</span>
                       <span className="font-technical text-xs text-[#757872] font-bold">
@@ -471,7 +550,7 @@ export default function App() {
                   <CtsHandoffGatePanel />
                 </motion.section>
 
-                {/* Section 04: Cadence Genus & Innovus Tcl Script Console */}
+                {/* Subordinate: Cadence Genus & Innovus Tcl Script Console */}
                 <motion.section
                   id="eda-console"
                   initial={{ opacity: 0, y: 20 }}
@@ -481,18 +560,24 @@ export default function App() {
                   className="space-y-4"
                 >
                   <div className="flex items-center justify-between pb-2 border-b border-[#d8d7ce]">
-                    <span className="font-technical text-xs font-bold uppercase text-[#1b1c18]">
-                      03 / CADENCE GENUS & INNOVUS TCL FLOW SCRIPTS
-                    </span>
+                    <div className="flex items-center gap-2">
+                      <span className="font-technical text-xs font-bold uppercase text-[#1b1c18]">
+                        EDA AUTOMATION // CADENCE GENUS & INNOVUS TCL FLOW SCRIPTS
+                      </span>
+                      <span className="text-[#c5c7c1]">·</span>
+                      <span className="font-technical text-xs text-[#536600] font-bold">
+                        [SYNTHESIS & PLACEMENT COMMANDS]
+                      </span>
+                    </div>
                     <span className="font-technical text-xs text-[#757872]">
-                      VERIFIED SYNTHESIS & PLACEMENT COMMANDS
+                      VERIFIED TOOL WORKFLOW
                     </span>
                   </div>
 
                   <EdaTerminalConsole />
                 </motion.section>
 
-                {/* Section 05: ASIC Physical Implementation Flow */}
+                {/* Subordinate: ASIC Physical Implementation Flow */}
                 <motion.section
                   id="methodology-section"
                   initial={{ opacity: 0, y: 20 }}
@@ -513,7 +598,7 @@ export default function App() {
                   className="my-4"
                 />
 
-                {/* Section 06: Verified Projects Ledger (2 Projects Only) */}
+                {/* Section 04: Verified Projects Ledger (2 Projects Only) */}
                 <motion.section
                   id="projects-section"
                   initial={{ opacity: 0, y: 20 }}
@@ -525,7 +610,7 @@ export default function App() {
                   <ProjectsLedger onSelectProject={handleSelectProject} />
                 </motion.section>
 
-                {/* Section 07: Technical Insights & Learning Ledger */}
+                {/* Section 05: Technical Insights & Learning Ledger */}
                 <motion.section
                   id="journal-section"
                   initial={{ opacity: 0, y: 20 }}
@@ -551,6 +636,8 @@ export default function App() {
               >
                 <div className="border border-[#d8d7ce] bg-[#ffffff] p-6">
                   <div className="flex items-center gap-2 font-technical text-xs text-[#757872] uppercase mb-2">
+                    <span className="font-bold text-[#1b1c18]">02 // CVA6 PLACEMENT</span>
+                    <span>·</span>
                     <span>[MODULE 02] // CVA6 RISC-V CORE</span>
                     <span>·</span>
                     <span className="text-[#536600] font-bold">PLACEMENT COMPLETED IN CADENCE INNOVUS</span>
@@ -596,6 +683,8 @@ export default function App() {
               >
                 <div className="border border-[#d8d7ce] bg-[#ffffff] p-6">
                   <div className="flex items-center gap-2 font-technical text-xs text-[#757872] uppercase mb-2">
+                    <span className="font-bold text-[#1b1c18]">03 // CTS HANDOFF</span>
+                    <span>·</span>
                     <span>[MODULE 03] // CLOCK TREE SYNTHESIS</span>
                     <span>·</span>
                     <span className="text-[#757872] font-bold">

@@ -53,7 +53,7 @@ export const PersistentFooter: React.FC<PersistentFooterProps> = ({
                 onClick={() => onNavigate('overview')}
                 className="text-[#c5c7be] hover:text-[#cef053] transition-colors cursor-pointer block py-1"
               >
-                01 / Candidate Overview
+                01 / Overview
               </button>
             </div>
             <div>
@@ -61,7 +61,7 @@ export const PersistentFooter: React.FC<PersistentFooterProps> = ({
                 onClick={() => onNavigate('cva6-placement')}
                 className="text-[#c5c7be] hover:text-[#cef053] transition-colors cursor-pointer block py-1"
               >
-                02 / CVA6 Placement CAD Viewport
+                02 / CVA6 Placement
               </button>
             </div>
             <div>
@@ -69,7 +69,7 @@ export const PersistentFooter: React.FC<PersistentFooterProps> = ({
                 onClick={() => onNavigate('cts-handoff')}
                 className="text-[#c5c7be] hover:text-[#cef053] transition-colors cursor-pointer block py-1"
               >
-                03 / CTS Handoff Boundary
+                03 / CTS Handoff
               </button>
             </div>
             <div>
@@ -77,7 +77,7 @@ export const PersistentFooter: React.FC<PersistentFooterProps> = ({
                 onClick={() => onNavigate('projects')}
                 className="text-[#c5c7be] hover:text-[#cef053] transition-colors cursor-pointer block py-1"
               >
-                04 / Projects (CVA6 & AES)
+                04 / Projects
               </button>
             </div>
             <div>
@@ -85,7 +85,7 @@ export const PersistentFooter: React.FC<PersistentFooterProps> = ({
                 onClick={() => onNavigate('journal')}
                 className="text-[#c5c7be] hover:text-[#cef053] transition-colors cursor-pointer block py-1"
               >
-                05 / Technical Insights & Learning
+                05 / Engineering
               </button>
             </div>
           </div>
@@ -93,7 +93,7 @@ export const PersistentFooter: React.FC<PersistentFooterProps> = ({
           {/* Direct Communication & Dossier Download */}
           <div className="md:col-span-4 space-y-3.5 font-technical text-xs">
             <div className="text-[#82857d] uppercase text-[11px] font-bold border-b border-[#333833] pb-1 mb-2">
-              COMMUNICATION CHANNEL
+              06 // CONTACT & COMMUNICATION
             </div>
             <p className="text-[#82857d] text-[11px] leading-relaxed">
               Available for ASIC Physical Design, Floorplanning, and Timing Signoff engineering roles.

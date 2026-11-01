@@ -16,8 +16,10 @@ export const ProjectsLedger: React.FC<ProjectsLedgerProps> = ({
       {/* Section Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-4 border-b border-[#d8d7ce]">
         <div>
-          <div className="font-technical text-xs text-[#757872] uppercase tracking-wider">
-            [SECTION 03 // VERIFIED WORK]
+          <div className="flex items-center gap-2 font-technical text-xs text-[#757872] uppercase tracking-wider">
+            <span className="font-bold text-[#1b1c18] text-sm">04 // PROJECTS</span>
+            <span className="text-[#c5c7c1]">·</span>
+            <span className="text-[#536600] font-bold">VERIFIED PHYSICAL DESIGN & SYNTHESIS</span>
           </div>
           <h2 className="font-serif text-3xl md:text-4xl text-[#1b1c18] font-normal mt-1">
             Verified Physical Design & Synthesis Projects

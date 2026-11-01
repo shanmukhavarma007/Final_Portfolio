@@ -3,6 +3,14 @@ import { Maximize2, X, ZoomIn, ZoomOut, RotateCcw, ShieldCheck, FileText, CheckC
 import { motion, AnimatePresence } from 'motion/react';
 import { CountUpNumber } from './CountUpNumber';
 
+interface FivePointRubric {
+  what: string;
+  tool: string;
+  stage: string;
+  technicalDetail: string;
+  relevance: string;
+}
+
 interface EvidenceItem {
   id: string;
   index: string;
@@ -14,6 +22,7 @@ interface EvidenceItem {
   alt: string;
   stageBadge: string;
   boundaryNote: string;
+  rubric: FivePointRubric;
 }
 
 const EVIDENCE_ITEMS: EvidenceItem[] = [
@@ -27,7 +36,14 @@ const EVIDENCE_ITEMS: EvidenceItem[] = [
     src: '/assets/aistudio/image_405b6f5e.png',
     alt: 'CVA6 Density Map captured from Cadence Innovus showing macro blocks and density distribution',
     stageBadge: 'PHYSICAL DESIGN // MACRO & CORE TOPOGRAPHY',
-    boundaryNote: 'Authentic EDA screenshot from Cadence Innovus. No congestion measurements or density percentages are extrapolated.'
+    boundaryNote: 'Authentic EDA screenshot from Cadence Innovus. No congestion measurements or density percentages are extrapolated.',
+    rubric: {
+      what: 'Visual representation of the standard-cell density distribution across the CVA6 floorplan and embedded macro regions.',
+      tool: 'Cadence Innovus Physical Design System.',
+      stage: 'Floorplanning, Macro Placement, and Standard-Cell Placement stage.',
+      technicalDetail: 'Periphery placement of cache SRAM macro blocks with clear halo spacing surrounding the central execution logic sea; uniform density gradient without localized congestion hotspots.',
+      relevance: 'Verifies authentic physical floorplan implementation and placement execution in Cadence Innovus for the 64-bit CVA6 RISC-V core without fictitious tapeout claims.'
+    }
   },
   {
     id: 'genus-visualization',
@@ -39,7 +55,14 @@ const EVIDENCE_ITEMS: EvidenceItem[] = [
     src: '/assets/aistudio/image_3d42a868.png',
     alt: 'Cadence Genus Synthesis Solution GUI window displaying CVA6 netlist layout and hierarchy browser',
     stageBadge: 'LOGIC SYNTHESIS // NETLIST VISUALIZATION',
-    boundaryNote: 'Captured directly from Cadence Genus GUI. Represents gate-level synthesis netlist structure, not completed physical placement or routing.'
+    boundaryNote: 'Captured directly from Cadence Genus GUI. Represents gate-level synthesis netlist structure, not completed physical placement or routing.',
+    rubric: {
+      what: 'Cadence Genus Synthesis Solution GUI window displaying the top-level CVA6 hierarchical netlist layout and interactive Design Browser.',
+      tool: 'Cadence Genus Synthesis Solution (v25.1).',
+      stage: 'RTL Logic Synthesis, generic mapping, and gate-level netlist elaboration.',
+      technicalDetail: 'Design Browser hierarchy confirming 178,799 LeafCells, 8,416 terms, 85,425 nets, 79,678 StdCells, and 365 Modules within top-level hierarchical cell cva6.',
+      relevance: 'Provides undeniable visual proof of genuine RTL compilation and gate mapping in Cadence Genus, establishing the physical design baseline.'
+    }
   },
   {
     id: 'synthesis-qor',
@@ -51,9 +74,61 @@ const EVIDENCE_ITEMS: EvidenceItem[] = [
     src: '/assets/aistudio/image_497ae020.png',
     alt: 'Cadence Genus Synthesis QoR terminal report showing clock period, instance counts, slack, TNS, and area',
     stageBadge: 'SYNTHESIS STAGE // VERIFIED REPORT VALUES',
-    boundaryNote: 'Strict synthesis-stage values. Not representative of post-placement, post-CTS, or post-route results.'
+    boundaryNote: 'Strict synthesis-stage values. Not representative of post-placement, post-CTS, or post-route results.',
+    rubric: {
+      what: 'Terminal Quality of Results (QoR) report generated directly by Cadence Genus during CVA6 synthesis optimization.',
+      tool: 'Cadence Genus Synthesis Solution.',
+      stage: 'RTL Logic Synthesis & SDC Timing Optimization.',
+      technicalDetail: 'Clock Period: 1.700 ns; Leaf Instance Count: 178,799; Cell Area: 592,578.141; Sequential: 23,675; Combinational: 155,124; Total TNS: -10.188.',
+      relevance: 'Demonstrates rigorous timing evaluation and realistic synthesis metrics on a 64-bit architecture prior to floorplan handoff.'
+    }
   }
 ];
+
+const FivePointRubricCard: React.FC<{ rubric: FivePointRubric }> = ({ rubric }) => (
+  <div className="p-4 bg-[#fbf9f3] border border-[#d8d7ce] space-y-3 font-sans">
+    <div className="font-technical text-xs font-bold uppercase text-[#1b1c18] pb-1.5 border-b border-[#d8d7ce] flex items-center justify-between">
+      <span className="flex items-center gap-1.5">
+        <CheckCircle2 className="w-3.5 h-3.5 text-[#536600]" />
+        RECRUITER 5-POINT TECHNICAL INSPECTION
+      </span>
+      <span className="text-[10px] text-[#536600] font-bold">VERIFIED</span>
+    </div>
+    
+    <div className="space-y-2.5 text-xs">
+      <div>
+        <span className="font-technical font-bold text-[#1b1c18] block uppercase text-[11px]">
+          1. What am I looking at?
+        </span>
+        <p className="text-[#454843] mt-0.5 leading-relaxed">{rubric.what}</p>
+      </div>
+      <div>
+        <span className="font-technical font-bold text-[#1b1c18] block uppercase text-[11px]">
+          2. Which EDA tool produced it?
+        </span>
+        <p className="text-[#454843] mt-0.5 leading-relaxed font-technical font-semibold text-[#1b1c18]">{rubric.tool}</p>
+      </div>
+      <div>
+        <span className="font-technical font-bold text-[#1b1c18] block uppercase text-[11px]">
+          3. Which implementation stage?
+        </span>
+        <p className="text-[#454843] mt-0.5 leading-relaxed">{rubric.stage}</p>
+      </div>
+      <div>
+        <span className="font-technical font-bold text-[#1b1c18] block uppercase text-[11px]">
+          4. What technical detail to notice?
+        </span>
+        <p className="text-[#454843] mt-0.5 leading-relaxed font-technical text-[#1b1c18]">{rubric.technicalDetail}</p>
+      </div>
+      <div>
+        <span className="font-technical font-bold text-[#1b1c18] block uppercase text-[11px]">
+          5. Why is this evidence relevant?
+        </span>
+        <p className="text-[#454843] mt-0.5 leading-relaxed">{rubric.relevance}</p>
+      </div>
+    </div>
+  </div>
+);
 
 interface Cva6EngineeringEvidenceGalleryProps {
   isExpanded?: boolean;
@@ -141,7 +216,7 @@ export const Cva6EngineeringEvidenceGallery: React.FC<Cva6EngineeringEvidenceGal
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-              <div className="lg:col-span-8 bg-[#101211] border border-[#1b1c18] relative group overflow-hidden flex items-center justify-center min-h-[420px] md:min-h-[500px]">
+              <div className="lg:col-span-7 bg-[#101211] border border-[#1b1c18] relative group overflow-hidden flex items-center justify-center min-h-[420px] md:min-h-[500px]">
                 <img
                   src={EVIDENCE_ITEMS[0].src}
                   alt={EVIDENCE_ITEMS[0].alt}
@@ -157,7 +232,7 @@ export const Cva6EngineeringEvidenceGallery: React.FC<Cva6EngineeringEvidenceGal
                 </button>
               </div>
 
-              <div className="lg:col-span-4 space-y-4">
+              <div className="lg:col-span-5 space-y-4">
                 <div className="p-4 bg-[#f5f3ed] border border-[#d8d7ce] space-y-2">
                   <div className="font-technical text-[11px] text-[#536600] font-bold uppercase">
                     {EVIDENCE_ITEMS[0].stageBadge}
@@ -169,6 +244,9 @@ export const Cva6EngineeringEvidenceGallery: React.FC<Cva6EngineeringEvidenceGal
                     {EVIDENCE_ITEMS[0].description}
                   </p>
                 </div>
+
+                {/* 5-Point Recruiter Inspection Rubric */}
+                <FivePointRubricCard rubric={EVIDENCE_ITEMS[0].rubric} />
 
                 <div className="p-4 bg-[#ffffff] border border-[#d8d7ce] text-xs font-technical space-y-2.5">
                   <div className="text-[#1b1c18] font-bold uppercase pb-1.5 border-b border-[#d8d7ce] flex items-center justify-between">
@@ -221,7 +299,7 @@ export const Cva6EngineeringEvidenceGallery: React.FC<Cva6EngineeringEvidenceGal
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-              <div className="lg:col-span-8 bg-[#101211] border border-[#1b1c18] relative group overflow-hidden flex items-center justify-center min-h-[420px] md:min-h-[500px]">
+              <div className="lg:col-span-7 bg-[#101211] border border-[#1b1c18] relative group overflow-hidden flex items-center justify-center min-h-[420px] md:min-h-[500px]">
                 <img
                   src={EVIDENCE_ITEMS[1].src}
                   alt={EVIDENCE_ITEMS[1].alt}
@@ -237,7 +315,7 @@ export const Cva6EngineeringEvidenceGallery: React.FC<Cva6EngineeringEvidenceGal
                 </button>
               </div>
 
-              <div className="lg:col-span-4 space-y-4">
+              <div className="lg:col-span-5 space-y-4">
                 <div className="p-4 bg-[#f5f3ed] border border-[#d8d7ce] space-y-2">
                   <div className="font-technical text-[11px] text-[#536600] font-bold uppercase">
                     {EVIDENCE_ITEMS[1].stageBadge}
@@ -249,6 +327,9 @@ export const Cva6EngineeringEvidenceGallery: React.FC<Cva6EngineeringEvidenceGal
                     {EVIDENCE_ITEMS[1].description}
                   </p>
                 </div>
+
+                {/* 5-Point Recruiter Inspection Rubric */}
+                <FivePointRubricCard rubric={EVIDENCE_ITEMS[1].rubric} />
 
                 <div className="p-4 bg-[#ffffff] border border-[#d8d7ce] text-xs font-technical space-y-2.5">
                   <div className="text-[#1b1c18] font-bold uppercase pb-1.5 border-b border-[#d8d7ce] flex items-center justify-between">
@@ -411,6 +492,9 @@ export const Cva6EngineeringEvidenceGallery: React.FC<Cva6EngineeringEvidenceGal
                     </div>
                   </div>
                 </div>
+
+                {/* 5-Point Recruiter Inspection Rubric */}
+                <FivePointRubricCard rubric={EVIDENCE_ITEMS[2].rubric} />
 
                 {/* Boundary Clarification */}
                 <div className="p-3 bg-[#ffffff] border border-[#d8d7ce] text-xs space-y-1">

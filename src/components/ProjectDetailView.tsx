@@ -77,10 +77,12 @@ write_hdl > aes_synthesized_netlist.v`
           className="inline-flex items-center gap-2 font-technical text-xs uppercase font-bold text-[#1b1c18] hover:text-[#536600] cursor-pointer"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
-          [ RETURN TO PROJECTS LEDGER ]
+          <span>[ RETURN TO 04 // PROJECTS ]</span>
         </button>
 
         <div className="flex items-center gap-2 font-technical text-xs">
+          <span className="text-[#1b1c18] font-bold">04 // PROJECTS</span>
+          <span className="text-[#c5c7c1]">·</span>
           <span className="text-[#757872]">{project.index}</span>
           <span className="text-[#c5c7c1]">·</span>
           <span className="text-[#1b1c18] font-bold">EDA: {project.edaToolchain.join(' & ')}</span>

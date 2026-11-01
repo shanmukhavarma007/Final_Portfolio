@@ -3,6 +3,14 @@ import { Maximize2, X, ZoomIn, ZoomOut, RotateCcw, ShieldCheck, CheckCircle2, Cp
 import { motion, AnimatePresence } from 'motion/react';
 import { CountUpNumber } from './CountUpNumber';
 
+interface FivePointRubric {
+  what: string;
+  tool: string;
+  stage: string;
+  technicalDetail: string;
+  relevance: string;
+}
+
 interface AesEvidenceItem {
   id: string;
   index: string;
@@ -14,6 +22,7 @@ interface AesEvidenceItem {
   alt: string;
   stageBadge: string;
   boundaryNote: string;
+  rubric: FivePointRubric;
 }
 
 const AES_EVIDENCE_ITEMS: AesEvidenceItem[] = [
@@ -27,7 +36,14 @@ const AES_EVIDENCE_ITEMS: AesEvidenceItem[] = [
     src: '/assets/aistudio/WhatsApp_Image_2026-10-10_at_09.46.03_232710e2.jpeg',
     alt: 'Cadence Genus Synthesis Solution schematic layout view for AES Core module rtl_halfcycle_crosspaths',
     stageBadge: 'LOGIC SYNTHESIS // SCHEMATIC & NETLIST',
-    boundaryNote: 'Captured directly from Cadence Genus GUI environment. Represents synthesized gate-level primitives and cross-paths, not a physical placement or routing layout.'
+    boundaryNote: 'Captured directly from Cadence Genus GUI environment. Represents synthesized gate-level primitives and cross-paths, not a physical placement or routing layout.',
+    rubric: {
+      what: 'Cadence Genus schematic layout viewport showing the synthesized logic gates, registers, and interconnecting cross-paths for the AES cryptographic core.',
+      tool: 'Cadence Genus Synthesis Solution.',
+      stage: 'RTL Logic Synthesis, generic-to-technology library mapping, and schematic cross-path inspection.',
+      technicalDetail: 'Preserved module identifier rtl_halfcycle_crosspaths in the bottom toolbar; complex combinational multi-stage logic cone between round registers and key expansion logic.',
+      relevance: 'Proves real-world gate elaboration and schematic inspection in Cadence Genus from synthesizable Verilog HDL descriptions.'
+    }
   },
   {
     id: 'aes-synthesis-qor',
@@ -39,9 +55,61 @@ const AES_EVIDENCE_ITEMS: AesEvidenceItem[] = [
     src: '/assets/aistudio/WhatsApp_Image_2026-10-01_at_10.32.01_5ec16d3b.jpeg',
     alt: 'Cadence Genus Synthesis QoR terminal report for AES Core showing 1000.0 ps clock period, instance counts, area, and zero violating paths',
     stageBadge: 'SYNTHESIS STAGE // VERIFIED REPORT VALUES',
-    boundaryNote: 'Strict synthesis-stage report values from Cadence Genus. Physical design stages (floorplanning, placement, CTS, routing) have not been performed.'
+    boundaryNote: 'Strict synthesis-stage report values from Cadence Genus. Physical design stages (floorplanning, placement, CTS, routing) have not been performed.',
+    rubric: {
+      what: 'Terminal Quality of Results (QoR) report generated directly by Cadence Genus for the AES cryptographic hardware block.',
+      tool: 'Cadence Genus Synthesis Solution.',
+      stage: 'RTL Logic Synthesis with single-clock SDC constraint timing optimization.',
+      technicalDetail: 'Clock Period: 1000.0 ps (1.0 ns / 1 GHz target); Leaf Instance Count: 9,474 (Sequential: 532, Combinational: 8,942); Total Cell Area: 5,774.454; Violating Paths: 0; Total Negative Slack (TNS): 0.0; Max Fanout: 401 on clock.',
+      relevance: 'Direct proof of full timing closure at the synthesis stage with zero slack violations and zero TNS under an aggressive 1.0 ns clock constraint.'
+    }
   }
 ];
+
+const FivePointRubricCard: React.FC<{ rubric: FivePointRubric }> = ({ rubric }) => (
+  <div className="p-4 bg-[#fbf9f3] border border-[#d8d7ce] space-y-3 font-sans">
+    <div className="font-technical text-xs font-bold uppercase text-[#1b1c18] pb-1.5 border-b border-[#d8d7ce] flex items-center justify-between">
+      <span className="flex items-center gap-1.5">
+        <CheckCircle2 className="w-3.5 h-3.5 text-[#536600]" />
+        RECRUITER 5-POINT TECHNICAL INSPECTION
+      </span>
+      <span className="text-[10px] text-[#536600] font-bold">VERIFIED</span>
+    </div>
+    
+    <div className="space-y-2.5 text-xs">
+      <div>
+        <span className="font-technical font-bold text-[#1b1c18] block uppercase text-[11px]">
+          1. What am I looking at?
+        </span>
+        <p className="text-[#454843] mt-0.5 leading-relaxed">{rubric.what}</p>
+      </div>
+      <div>
+        <span className="font-technical font-bold text-[#1b1c18] block uppercase text-[11px]">
+          2. Which EDA tool produced it?
+        </span>
+        <p className="text-[#454843] mt-0.5 leading-relaxed font-technical font-semibold text-[#1b1c18]">{rubric.tool}</p>
+      </div>
+      <div>
+        <span className="font-technical font-bold text-[#1b1c18] block uppercase text-[11px]">
+          3. Which implementation stage?
+        </span>
+        <p className="text-[#454843] mt-0.5 leading-relaxed">{rubric.stage}</p>
+      </div>
+      <div>
+        <span className="font-technical font-bold text-[#1b1c18] block uppercase text-[11px]">
+          4. What technical detail to notice?
+        </span>
+        <p className="text-[#454843] mt-0.5 leading-relaxed font-technical text-[#1b1c18]">{rubric.technicalDetail}</p>
+      </div>
+      <div>
+        <span className="font-technical font-bold text-[#1b1c18] block uppercase text-[11px]">
+          5. Why is this evidence relevant?
+        </span>
+        <p className="text-[#454843] mt-0.5 leading-relaxed">{rubric.relevance}</p>
+      </div>
+    </div>
+  </div>
+);
 
 export const AesEngineeringEvidenceGallery: React.FC = () => {
   const [activeModalItem, setActiveModalItem] = useState<AesEvidenceItem | null>(null);
@@ -114,7 +182,7 @@ export const AesEngineeringEvidenceGallery: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-          <div className="lg:col-span-8 bg-[#101211] border border-[#1b1c18] relative group overflow-hidden flex items-center justify-center min-h-[420px] md:min-h-[500px]">
+          <div className="lg:col-span-7 bg-[#101211] border border-[#1b1c18] relative group overflow-hidden flex items-center justify-center min-h-[420px] md:min-h-[500px]">
             <img
               src={AES_EVIDENCE_ITEMS[0].src}
               alt={AES_EVIDENCE_ITEMS[0].alt}
@@ -130,7 +198,7 @@ export const AesEngineeringEvidenceGallery: React.FC = () => {
             </button>
           </div>
 
-          <div className="lg:col-span-4 space-y-4">
+          <div className="lg:col-span-5 space-y-4">
             <div className="p-4 bg-[#f5f3ed] border border-[#d8d7ce] space-y-2">
               <div className="font-technical text-[11px] text-[#536600] font-bold uppercase">
                 {AES_EVIDENCE_ITEMS[0].stageBadge}
@@ -156,6 +224,9 @@ export const AesEngineeringEvidenceGallery: React.FC = () => {
                 Original module label visible in the bottom toolbar of the Cadence Genus schematic viewport. Retained exactly without modification.
               </p>
             </div>
+
+            {/* 5-Point Recruiter Inspection Rubric */}
+            <FivePointRubricCard rubric={AES_EVIDENCE_ITEMS[0].rubric} />
 
             <div className="p-4 bg-[#ffffff] border border-[#d8d7ce] text-xs font-technical space-y-2.5">
               <div className="text-[#1b1c18] font-bold uppercase pb-1.5 border-b border-[#d8d7ce] flex items-center justify-between">
@@ -329,6 +400,9 @@ export const AesEngineeringEvidenceGallery: React.FC = () => {
                 </div>
               </div>
             </div>
+
+            {/* 5-Point Recruiter Inspection Rubric */}
+            <FivePointRubricCard rubric={AES_EVIDENCE_ITEMS[1].rubric} />
 
             {/* Factual Integrity & Demarcation Notice */}
             <div className="mt-4 p-3 bg-[#ffffff] border border-[#d8d7ce] text-xs space-y-1">
