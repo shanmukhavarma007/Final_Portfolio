@@ -35,9 +35,13 @@ export const NetlistLedger: React.FC<NetlistLedgerProps> = ({
     <div className="border border-[#d8d7ce] bg-[#ffffff]">
       {/* Header Ledger */}
       <div className="px-5 py-3.5 bg-[#f5f3ed] border-b border-[#d8d7ce] flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3">
           <span className="font-technical text-xs font-bold uppercase text-[#1b1c18]">
             CVA6 VERIFIED IMPLEMENTATION & HANDOFF STATUS LEDGER
+          </span>
+          <span className="text-[#c5c7c1]">/</span>
+          <span className="font-technical text-[11px] font-bold text-[#1b1c18] bg-[#ffffff] px-2 py-0.5 border border-[#d8d7ce]">
+            PROCESS TECHNOLOGY // 28 nm
           </span>
           <span className="text-[#c5c7c1]">/</span>
           <span className="font-technical text-[11px] text-[#757872]">

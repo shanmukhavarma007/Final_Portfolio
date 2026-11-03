@@ -81,10 +81,12 @@ write_hdl > aes_synthesized_netlist.v`
           <span>[ RETURN TO 04 // PROJECTS ]</span>
         </button>
 
-        <div className="flex items-center gap-2 font-technical text-xs">
+        <div className="flex flex-wrap items-center gap-2 font-technical text-xs">
           <span className="text-[#1b1c18] font-bold">04 // PROJECTS</span>
           <span className="text-[#c5c7c1]">·</span>
           <span className="text-[#757872]">{project.index}</span>
+          <span className="text-[#c5c7c1]">·</span>
+          <span className="text-[#536600] font-bold">PROCESS TECHNOLOGY // {project.technologyNode}</span>
           <span className="text-[#c5c7c1]">·</span>
           <span className="text-[#1b1c18] font-bold">EDA: {project.edaToolchain.join(' & ')}</span>
         </div>
@@ -94,7 +96,7 @@ write_hdl > aes_synthesized_netlist.v`
       <div className="border border-[#d8d7ce] bg-[#ffffff] p-6 md:p-8">
         <div className="flex flex-wrap items-center justify-between gap-3 mb-3">
           <span className="font-technical text-xs text-[#757872] uppercase tracking-wider">
-            {project.category} // {project.languages.join(' · ')}
+            {project.category} // {project.languages.join(' · ')} // PROCESS TECHNOLOGY // {project.technologyNode}
           </span>
           <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#1b1c18] text-[#fbf9f3] font-technical text-xs uppercase font-bold border border-[#1b1c18]">
             <CheckCircle2 className="w-3.5 h-3.5 text-[#cef053]" />
@@ -119,10 +121,10 @@ write_hdl > aes_synthesized_netlist.v`
             <div>
               <div className="font-technical text-xs font-bold text-[#1b1c18] flex items-center gap-1.5">
                 <ShieldCheck className="w-4 h-4 text-[#536600]" />
-                VERIFIED STATUS: PLACEMENT COMPLETED IN CADENCE INNOVUS
+                VERIFIED STATUS: 28 nm PLACEMENT COMPLETED IN CADENCE INNOVUS
               </div>
               <p className="text-xs text-[#454843] mt-1">
-                Completed milestone: RTL synthesis in Cadence Genus, floorplanning, and standard-cell placement in Cadence Innovus. CTS has not been started.
+                Completed milestone: RTL synthesis in Cadence Genus, floorplanning, and standard-cell placement in Cadence Innovus on the 28 nm process node. CTS has not been started.
               </p>
             </div>
             <button
@@ -140,10 +142,10 @@ write_hdl > aes_synthesized_netlist.v`
             <div>
               <div className="font-technical text-xs font-bold text-[#1b1c18] flex items-center gap-1.5">
                 <ShieldCheck className="w-4 h-4 text-[#536600]" />
-                VERIFIED STATUS: RTL SYNTHESIS COMPLETED IN CADENCE GENUS (1.0 ns CLOCK)
+                VERIFIED STATUS: 28 nm RTL SYNTHESIS COMPLETED IN CADENCE GENUS (1.0 ns CLOCK)
               </div>
               <p className="text-xs text-[#454843] mt-1">
-                Completed milestone: RTL logic synthesis in Cadence Genus under 1000.0 ps target clock period with 0 violating paths. Physical design stages have not been started.
+                Completed milestone: 28 nm RTL logic synthesis in Cadence Genus under 1000.0 ps target clock period with 0 violating paths. Physical design stages have not been started.
               </p>
             </div>
             <a
@@ -155,28 +157,35 @@ write_hdl > aes_synthesized_netlist.v`
           </div>
         )}
 
-        {/* Tools and Languages Strip */}
-        <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 divide-x divide-y sm:divide-y-0 divide-[#d8d7ce] border border-[#d8d7ce] bg-[#fbf9f3] text-xs font-technical">
-          <div className="p-3">
-            <div className="text-[#757872]">EDA TOOLCHAIN</div>
-            <div className="text-sm font-bold text-[#1b1c18] mt-1">
-              {project.edaToolchain.join(', ')}
+        {/* Prominent Project Specifications Strip */}
+        <div className="mt-6 grid grid-cols-2 sm:grid-cols-5 divide-x divide-y sm:divide-y-0 divide-[#d8d7ce] border border-[#d8d7ce] bg-[#fbf9f3] text-xs font-technical">
+          <div className="p-3 bg-[#ffffff]">
+            <div className="text-[#757872] uppercase text-[10px] font-semibold">TECHNOLOGY NODE</div>
+            <div className="text-sm font-bold text-[#1b1c18] mt-1 flex items-center gap-1.5">
+              <span className="w-2 h-2 bg-[#b7d83d]" />
+              {project.technologyNode}
             </div>
           </div>
           <div className="p-3">
-            <div className="text-[#757872]">LANGUAGES</div>
+            <div className="text-[#757872] uppercase text-[10px] font-semibold">EDA TOOLS</div>
             <div className="text-sm font-bold text-[#1b1c18] mt-1">
-              {project.languages.join(', ')}
+              {project.edaToolchain.join(' & ')}
             </div>
           </div>
           <div className="p-3">
-            <div className="text-[#757872]">CURRENT STAGE</div>
+            <div className="text-[#757872] uppercase text-[10px] font-semibold">CLOCK PERIOD</div>
+            <div className="text-sm font-bold text-[#1b1c18] mt-1">
+              {project.id === 'cva6-riscv' ? '1.5 ns (~666.67 MHz)' : '1.000 ns (1000.0 ps)'}
+            </div>
+          </div>
+          <div className="p-3">
+            <div className="text-[#757872] uppercase text-[10px] font-semibold">IMPLEMENTATION STAGE</div>
             <div className="text-sm font-bold text-[#536600] mt-1">
-              {project.id === 'cva6-riscv' ? 'Placement Complete' : 'Synthesis Complete'}
+              {project.id === 'cva6-riscv' ? 'Placement Completed' : 'Synthesis Completed'}
             </div>
           </div>
           <div className="p-3">
-            <div className="text-[#757872]">NEXT STAGE</div>
+            <div className="text-[#757872] uppercase text-[10px] font-semibold">NEXT STAGE</div>
             <div className="text-sm font-bold text-[#1b1c18] mt-1">
               {project.id === 'cva6-riscv' ? 'CTS (Pending)' : 'Floorplanning (Planned)'}
             </div>

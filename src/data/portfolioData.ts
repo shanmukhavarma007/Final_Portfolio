@@ -15,6 +15,7 @@ export interface VerifiedProject {
   title: string;
   subtitle: string;
   category: 'RISC-V_PROCESSOR' | 'CRYPTOGRAPHIC_HARDWARE';
+  technologyNode: string;
   edaToolchain: string[];
   languages: string[];
   clockConstraint?: string;
@@ -46,14 +47,15 @@ export interface TechnicalTopic {
 export const ENGINEER_PROFILE = {
   name: 'Shanmukha Varma Penmetsa',
   role: 'Entry-Level ASIC Physical Design Engineer',
-  tagline: 'RTL Synthesis (Cadence Genus) & Physical Design Placement (Cadence Innovus)',
+  tagline: '28 nm Physical Design — RTL Synthesis (Cadence Genus) & Placement (Cadence Innovus)',
+  technologyNode: '28 nm',
   education: {
     degree: 'B.Tech in Electronics and Communication Engineering',
     institution: "Vignan's Institute of Information Technology",
     duration: '2022 – 2026'
   },
   training: {
-    program: 'Hands-on ASIC Physical Design Training',
+    program: 'Hands-on ASIC Physical Design Training (28 nm Node)',
     organization: 'Sumedha IT'
   },
   email: 'psvarma.e@gmail.com',
@@ -182,7 +184,7 @@ export const RECRUITER_SKILL_GROUPS: RecruiterSkillGroup[] = [
         name: 'SDC Timing Constraints',
         level: 'HANDS-ON FLOW',
         toolOrContext: 'Genus & Innovus',
-        details: 'Defining clock periods (1.700 ns for CVA6, 1000.0 ps for AES), input/output delays, and multi-cycle paths.'
+        details: 'Defining clock periods (1.5 ns / ~666.67 MHz for CVA6, 1000.0 ps for AES), input/output delays, and multi-cycle paths.'
       },
       {
         name: 'Timing Report Analysis (STA)',
@@ -228,15 +230,16 @@ export const VERIFIED_PROJECTS: VerifiedProject[] = [
     title: 'CVA6 64-Bit RISC-V Processor',
     subtitle: 'RTL Synthesis, Floorplanning & Standard-Cell Placement in Cadence Innovus',
     category: 'RISC-V_PROCESSOR',
+    technologyNode: '28 nm',
     edaToolchain: ['Cadence Genus', 'Cadence Innovus'],
     languages: ['Verilog HDL', 'Tcl', 'Linux Shell'],
-    clockConstraint: 'Period: 1.700 ns (Synthesis SDC Target)',
+    clockConstraint: 'Period: 1.5 ns (~666.67 MHz, Synthesis SDC Target)',
     completedStages: [
       'RTL design and verification evaluation',
-      'Logic synthesis using Cadence Genus (Clock: 1.700 ns)',
-      'Core and die floorplanning setup',
+      'Logic synthesis using Cadence Genus (Clock: 1.5 ns / ~666.67 MHz)',
+      'Core and die floorplanning setup (28 nm node)',
       'Macro placement and orientation',
-      'Standard-cell placement using Cadence Innovus',
+      'Standard-cell placement using Cadence Innovus (28 nm)',
       'Placement-stage QoR analysis and optimization'
     ],
     currentStatus: {
@@ -246,29 +249,29 @@ export const VERIFIED_PROJECTS: VerifiedProject[] = [
       physicalSignoff: 'NOT_REACHED'
     },
     overview:
-      'Hands-on physical design implementation of the 64-bit CVA6 (Ariane) RISC-V core. Performed RTL logic synthesis in Cadence Genus, defined core boundaries and macro floorplan arrangements, and completed standard-cell placement in Cadence Innovus with placement-stage optimization.',
+      'Hands-on 28 nm physical design implementation of the 64-bit CVA6 (Ariane) RISC-V core. Performed RTL logic synthesis in Cadence Genus, defined core boundaries and macro floorplan arrangements, and completed standard-cell placement in Cadence Innovus with placement-stage optimization.',
     implementationScope: [
-      'Synthesized CVA6 processor RTL into gate-level primitives using Cadence Genus (178,799 LeafCells)',
-      'Formulated SDC timing constraints defining clock period (1.700 ns target) and input/output delays',
-      'Established core and I/O floorplan aspect ratios in Cadence Innovus',
+      'Synthesized CVA6 processor RTL into gate-level primitives using Cadence Genus (178,799 LeafCells, 28 nm)',
+      'Formulated SDC timing constraints defining clock period (1.5 ns target / ~666.67 MHz) and input/output delays',
+      'Established core and I/O floorplan aspect ratios in Cadence Innovus for 28 nm geometry',
       'Strategically placed instruction and data cache SRAM macros along core boundaries',
       'Executed standard-cell placement in Cadence Innovus with placement-stage QoR analysis'
     ],
     verifiedDeliverables: [
       'Original Cadence Innovus density map screenshot documenting macro & core topography',
       'Original Cadence Genus design visualization screenshot (178,799 LeafCells, 365 Modules)',
-      'Original Cadence Genus synthesis QoR report screenshot (Period: 1.700 ns, Cell Area: 592,578.141)',
-      'Synthesized gate-level netlist generated via Cadence Genus',
+      'Original Cadence Genus synthesis QoR report screenshot (Historical baseline snapshot: 1.700 ns; Target spec: 1.5 ns / ~666.67 MHz, Cell Area: 592,578.141)',
+      'Synthesized gate-level netlist generated via Cadence Genus (28 nm node)',
       'Floorplan database with committed macro locations in Cadence Innovus',
       'Legalized standard-cell placement database ready for CTS handoff',
       'Tcl execution scripts for reproducible Genus and Innovus flow execution'
     ],
     honestBoundaryNotes: [
-      'Standard-cell placement is completed. Clock Tree Synthesis (CTS) has NOT been run.',
+      'Standard-cell placement is completed on the 28 nm process node. Clock Tree Synthesis (CTS) has NOT been run.',
       'CTS handoff is currently pending.',
       'Detailed routing has NOT been started.',
       'Physical sign-off (DRC/LVS) and tape-out have NOT been performed.',
-      'Report values (1.700 ns clock, 178,799 leaf cells, -10.188 TNS) are strictly synthesis-stage metrics.',
+      'Report snapshot values (178,799 leaf cells, -10.188 TNS from 1.700 ns initial run; target specification: 1.5 ns / ~666.67 MHz) are strictly synthesis-stage metrics.',
       'No fabricated post-CTS/routing timing closure numbers or silicon measurements are claimed.'
     ]
   },
@@ -279,6 +282,7 @@ export const VERIFIED_PROJECTS: VerifiedProject[] = [
     title: 'AES Cryptographic Core',
     subtitle: 'High-Frequency RTL Synthesis with 1000.0 ps (1 ns) Clock in Cadence Genus',
     category: 'CRYPTOGRAPHIC_HARDWARE',
+    technologyNode: '28 nm',
     edaToolchain: ['Cadence Genus'],
     languages: ['Verilog HDL', 'Tcl', 'Linux Shell'],
     clockConstraint: 'Period: 1000.0 ps (1.0 ns target)',
@@ -296,7 +300,7 @@ export const VERIFIED_PROJECTS: VerifiedProject[] = [
       tapeout: 'NOT_COMPLETED'
     },
     overview:
-      'Completed RTL logic synthesis project of an Advanced Encryption Standard (AES) hardware core using Cadence Genus. Applied a 1000.0 ps (1.0 ns) clock period SDC constraint, mapped datapath and key-schedule logic to standard-cell gates, and verified synthesis timing with zero violating paths and zero TNS.',
+      'Completed 28 nm RTL logic synthesis project of an Advanced Encryption Standard (AES) hardware core using Cadence Genus. Applied a 1000.0 ps (1.0 ns) clock period SDC constraint, mapped datapath and key-schedule logic to standard-cell gates, and verified synthesis timing with zero violating paths and zero TNS.',
     implementationScope: [
       'Compiled synthesizable Verilog HDL descriptions of the AES encryption round and key-expansion logic',
       'Defined single-clock SDC timing constraint with a 1000.0 ps (1.0 ns) target period',

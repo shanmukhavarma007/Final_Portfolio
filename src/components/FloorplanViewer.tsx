@@ -31,13 +31,17 @@ export const FloorplanViewer: React.FC<FloorplanViewerProps> = ({
     <div className="border border-[#d8d7ce] bg-[#ffffff] flex flex-col">
       {/* Floorplan Viewer Header Ledger */}
       <div className="px-4 py-3 bg-[#f5f3ed] border-b border-[#d8d7ce] flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3">
           <span className="font-technical text-xs font-semibold uppercase text-[#1b1c18]">
             [CAD 01] CVA6 64-BIT CORE FLOORPLAN & PLACEMENT TOPOGRAPHY
           </span>
           <span className="text-[#757872] text-xs">·</span>
           <span className="font-technical text-[11px] text-[#536600] font-bold">
             CADENCE INNOVUS PHYSICAL DESIGN
+          </span>
+          <span className="text-[#c5c7c1]">·</span>
+          <span className="font-technical text-[11px] font-bold text-[#1b1c18] bg-[#ffffff] px-2 py-0.5 border border-[#d8d7ce]">
+            PROCESS TECHNOLOGY // 28 nm
           </span>
         </div>
 
@@ -266,6 +270,10 @@ export const FloorplanViewer: React.FC<FloorplanViewerProps> = ({
                   <span className="w-1.5 h-1.5 bg-[#b7d83d]" />
                   {selectedBlock.status}
                 </span>
+              </div>
+              <div className="p-2.5 flex justify-between bg-[#ffffff]">
+                <span className="text-[#757872]">PROCESS NODE:</span>
+                <span className="text-[#536600] font-bold">28 nm</span>
               </div>
               <div className="p-2.5 flex justify-between bg-[#f5f3ed]">
                 <span className="text-[#757872]">UPSTREAM FLOW:</span>

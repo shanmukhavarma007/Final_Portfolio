@@ -374,6 +374,12 @@ export default function App() {
                             <span className="font-bold text-[#536600]">Sumedha IT</span>
                           </div>
                           <div className="flex justify-between">
+                            <span className="text-[#757872]">Technology Node:</span>
+                            <span className="font-bold text-[#1b1c18] bg-[#e9e7df] px-1.5 py-0.2 border border-[#d8d7ce]">
+                              28 nm
+                            </span>
+                          </div>
+                          <div className="flex justify-between">
                             <span className="text-[#757872]">EDA Toolchain:</span>
                             <span className="font-bold text-[#1b1c18]">Cadence Genus / Innovus</span>
                           </div>
@@ -477,8 +483,8 @@ export default function App() {
                   transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
                   className="space-y-6"
                 >
-                  <div className="flex items-center justify-between pb-2 border-b border-[#d8d7ce]">
-                    <div className="flex items-center gap-2">
+                  <div className="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-[#d8d7ce]">
+                    <div className="flex flex-wrap items-center gap-2">
                       <span className="font-technical text-xs font-bold uppercase text-[#1b1c18]">
                         02 // CVA6 64-BIT CORE FLOORPLAN & MACRO PLACEMENT
                       </span>
@@ -486,10 +492,37 @@ export default function App() {
                       <span className="font-technical text-xs text-[#536600] font-bold">
                         [COMPLETED IN CADENCE INNOVUS]
                       </span>
+                      <span className="text-[#c5c7c1]">·</span>
+                      <span className="font-technical text-xs font-bold text-[#1b1c18] bg-[#e9e7df] px-2 py-0.5 border border-[#d8d7ce]">
+                        PROCESS TECHNOLOGY // 28 nm
+                      </span>
                     </div>
                     <span className="font-technical text-xs text-[#757872]">
                       INNOVUS PLACEMENT TOPOGRAPHY
                     </span>
+                  </div>
+
+                  {/* Prominent CVA6 Project Specifications Strip */}
+                  <div className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-y lg:divide-y-0 divide-[#d8d7ce] border border-[#d8d7ce] bg-[#ffffff] text-xs font-technical">
+                    <div className="p-3 bg-[#fbf9f3]">
+                      <div className="text-[#757872] uppercase text-[10px] font-semibold">TECHNOLOGY NODE</div>
+                      <div className="text-base font-bold text-[#1b1c18] mt-0.5 flex items-center gap-1.5">
+                        <span className="w-2 h-2 bg-[#b7d83d]" />
+                        28 nm
+                      </div>
+                    </div>
+                    <div className="p-3">
+                      <div className="text-[#757872] uppercase text-[10px] font-semibold">EDA TOOLS</div>
+                      <div className="text-sm font-bold text-[#1b1c18] mt-0.5">Cadence Genus & Innovus</div>
+                    </div>
+                    <div className="p-3">
+                      <div className="text-[#757872] uppercase text-[10px] font-semibold">CLOCK PERIOD</div>
+                      <div className="text-sm font-bold text-[#1b1c18] mt-0.5">1.5 ns (~666.67 MHz)</div>
+                    </div>
+                    <div className="p-3">
+                      <div className="text-[#757872] uppercase text-[10px] font-semibold">IMPLEMENTATION STAGE</div>
+                      <div className="text-sm font-bold text-[#536600] mt-0.5">Standard-cell placement completed</div>
+                    </div>
                   </div>
 
                   <FloorplanViewer
@@ -641,19 +674,46 @@ export default function App() {
                 className="space-y-8"
               >
                 <div className="border border-[#d8d7ce] bg-[#ffffff] p-6">
-                  <div className="flex items-center gap-2 font-technical text-xs text-[#757872] uppercase mb-2">
+                  <div className="flex flex-wrap items-center gap-2 font-technical text-xs text-[#757872] uppercase mb-2">
                     <span className="font-bold text-[#1b1c18]">02 // CVA6 PLACEMENT</span>
                     <span>·</span>
                     <span>[MODULE 02] // CVA6 RISC-V CORE</span>
                     <span>·</span>
                     <span className="text-[#536600] font-bold">PLACEMENT COMPLETED IN CADENCE INNOVUS</span>
+                    <span>·</span>
+                    <span className="font-bold text-[#1b1c18] bg-[#e9e7df] px-2 py-0.5 border border-[#d8d7ce]">
+                      PROCESS TECHNOLOGY // 28 nm
+                    </span>
                   </div>
                   <h1 className="font-serif text-3xl md:text-4xl text-[#1b1c18] font-normal">
                     CVA6 Core Floorplanning & Standard-Cell Placement
                   </h1>
                   <p className="font-sans text-sm md:text-base text-[#454843] mt-2 max-w-3xl leading-relaxed">
-                    Interactive CAD inspection viewport for the 64-bit CVA6 core implemented in Cadence Innovus. Review macro arrangements, core boundaries, and standard-cell placement completed prior to CTS.
+                    Interactive CAD inspection viewport for the 64-bit CVA6 core implemented in Cadence Innovus on the 28 nm technology node. Review macro arrangements, core boundaries, and standard-cell placement completed prior to CTS.
                   </p>
+
+                  {/* Prominent CVA6 Project Specifications Strip */}
+                  <div className="mt-4 grid grid-cols-2 lg:grid-cols-4 divide-x divide-y lg:divide-y-0 divide-[#d8d7ce] border border-[#d8d7ce] bg-[#fbf9f3] text-xs font-technical">
+                    <div className="p-3 bg-[#ffffff]">
+                      <div className="text-[#757872] uppercase text-[10px] font-semibold">TECHNOLOGY NODE</div>
+                      <div className="text-base font-bold text-[#1b1c18] mt-0.5 flex items-center gap-1.5">
+                        <span className="w-2 h-2 bg-[#b7d83d]" />
+                        28 nm
+                      </div>
+                    </div>
+                    <div className="p-3">
+                      <div className="text-[#757872] uppercase text-[10px] font-semibold">EDA TOOLS</div>
+                      <div className="text-sm font-bold text-[#1b1c18] mt-0.5">Cadence Genus & Innovus</div>
+                    </div>
+                    <div className="p-3">
+                      <div className="text-[#757872] uppercase text-[10px] font-semibold">CLOCK PERIOD</div>
+                      <div className="text-sm font-bold text-[#1b1c18] mt-0.5">1.5 ns (~666.67 MHz)</div>
+                    </div>
+                    <div className="p-3">
+                      <div className="text-[#757872] uppercase text-[10px] font-semibold">IMPLEMENTATION STAGE</div>
+                      <div className="text-sm font-bold text-[#536600] mt-0.5">Standard-cell placement completed</div>
+                    </div>
+                  </div>
                 </div>
 
                 <FloorplanViewer

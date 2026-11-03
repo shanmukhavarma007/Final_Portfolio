@@ -79,7 +79,7 @@ const EVIDENCE_ITEMS: EvidenceItem[] = [
       what: 'Terminal Quality of Results (QoR) report generated directly by Cadence Genus during CVA6 synthesis optimization.',
       tool: 'Cadence Genus Synthesis Solution.',
       stage: 'RTL Logic Synthesis & SDC Timing Optimization.',
-      technicalDetail: 'Clock Period: 1.700 ns; Leaf Instance Count: 178,799; Cell Area: 592,578.141; Sequential: 23,675; Combinational: 155,124; Total TNS: -10.188.',
+      technicalDetail: 'Historical Synthesis Report Snapshot: Clock Period: 1.700 ns (Target Specification: 1.5 ns / ~666.67 MHz); Leaf Instance Count: 178,799; Cell Area: 592,578.141; Sequential: 23,675; Combinational: 155,124; Total TNS: -10.188.',
       relevance: 'Demonstrates rigorous timing evaluation and realistic synthesis metrics on a 64-bit architecture prior to floorplan handoff.'
     }
   }
@@ -176,23 +176,38 @@ export const Cva6EngineeringEvidenceGallery: React.FC<Cva6EngineeringEvidenceGal
           {/* Gallery Header */}
           <div className="p-5 md:p-6 bg-[#fbf9f3] flex flex-wrap items-center justify-between gap-3">
             <div>
-              <div className="flex items-center gap-2 font-technical text-xs text-[#757872] uppercase">
+              <div className="flex flex-wrap items-center gap-2 font-technical text-xs text-[#757872] uppercase">
                 <span className="w-2 h-2 bg-[#b7d83d] inline-block" />
                 <span className="font-bold text-[#1b1c18]">[ACTUAL EDA EVIDENCE DOSSIER]</span>
                 <span>·</span>
                 <span className="text-[#536600] font-bold">VERIFIED PROJECT ARTIFACTS</span>
+                <span>·</span>
+                <span className="font-bold text-[#1b1c18] bg-[#e9e7df] px-2 py-0.5 border border-[#d8d7ce]">
+                  PROCESS TECHNOLOGY // 28 nm
+                </span>
               </div>
               <h2 className="font-serif text-2xl md:text-3xl text-[#1b1c18] font-normal mt-1">
                 Original Engineering Screenshots & Synthesis Telemetry
               </h2>
               <p className="font-sans text-xs md:text-sm text-[#454843] mt-1 max-w-3xl leading-relaxed">
-                Direct visual artifacts captured from Cadence Genus synthesis and Cadence Innovus floorplanning environments for the 64-bit CVA6 RISC-V implementation.
+                Direct visual artifacts captured from Cadence Genus synthesis and Cadence Innovus floorplanning environments for the 64-bit CVA6 RISC-V implementation on the 28 nm process node.
               </p>
+              <div className="mt-2.5 flex flex-wrap items-center gap-2 font-technical text-xs">
+                <span className="px-2 py-0.5 bg-[#1b1c18] text-[#cef053] font-bold">
+                  TECHNOLOGY NODE: 28 nm
+                </span>
+                <span className="px-2 py-0.5 bg-[#ffffff] border border-[#d8d7ce] text-[#1b1c18]">
+                  CLOCK: 1.5 ns (~666.67 MHz) (SDC TARGET)
+                </span>
+                <span className="px-2 py-0.5 bg-[#ffffff] border border-[#d8d7ce] text-[#536600] font-semibold">
+                  STAGE: STANDARD-CELL PLACEMENT COMPLETED
+                </span>
+              </div>
             </div>
 
             <div className="flex items-center gap-2 px-3 py-1.5 bg-[#ffffff] border border-[#d8d7ce] text-xs font-technical">
               <ShieldCheck className="w-4 h-4 text-[#536600]" />
-              <span className="text-[#1b1c18] font-bold">3 ORIGINAL CAPTURES</span>
+              <span className="text-[#1b1c18] font-bold">3 ORIGINAL CAPTURES (28 nm)</span>
             </div>
           </div>
 
@@ -426,7 +441,10 @@ export const Cva6EngineeringEvidenceGallery: React.FC<Cva6EngineeringEvidenceGal
                     </div>
 
                     <div className="p-2.5 flex items-center justify-between">
-                      <span className="text-[#454843]">Clock Period</span>
+                      <div className="flex flex-col">
+                        <span className="text-[#454843]">Clock Period (Report Snapshot)</span>
+                        <span className="text-[10px] text-[#536600] font-semibold">Target Spec: 1.5 ns (~666.67 MHz)</span>
+                      </div>
                       <span className="font-bold text-[#1b1c18] tabular-nums">
                         <CountUpNumber target={1.7} decimals={3} suffix=" ns" />
                       </span>
@@ -500,10 +518,10 @@ export const Cva6EngineeringEvidenceGallery: React.FC<Cva6EngineeringEvidenceGal
                 <div className="p-3 bg-[#ffffff] border border-[#d8d7ce] text-xs space-y-1">
                   <div className="font-technical text-[10px] text-[#536600] font-bold uppercase flex items-center gap-1">
                     <CheckCircle2 className="w-3.5 h-3.5 text-[#536600]" />
-                    STAGE CLARIFICATION
+                    HISTORICAL SNAPSHOT & DESIGN SPECIFICATION
                   </div>
                   <p className="text-[#454843] text-[11px] leading-relaxed">
-                    These values represent synthesis-stage report values from Cadence Genus. They are not modified or claimed as post-placement, post-CTS, or post-route results.
+                    This terminal QoR report captures an authentic synthesis run at a 1.700 ns baseline constraint. The corrected CVA6 project design target specification is 1.5 ns (~666.67 MHz). In accordance with strict factual integrity, historical EDA screenshots are preserved without alteration.
                   </p>
                 </div>
               </div>

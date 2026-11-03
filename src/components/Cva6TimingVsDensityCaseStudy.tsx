@@ -113,10 +113,14 @@ export const Cva6TimingVsDensityCaseStudy: React.FC = () => {
         </div>
 
         {/* Telemetry pill metadata bar */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-3 border-t border-[#d8d7ce] text-xs font-technical">
+        <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 pt-3 border-t border-[#d8d7ce] text-xs font-technical">
           <div className="p-2.5 bg-[#ffffff] border border-[#d8d7ce]">
             <span className="text-[#757872] block text-[10px] uppercase">PROJECT</span>
             <span className="font-bold text-[#1b1c18]">CVA6 RISC-V CORE</span>
+          </div>
+          <div className="p-2.5 bg-[#ffffff] border border-[#d8d7ce]">
+            <span className="text-[#536600] block text-[10px] uppercase font-bold">PROCESS TECHNOLOGY</span>
+            <span className="font-bold text-[#1b1c18] text-sm">28 nm</span>
           </div>
           <div className="p-2.5 bg-[#ffffff] border border-[#d8d7ce]">
             <span className="text-[#757872] block text-[10px] uppercase">EDA TOOL</span>
@@ -124,11 +128,11 @@ export const Cva6TimingVsDensityCaseStudy: React.FC = () => {
           </div>
           <div className="p-2.5 bg-[#ffffff] border border-[#d8d7ce]">
             <span className="text-[#757872] block text-[10px] uppercase">IMPLEMENTATION STAGE</span>
-            <span className="font-bold text-[#1b1c18]">Standard-Cell Placement</span>
+            <span className="font-bold text-[#1b1c18]">Std-Cell Placement</span>
           </div>
           <div className="p-2.5 bg-[#ffffff] border border-[#d8d7ce]">
             <span className="text-[#757872] block text-[10px] uppercase">STATUS</span>
-            <span className="font-bold text-[#536600]">Completed Prior to CTS</span>
+            <span className="font-bold text-[#536600]">Pre-CTS Completed</span>
           </div>
         </div>
       </div>
@@ -144,6 +148,23 @@ export const Cva6TimingVsDensityCaseStudy: React.FC = () => {
           <span className="font-technical text-[11px] text-[#757872] uppercase hidden sm:inline">
             PHYSICAL VS. ELECTRICAL FORCES
           </span>
+        </div>
+
+        {/* Prominent Technology Context 28 nm Callout */}
+        <div className="p-3.5 bg-[#f5f3ed] border-l-4 border-l-[#536600] border-y border-r border-[#d8d7ce] flex flex-wrap items-center justify-between gap-3 text-xs font-technical">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="px-2 py-0.5 bg-[#1b1c18] text-[#cef053] font-bold text-[11px] uppercase tracking-wider">
+              TECHNOLOGY CONTEXT: 28 nm
+            </span>
+            <span className="text-[#1b1c18] font-semibold">
+              Balancing standard-cell placement density and interconnect wire delay within 28 nm design rules.
+            </span>
+          </div>
+          <div className="flex items-center gap-2 text-[11px] text-[#757872]">
+            <span>TOOL: Cadence Innovus</span>
+            <span>·</span>
+            <span>CLOCK: 1.5 ns (~666.67 MHz)</span>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

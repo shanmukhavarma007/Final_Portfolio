@@ -20,7 +20,7 @@ export const CandidateProfileModal: React.FC<CandidateProfileModalProps> = ({
   };
 
   const handleCopy = () => {
-    const text = `SHANMUKHA VARMA PENMETSA — Entry-Level ASIC Physical Design Engineer
+    const text = `SHANMUKHA VARMA PENMETSA — Entry-Level ASIC Physical Design Engineer (28 nm Node)
 Email: ${ENGINEER_PROFILE.email}
 LinkedIn: ${ENGINEER_PROFILE.linkedin}
 GitHub: ${ENGINEER_PROFILE.github}
@@ -31,6 +31,7 @@ EDUCATION:
 
 SPECIALIZED TRAINING:
 - ${ENGINEER_PROFILE.training.program} at ${ENGINEER_PROFILE.training.organization}
+  Process Technology: 28 nm
 
 VERIFIED EDA TOOLCHAIN:
 - Cadence Genus (RTL Synthesis, QoR Analysis, SDC Constraints)
@@ -39,11 +40,15 @@ VERIFIED EDA TOOLCHAIN:
 
 VERIFIED PROJECTS:
 1. CVA6 64-Bit RISC-V Processor:
+   - Process Technology: 28 nm
+   - Clock Period: 1.5 ns (~666.67 MHz SDC Target)
    - RTL Synthesis in Cadence Genus
    - Floorplanning & Macro Placement in Cadence Innovus
    - Standard-Cell Placement Completed in Cadence Innovus
    - CTS Status: Not Started (Handoff Pending)
 2. AES Cryptographic Core:
+   - Process Technology: 28 nm
+   - Clock Period: 1000.0 ps / 1.0 ns
    - RTL Synthesis in Cadence Genus with single-clock 1.0 ns period SDC constraint`;
 
     navigator.clipboard.writeText(text);
@@ -153,8 +158,13 @@ VERIFIED PROJECTS:
               <div className="text-xs text-[#454843] mt-1">
                 Institution: {ENGINEER_PROFILE.training.organization}
               </div>
-              <div className="text-[11px] font-technical text-[#757872] mt-2">
-                Focus: RTL-to-GDSII flow fundamentals with Cadence tools
+              <div className="mt-2 flex flex-wrap items-center gap-2 font-technical text-[11px]">
+                <span className="px-1.5 py-0.5 bg-[#1b1c18] text-[#cef053] font-bold">
+                  PROCESS: 28 nm
+                </span>
+                <span className="text-[#757872]">
+                  Focus: 28 nm RTL-to-GDSII flow fundamentals with Cadence tools
+                </span>
               </div>
             </div>
           </div>
@@ -221,15 +231,24 @@ VERIFIED PROJECTS:
               {VERIFIED_PROJECTS.map(proj => (
                 <div key={proj.id} className="p-4 bg-[#ffffff] border border-[#d8d7ce]">
                   <div className="flex flex-wrap items-center justify-between gap-2">
-                    <span className="font-serif text-sm font-bold text-[#1b1c18]">{proj.title}</span>
-                    <span className="px-2 py-0.5 bg-[#f5f3ed] text-[10px] font-bold text-[#1b1c18]">
+                    <div className="flex items-center gap-2">
+                      <span className="font-serif text-sm font-bold text-[#1b1c18]">{proj.title}</span>
+                      <span className="px-1.5 py-0.5 bg-[#1b1c18] text-[#cef053] font-technical text-[10px] font-bold">
+                        PROCESS: {proj.technologyNode}
+                      </span>
+                    </div>
+                    <span className="px-2 py-0.5 bg-[#f5f3ed] text-[10px] font-bold text-[#1b1c18] border border-[#d8d7ce]">
                       {proj.id === 'cva6-riscv'
                         ? 'PLACEMENT: COMPLETED | CTS: PENDING'
                         : 'SYNTHESIS: COMPLETED (1 ns CLOCK)'}
                     </span>
                   </div>
-                  <div className="text-[11px] text-[#757872] mt-1">
-                    Tools: {proj.edaToolchain.join(', ')} | Languages: {proj.languages.join(', ')}
+                  <div className="flex flex-wrap items-center gap-2 text-[11px] text-[#757872] mt-1.5">
+                    <span>TECHNOLOGY NODE: <strong className="text-[#1b1c18]">{proj.technologyNode}</strong></span>
+                    <span>·</span>
+                    <span>Tools: {proj.edaToolchain.join(', ')}</span>
+                    <span>·</span>
+                    <span>Languages: {proj.languages.join(', ')}</span>
                   </div>
                   <p className="font-sans text-xs text-[#454843] mt-2 leading-relaxed">
                     {proj.overview}
