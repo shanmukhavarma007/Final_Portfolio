@@ -3,6 +3,7 @@ import { VerifiedProject } from '../data/portfolioData';
 import { ArrowLeft, Copy, Check, Terminal, ShieldCheck, CheckCircle2, AlertCircle } from 'lucide-react';
 import { Cva6EngineeringEvidenceGallery } from './Cva6EngineeringEvidenceGallery';
 import { Cva6TimingVsDensityCaseStudy } from './Cva6TimingVsDensityCaseStudy';
+import { Cva6PlacementOptimizationCaseStudy } from './Cva6PlacementOptimizationCaseStudy';
 import { AesEngineeringEvidenceGallery } from './AesEngineeringEvidenceGallery';
 import { SiliconTraceReveal } from './SiliconTraceReveal';
 
@@ -302,12 +303,13 @@ write_hdl > aes_synthesized_netlist.v`
         </div>
       </div>
 
-      {/* CVA6 Dedicated Technical Evidence Gallery: 3 Original EDA Screenshots & Trade-Off Case Study */}
+      {/* CVA6 Dedicated Technical Evidence Gallery: Original EDA Screenshots & Trade-Off Case Studies */}
       {project.id === 'cva6-riscv' && (
         <div className="pt-4 space-y-6">
           <SiliconTraceReveal variant="cva6-to-evidence" />
           <Cva6EngineeringEvidenceGallery />
           <Cva6TimingVsDensityCaseStudy />
+          <Cva6PlacementOptimizationCaseStudy />
         </div>
       )}
 

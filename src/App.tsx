@@ -17,6 +17,8 @@ import { EdaTerminalConsole } from './components/EdaTerminalConsole';
 import { PersistentFooter } from './components/PersistentFooter';
 import { Cva6EngineeringEvidenceGallery } from './components/Cva6EngineeringEvidenceGallery';
 import { Cva6TimingVsDensityCaseStudy } from './components/Cva6TimingVsDensityCaseStudy';
+import { Cva6PlacementOptimizationCaseStudy } from './components/Cva6PlacementOptimizationCaseStudy';
+import { CaseStudiesSection } from './components/CaseStudiesSection';
 import { GitHubStatus } from './components/GitHubStatus';
 import { SiliconTraceReveal } from './components/SiliconTraceReveal';
 import { TechnicalSkillsMatrix } from './components/TechnicalSkillsMatrix';
@@ -55,7 +57,7 @@ export default function App() {
         }
       }
 
-      if (['overview', 'cva6-placement', 'cts-handoff', 'projects', 'journal'].includes(hash)) {
+      if (['overview', 'cva6-placement', 'case-studies', 'cts-handoff', 'projects', 'journal'].includes(hash)) {
         setActiveView(hash);
         setSelectedProject(null);
       }
@@ -74,7 +76,8 @@ export default function App() {
     const sections = [
       { id: 'hero-section', view: 'overview' },
       { id: 'cva6-viewport', view: 'cva6-placement' },
-      { id: 'cts-section', view: 'cts-handoff' },
+      { id: 'case-studies-section', view: 'case-studies' },
+      { id: 'cts-section', view: 'case-studies' },
       { id: 'projects-section', view: 'projects' },
       { id: 'journal-section', view: 'journal' }
     ];
@@ -113,6 +116,7 @@ export default function App() {
       const sectionTargets: Record<string, string> = {
         'overview': 'hero-section',
         'cva6-placement': 'cva6-viewport',
+        'case-studies': 'case-studies-section',
         'cts-handoff': 'cts-section',
         'projects': 'projects-section',
         'journal': 'journal-section'
@@ -539,20 +543,6 @@ export default function App() {
                   {/* 3 Original Engineering Screenshots Gallery (Collapsible via button) */}
                   <Cva6EngineeringEvidenceGallery isExpanded={isCva6EvidenceExpanded} />
 
-                  {/* Case Study: Timing vs. Cell Density (Engineering Decisions // CVA6-01) */}
-                  <div className="pt-2">
-                    <Cva6TimingVsDensityCaseStudy />
-                  </div>
-                </motion.section>
-
-                {/* Subordinate: CVA6 Netlist & Handoff Status Ledger */}
-                <motion.section
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-50px' }}
-                  transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
-                  className="space-y-4"
-                >
                   <NetlistLedger
                     onOpenCandidateProfile={() => setIsProfileModalOpen(true)}
                     onOpenEdaConsole={() => {
@@ -562,7 +552,19 @@ export default function App() {
                   />
                 </motion.section>
 
-                {/* Section 03: CTS Status & Handoff Boundary (Critical Distinction) */}
+                {/* Section 03: Dedicated Case Studies Hub */}
+                <motion.section
+                  id="case-studies-section"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-50px' }}
+                  transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+                  className="space-y-4"
+                >
+                  <CaseStudiesSection />
+                </motion.section>
+
+                {/* Verified Milestone Boundary: CTS Status & Handoff (Critical Factual Boundary) */}
                 <motion.section
                   id="cts-section"
                   initial={{ opacity: 0, y: 20 }}
@@ -574,10 +576,10 @@ export default function App() {
                   <div className="flex items-center justify-between pb-2 border-b border-[#d8d7ce]">
                     <div className="flex items-center gap-2">
                       <span className="font-technical text-xs font-bold uppercase text-[#1b1c18]">
-                        03 // CLOCK TREE SYNTHESIS (CTS) HANDOFF
+                        HANDOFF BOUNDARY // CLOCK TREE SYNTHESIS (CTS)
                       </span>
                       <span className="text-[#c5c7c1]">·</span>
-                      <span className="font-technical text-xs text-[#757872] font-bold">
+                      <span className="font-technical text-xs text-[#536600] font-bold">
                         [CTS STATUS: NOT STARTED / PENDING HANDOFF]
                       </span>
                     </div>
@@ -733,6 +735,9 @@ export default function App() {
                 {/* Case Study: Timing vs. Cell Density (Engineering Decisions // CVA6-01) */}
                 <Cva6TimingVsDensityCaseStudy />
 
+                {/* Case Study: Placement Optimization: Congestion, Timing & Physical Design Trade-offs (Engineering Case Study // CVA6-02) */}
+                <Cva6PlacementOptimizationCaseStudy />
+
                 <NetlistLedger
                   onOpenCandidateProfile={() => setIsProfileModalOpen(true)}
                   onOpenEdaConsole={() => handleNavigate('overview')}
@@ -740,7 +745,41 @@ export default function App() {
               </motion.div>
             )}
 
-            {/* View 3: CTS Handoff Boundary View */}
+            {/* View 3: Dedicated Case Studies Hub View */}
+            {activeView === 'case-studies' && (
+              <motion.div
+                key="view-case-studies"
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                className="space-y-8"
+              >
+                <div className="border border-[#d8d7ce] bg-[#ffffff] p-6 md:p-8">
+                  <div className="flex flex-wrap items-center gap-2 font-technical text-xs text-[#757872] uppercase mb-2">
+                    <span className="font-bold text-[#1b1c18]">03 // CASE STUDIES</span>
+                    <span>·</span>
+                    <span>[MODULE 03] // PHYSICAL DESIGN INVESTIGATIONS</span>
+                    <span>·</span>
+                    <span className="text-[#536600] font-bold">EMPIRICAL EDA DATA & DECISIONS</span>
+                    <span>·</span>
+                    <span className="font-bold text-[#1b1c18] bg-[#e9e7df] px-2 py-0.5 border border-[#d8d7ce]">
+                      PROCESS TECHNOLOGY // 28 nm
+                    </span>
+                  </div>
+                  <h1 className="font-serif text-3xl md:text-4xl text-[#1b1c18] font-normal">
+                    Physical Design Case Studies & Engineering Decisions
+                  </h1>
+                  <p className="font-sans text-sm md:text-base text-[#454843] mt-2 max-w-3xl leading-relaxed">
+                    Direct access to evidence-backed engineering investigations into CVA6 placement optimization, macro corridor spacing, placement density, and clock-path buffering on the 28 nm node.
+                  </p>
+                </div>
+
+                <CaseStudiesSection initialExpandedId="cva6-placement-opt" />
+              </motion.div>
+            )}
+
+            {/* Subordinate View: CTS Handoff Boundary View */}
             {activeView === 'cts-handoff' && (
               <motion.div
                 key="view-cts"
@@ -752,11 +791,11 @@ export default function App() {
               >
                 <div className="border border-[#d8d7ce] bg-[#ffffff] p-6">
                   <div className="flex items-center gap-2 font-technical text-xs text-[#757872] uppercase mb-2">
-                    <span className="font-bold text-[#1b1c18]">03 // CTS HANDOFF</span>
+                    <span className="font-bold text-[#1b1c18]">HANDOFF BOUNDARY // CLOCK TREE SYNTHESIS</span>
                     <span>·</span>
-                    <span>[MODULE 03] // CLOCK TREE SYNTHESIS</span>
+                    <span>[MILESTONE BOUNDARY]</span>
                     <span>·</span>
-                    <span className="text-[#757872] font-bold">
+                    <span className="text-[#536600] font-bold">
                       STATUS: NOT STARTED / PENDING HANDOFF
                     </span>
                   </div>

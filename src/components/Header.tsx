@@ -18,7 +18,7 @@ export const Header: React.FC<HeaderProps> = ({
   const navItems = [
     { id: 'overview', label: '01 / Overview' },
     { id: 'cva6-placement', label: '02 / CVA6 Placement' },
-    { id: 'cts-handoff', label: '03 / CTS Handoff', hasDot: true },
+    { id: 'case-studies', label: '03 / Case Studies' },
     { id: 'projects', label: '04 / Projects' },
     { id: 'journal', label: '05 / Engineering' }
   ];
@@ -65,10 +65,7 @@ export const Header: React.FC<HeaderProps> = ({
                     : 'hover:text-[#1b1c18]'
                 }`}
               >
-                <span className="flex items-center gap-1.5">
-                  {item.hasDot && (
-                    <span className="w-1.5 h-1.5 bg-[#b7d83d] inline-block shrink-0" />
-                  )}
+                <span>
                   {item.label}
                 </span>
 
@@ -134,8 +131,7 @@ export const Header: React.FC<HeaderProps> = ({
                         : 'text-[#757872] hover:text-[#1b1c18] px-2'
                     }`}
                   >
-                    <span className="flex items-center gap-2">
-                      {item.hasDot && <span className="w-1.5 h-1.5 bg-[#b7d83d]" />}
+                    <span>
                       {item.label}
                     </span>
                     {isActive && (

@@ -66,10 +66,10 @@ export const PersistentFooter: React.FC<PersistentFooterProps> = ({
             </div>
             <div>
               <button
-                onClick={() => onNavigate('cts-handoff')}
+                onClick={() => onNavigate('case-studies')}
                 className="text-[#c5c7be] hover:text-[#cef053] transition-colors cursor-pointer block py-1"
               >
-                03 / CTS Handoff
+                03 / Case Studies
               </button>
             </div>
             <div>
