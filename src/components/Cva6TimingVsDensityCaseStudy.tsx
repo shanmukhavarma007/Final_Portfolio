@@ -717,11 +717,11 @@ export const Cva6TimingVsDensityCaseStudy: React.FC = () => {
             </div>
             <div className="p-3 space-y-1">
               <span className="font-technical text-[10px] text-[#757872] uppercase block">Observed Status</span>
-              <p className="font-technical font-bold text-[#757872]">CTS and Detailed Routing: NOT STARTED.</p>
+              <p className="font-technical font-bold text-[#536600]">CTS Completed (CCOpt) · Post-CTS Active · Routing: Theoretical</p>
             </div>
             <div className="p-3 space-y-1 bg-[#fbf9f3]">
-              <span className="font-technical text-[10px] text-[#536600] uppercase block font-bold">Next Technical Step</span>
-              <p className="text-[#454843]">Address fanout DRVs and evaluate congestion during CTS handoff.</p>
+              <span className="font-technical text-[10px] text-[#536600] uppercase block font-bold">Current Technical Step</span>
+              <p className="text-[#454843]">Analyze post-CTS setup/hold slack and address max_fanout DRVs prior to detailed routing.</p>
             </div>
           </div>
         </div>

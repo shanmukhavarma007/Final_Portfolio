@@ -19,6 +19,7 @@ import { Cva6EngineeringEvidenceGallery } from './components/Cva6EngineeringEvid
 import { Cva6TimingVsDensityCaseStudy } from './components/Cva6TimingVsDensityCaseStudy';
 import { Cva6PlacementOptimizationCaseStudy } from './components/Cva6PlacementOptimizationCaseStudy';
 import { CaseStudiesSection } from './components/CaseStudiesSection';
+import { EngineeringDecisionsSection } from './components/EngineeringDecisionsSection';
 import { GitHubStatus } from './components/GitHubStatus';
 import { SiliconTraceReveal } from './components/SiliconTraceReveal';
 import { TechnicalSkillsMatrix } from './components/TechnicalSkillsMatrix';
@@ -391,13 +392,14 @@ export default function App() {
                             <span className="text-[#757872]">CVA6 Status:</span>
                             <span className="font-bold text-[#536600] flex items-center gap-1">
                               <span className="w-1.5 h-1.5 bg-[#b7d83d]" />
-                              Placement Completed
+                              CTS Done · Post-CTS Active
                             </span>
                           </div>
                           <div className="flex justify-between">
                             <span className="text-[#757872]">CTS Status:</span>
-                            <span className="font-bold text-[#757872]">
-                              Not Started (Pending)
+                            <span className="font-bold text-[#536600] flex items-center gap-1">
+                              <span className="w-1.5 h-1.5 bg-[#b7d83d]" />
+                              Completed (CCOpt)
                             </span>
                           </div>
                         </div>
@@ -494,7 +496,7 @@ export default function App() {
                       </span>
                       <span className="text-[#c5c7c1]">·</span>
                       <span className="font-technical text-xs text-[#536600] font-bold">
-                        [COMPLETED IN CADENCE INNOVUS]
+                        [CTS COMPLETED IN CADENCE INNOVUS CCOpt · POST-CTS IN PROGRESS]
                       </span>
                       <span className="text-[#c5c7c1]">·</span>
                       <span className="font-technical text-xs font-bold text-[#1b1c18] bg-[#e9e7df] px-2 py-0.5 border border-[#d8d7ce]">
@@ -502,7 +504,7 @@ export default function App() {
                       </span>
                     </div>
                     <span className="font-technical text-xs text-[#757872]">
-                      INNOVUS PLACEMENT TOPOGRAPHY
+                      INNOVUS PLACEMENT & CTS TOPOGRAPHY
                     </span>
                   </div>
 
@@ -525,7 +527,7 @@ export default function App() {
                     </div>
                     <div className="p-3">
                       <div className="text-[#757872] uppercase text-[10px] font-semibold">IMPLEMENTATION STAGE</div>
-                      <div className="text-sm font-bold text-[#536600] mt-0.5">Standard-cell placement completed</div>
+                      <div className="text-sm font-bold text-[#536600] mt-0.5">CTS Completed (CCOpt) · Post-CTS Active</div>
                     </div>
                   </div>
 
@@ -562,9 +564,12 @@ export default function App() {
                   className="space-y-4"
                 >
                   <CaseStudiesSection />
+                  <div className="pt-4">
+                    <EngineeringDecisionsSection />
+                  </div>
                 </motion.section>
 
-                {/* Verified Milestone Boundary: CTS Status & Handoff (Critical Factual Boundary) */}
+                {/* Verified Implementation Progression: CTS & Post-CTS Analysis */}
                 <motion.section
                   id="cts-section"
                   initial={{ opacity: 0, y: 20 }}
@@ -576,15 +581,15 @@ export default function App() {
                   <div className="flex items-center justify-between pb-2 border-b border-[#d8d7ce]">
                     <div className="flex items-center gap-2">
                       <span className="font-technical text-xs font-bold uppercase text-[#1b1c18]">
-                        HANDOFF BOUNDARY // CLOCK TREE SYNTHESIS (CTS)
+                        IMPLEMENTATION PROGRESSION // CLOCK TREE SYNTHESIS & POST-CTS ANALYSIS
                       </span>
                       <span className="text-[#c5c7c1]">·</span>
                       <span className="font-technical text-xs text-[#536600] font-bold">
-                        [CTS STATUS: NOT STARTED / PENDING HANDOFF]
+                        [CTS STATUS: COMPLETED · POST-CTS: IN PROGRESS]
                       </span>
                     </div>
                     <span className="font-technical text-xs text-[#757872]">
-                      FACTUAL MILESTONE BOUNDARY
+                      9-STAGE VERIFIED PROGRESSION
                     </span>
                   </div>
 
@@ -681,17 +686,17 @@ export default function App() {
                     <span>·</span>
                     <span>[MODULE 02] // CVA6 RISC-V CORE</span>
                     <span>·</span>
-                    <span className="text-[#536600] font-bold">PLACEMENT COMPLETED IN CADENCE INNOVUS</span>
+                    <span className="text-[#536600] font-bold">CTS COMPLETED (CCOpt) · POST-CTS IN PROGRESS</span>
                     <span>·</span>
                     <span className="font-bold text-[#1b1c18] bg-[#e9e7df] px-2 py-0.5 border border-[#d8d7ce]">
                       PROCESS TECHNOLOGY // 28 nm
                     </span>
                   </div>
                   <h1 className="font-serif text-3xl md:text-4xl text-[#1b1c18] font-normal">
-                    CVA6 Core Floorplanning & Standard-Cell Placement
+                    CVA6 Core Floorplanning, Placement & CTS Progression
                   </h1>
                   <p className="font-sans text-sm md:text-base text-[#454843] mt-2 max-w-3xl leading-relaxed">
-                    Interactive CAD inspection viewport for the 64-bit CVA6 core implemented in Cadence Innovus on the 28 nm technology node. Review macro arrangements, core boundaries, and standard-cell placement completed prior to CTS.
+                    Interactive CAD inspection viewport for the 64-bit CVA6 core implemented in Cadence Innovus on the 28 nm technology node. Review macro arrangements, core boundaries, standard-cell placement, and completed CCOpt clock tree synthesis.
                   </p>
 
                   {/* Prominent CVA6 Project Specifications Strip */}
@@ -713,7 +718,7 @@ export default function App() {
                     </div>
                     <div className="p-3">
                       <div className="text-[#757872] uppercase text-[10px] font-semibold">IMPLEMENTATION STAGE</div>
-                      <div className="text-sm font-bold text-[#536600] mt-0.5">Standard-cell placement completed</div>
+                      <div className="text-sm font-bold text-[#536600] mt-0.5">CTS Completed (CCOpt) · Post-CTS Active</div>
                     </div>
                   </div>
                 </div>
@@ -737,6 +742,9 @@ export default function App() {
 
                 {/* Case Study: Placement Optimization: Congestion, Timing & Physical Design Trade-offs (Engineering Case Study // CVA6-02) */}
                 <Cva6PlacementOptimizationCaseStudy />
+
+                {/* Section 09: Engineering Trade-offs & Implementation Decisions */}
+                <EngineeringDecisionsSection />
 
                 <NetlistLedger
                   onOpenCandidateProfile={() => setIsProfileModalOpen(true)}
@@ -791,19 +799,19 @@ export default function App() {
               >
                 <div className="border border-[#d8d7ce] bg-[#ffffff] p-6">
                   <div className="flex items-center gap-2 font-technical text-xs text-[#757872] uppercase mb-2">
-                    <span className="font-bold text-[#1b1c18]">HANDOFF BOUNDARY // CLOCK TREE SYNTHESIS</span>
+                    <span className="font-bold text-[#1b1c18]">IMPLEMENTATION PROGRESSION // CLOCK TREE SYNTHESIS</span>
                     <span>·</span>
-                    <span>[MILESTONE BOUNDARY]</span>
+                    <span>[CCOpt EXECUTION]</span>
                     <span>·</span>
                     <span className="text-[#536600] font-bold">
-                      STATUS: NOT STARTED / PENDING HANDOFF
+                      STATUS: CTS COMPLETED · POST-CTS ANALYSIS IN PROGRESS
                     </span>
                   </div>
                   <h1 className="font-serif text-3xl md:text-4xl text-[#1b1c18] font-normal">
-                    Clock Tree Synthesis (CTS) Implementation Boundary
+                    Clock Tree Synthesis (CTS) & Post-CTS Timing Analysis
                   </h1>
                   <p className="font-sans text-sm md:text-base text-[#454843] mt-2 max-w-3xl leading-relaxed">
-                    Clear demarcation: CVA6 standard-cell placement is completed in Cadence Innovus, while Clock Tree Synthesis has not been started. Review verified placement scope and theoretical CTS concepts.
+                    Verified milestone progression: CVA6 Clock Tree Synthesis has been completed using Cadence Innovus CCOpt. Post-CTS timing (setup WNS -0.318 ns, hold WNS -0.224 ns) and electrical DRV analysis are currently in progress, with practical detailed routing remaining for subsequent phases.
                   </p>
                 </div>
 

@@ -110,7 +110,7 @@ export const TechnicalSkillsMatrix: React.FC = () => {
                 : 'bg-[#ffffff] text-[#757872] border-[#d8d7ce] hover:text-[#1b1c18]'
             }`}
           >
-            All Competencies (14)
+            All Competencies ({RECRUITER_SKILL_GROUPS.flatMap(g => g.skills).length})
           </button>
           <button
             onClick={() => setActiveFilter('HANDS-ON FLOW')}
@@ -120,7 +120,7 @@ export const TechnicalSkillsMatrix: React.FC = () => {
                 : 'bg-[#ffffff] text-[#536600] border-[#d8d7ce] hover:bg-[#f5f3ed]'
             }`}
           >
-            Hands-on Flow (9)
+            Hands-on Flow ({RECRUITER_SKILL_GROUPS.flatMap(g => g.skills).filter(s => s.level === 'HANDS-ON FLOW').length})
           </button>
           <button
             onClick={() => setActiveFilter('TOOL AUTOMATION')}
@@ -130,7 +130,7 @@ export const TechnicalSkillsMatrix: React.FC = () => {
                 : 'bg-[#ffffff] text-[#1b1c18] border-[#d8d7ce] hover:bg-[#f5f3ed]'
             }`}
           >
-            Tool Automation (2)
+            Tool Automation ({RECRUITER_SKILL_GROUPS.flatMap(g => g.skills).filter(s => s.level === 'TOOL AUTOMATION').length})
           </button>
           <button
             onClick={() => setActiveFilter('THEORETICAL STUDY')}
@@ -140,7 +140,7 @@ export const TechnicalSkillsMatrix: React.FC = () => {
                 : 'bg-[#ffffff] text-[#757872] border-[#d8d7ce] hover:text-[#1b1c18]'
             }`}
           >
-            Theoretical Study (3)
+            Theoretical Study ({RECRUITER_SKILL_GROUPS.flatMap(g => g.skills).filter(s => s.level === 'THEORETICAL STUDY').length})
           </button>
         </div>
       </div>

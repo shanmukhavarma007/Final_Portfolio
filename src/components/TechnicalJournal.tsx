@@ -66,9 +66,9 @@ export const TechnicalJournal: React.FC = () => {
             Completed (Hands-On)
           </button>
           <button
-            onClick={() => setFilter('STUDIED')}
+            onClick={() => setFilter('THEORETICAL_STUDY')}
             className={`px-3 py-1.5 uppercase transition-colors cursor-pointer border ${
-              filter === 'STUDIED'
+              filter === 'THEORETICAL_STUDY'
                 ? 'bg-[#1b1c18] text-[#fbf9f3] border-[#1b1c18] font-bold'
                 : 'bg-[#ffffff] text-[#757872] border-[#d8d7ce] hover:text-[#1b1c18]'
             }`}
@@ -111,7 +111,7 @@ export const TechnicalJournal: React.FC = () => {
                       className={`px-2 py-0.5 text-[10px] font-bold border ${
                         topic.status === 'COMPLETED'
                           ? 'bg-[#e9e7df] text-[#536600] border-[#d8d7ce]'
-                          : topic.status === 'STUDIED'
+                          : topic.status === 'THEORETICAL_STUDY'
                           ? 'bg-[#f5f3ed] text-[#757872] border-[#d8d7ce]'
                           : 'bg-[#1b1c18] text-[#fbf9f3] border-[#1b1c18]'
                       }`}

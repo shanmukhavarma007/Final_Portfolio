@@ -136,8 +136,8 @@ const EXPERIMENT_RUNS: ExperimentRun[] = [
     interpretation: 'High overall density in narrow channels restricts track accessibility for downstream global routers, confirming that physical floorplan geometry and placer effort needed iterative adjustment.'
   },
   {
-    id: 'run1',
-    runNumber: 'Run 1',
+    id: 'iteration1',
+    runNumber: 'Iteration 1',
     name: 'Floorplan Geometry Adjustment',
     badge: 'GEOMETRY MODIFIED',
     status: 'EXPLORATORY',
@@ -163,8 +163,8 @@ const EXPERIMENT_RUNS: ExperimentRun[] = [
     interpretation: 'Broadening horizontal core width provided valuable lateral space, reducing overall routing pressure from the default run, though vertical overflow remained above 1%.'
   },
   {
-    id: 'run2',
-    runNumber: 'Run 2',
+    id: 'iteration2',
+    runNumber: 'Iteration 2',
     name: 'Increased Congestion Optimization Effort',
     badge: 'ALGORITHM TUNED',
     status: 'EXPLORATORY',
@@ -191,8 +191,8 @@ const EXPERIMENT_RUNS: ExperimentRun[] = [
     interpretation: 'Because placement-stage timing was considered not particularly problematic, focusing placer effort on congestion paid dividends. However, localized hotspots between macros indicated physical spacing was still required.'
   },
   {
-    id: 'run3',
-    runNumber: 'Run 3',
+    id: 'iteration3',
+    runNumber: 'Iteration 3 (Selected)',
     name: 'Macro Channel Spacing Optimization',
     badge: 'SELECTED DATABASE',
     status: 'SELECTED',
@@ -221,8 +221,8 @@ const EXPERIMENT_RUNS: ExperimentRun[] = [
     databasePath: 'proj/final_project/cva6/run2/pnr/floorplan/outputs/cva6_fp1.db'
   },
   {
-    id: 'run4',
-    runNumber: 'Run 4',
+    id: 'iteration4',
+    runNumber: 'Iteration 4 (Trial)',
     name: 'Soft Blockage & Clock-Path Buffering Experiment',
     badge: 'SUBSEQUENT EXPERIMENT (NOT SELECTED)',
     status: 'SUBSEQUENT_EXP',
@@ -247,12 +247,12 @@ const EXPERIMENT_RUNS: ExperimentRun[] = [
       'set_db eco_honor_fixed_wires true'
     ],
     resultsSummary: 'Total routing overflow increased back up to 3332 tracks (H: 370 [0.14%], V: 2962 [1.10%]). Normalized hotspot maximum rose to 3.56 with normalized total hotspot rising to 10.93.',
-    interpretation: 'Allowing standard cells into the macro channels via soft blockages worsened localized routing contention. The clock buffering experiment demonstrated feasibility but degraded congestion, confirming Run 3 as the superior implementation database.'
+    interpretation: 'Allowing standard cells into the macro channels via soft blockages worsened localized routing contention. The clock buffering experiment demonstrated feasibility but degraded congestion, confirming the macro-channel spacing database as the superior implementation foundation.'
   }
 ];
 
 export const Cva6PlacementOptimizationCaseStudy: React.FC = () => {
-  const [selectedRunId, setSelectedRunId] = useState<string>('run3');
+  const [selectedRunId, setSelectedRunId] = useState<string>('iteration3');
   const [activeModalItem, setActiveModalItem] = useState<CaseStudyEvidence | null>(null);
   const [zoomScale, setZoomScale] = useState<number>(1);
   const [activeMetricTab, setActiveMetricTab] = useState<'total' | 'directions' | 'hotspots'>('total');
@@ -322,10 +322,10 @@ export const Cva6PlacementOptimizationCaseStudy: React.FC = () => {
             <span className="font-bold text-[#1b1c18]">CVA6 64-BIT CORE</span>
           </div>
           <div className="p-2.5 bg-[#ffffff] border border-[#d8d7ce]">
-            <span className="text-[#536600] block text-[10px] uppercase font-bold">SELECTED RUN</span>
+            <span className="text-[#536600] block text-[10px] uppercase font-bold">SELECTED DATABASE</span>
             <span className="font-bold text-[#1b1c18] flex items-center gap-1">
               <span className="w-2 h-2 bg-[#b7d83d]" />
-              Run 3 (FP1.DB)
+              Macro Channels (cva6_fp1.db)
             </span>
           </div>
           <div className="p-2.5 bg-[#ffffff] border border-[#d8d7ce]">
@@ -333,12 +333,12 @@ export const Cva6PlacementOptimizationCaseStudy: React.FC = () => {
             <span className="font-bold text-[#536600]">Cadence Innovus</span>
           </div>
           <div className="p-2.5 bg-[#ffffff] border border-[#d8d7ce]">
-            <span className="text-[#757872] block text-[10px] uppercase">EXPERIMENT RUNS</span>
-            <span className="font-bold text-[#1b1c18]">4 Measured Runs</span>
+            <span className="text-[#757872] block text-[10px] uppercase">INVESTIGATIONS</span>
+            <span className="font-bold text-[#1b1c18]">4 Measured Iterations</span>
           </div>
           <div className="p-2.5 bg-[#ffffff] border border-[#d8d7ce]">
-            <span className="text-[#757872] block text-[10px] uppercase">STATUS</span>
-            <span className="font-bold text-[#536600]">Placement Completed</span>
+            <span className="text-[#757872] block text-[10px] uppercase">CURRENT STATUS</span>
+            <span className="font-bold text-[#536600]">CTS Done · Post-CTS Active</span>
           </div>
         </div>
       </div>
@@ -441,12 +441,13 @@ export const Cva6PlacementOptimizationCaseStudy: React.FC = () => {
               <strong>Strict Engineering Stance:</strong> This case study documents actual EDA report observations and experimental trials from Cadence Innovus runs. No fabricated root causes, artificial tapeouts, or unverified timing closure claims are introduced beyond what the supplied reports establish.
             </p>
             <div className="p-3 bg-[#ffffff] border border-[#d8d7ce] space-y-1 text-[11px]">
-              <div className="font-bold text-[#1b1c18]">PLACEMENT STAGE SCOPE:</div>
-              <div className="text-[#536600]">&bull; Floorplanning: COMPLETED</div>
-              <div className="text-[#536600]">&bull; Macro Placement: COMPLETED</div>
-              <div className="text-[#536600]">&bull; Standard-Cell Placement: COMPLETED</div>
-              <div className="text-[#757872]">&bull; Clock Tree Synthesis: NOT STARTED</div>
-              <div className="text-[#757872]">&bull; Detailed Routing: NOT STARTED</div>
+              <div className="font-bold text-[#1b1c18]">OVERALL IMPLEMENTATION STATUS:</div>
+              <div className="text-[#536600]">&bull; Floorplanning & Macro Placement: COMPLETED</div>
+              <div className="text-[#536600]">&bull; Standard-Cell Placement: COMPLETED (WNS -0.483 ns, 1529 ovf)</div>
+              <div className="text-[#536600]">&bull; Clock Tree Synthesis (CCOpt): COMPLETED</div>
+              <div className="text-[#536600]">&bull; Post-CTS Analysis: IN PROGRESS (WNS -0.318 ns, 82.7% util)</div>
+              <div className="text-[#757872]">&bull; Routing Concepts: THEORETICAL STUDY COMPLETED</div>
+              <div className="text-[#757872]">&bull; Practical Detailed Routing: NOT YET STARTED</div>
             </div>
           </div>
         </div>
@@ -698,7 +699,7 @@ export const Cva6PlacementOptimizationCaseStudy: React.FC = () => {
             </thead>
             <tbody className="divide-y divide-[#d8d7ce] bg-[#ffffff] text-[#1b1c18]">
               <tr className="hover:bg-[#fbf9f3] transition-colors">
-                <td className="p-3 font-bold">Run 1 / Floorplan-adjusted</td>
+                <td className="p-3 font-bold">Iteration 1: Floorplan Adjusted</td>
                 <td className="p-3 text-[#454843]">Aspect ratio (950 × 916 µm)</td>
                 <td className="p-3 font-bold tabular-nums">3646</td>
                 <td className="p-3 tabular-nums">485 (0.15%)</td>
@@ -708,7 +709,7 @@ export const Cva6PlacementOptimizationCaseStudy: React.FC = () => {
                 <td className="p-3 text-[#757872] text-[11px]">Exploratory Baseline</td>
               </tr>
               <tr className="hover:bg-[#fbf9f3] transition-colors">
-                <td className="p-3 font-bold">Run 2</td>
+                <td className="p-3 font-bold">Iteration 2: High Placer Effort</td>
                 <td className="p-3 text-[#454843]">Congestion & wire-length opt: high</td>
                 <td className="p-3 font-bold tabular-nums text-[#536600]">2983</td>
                 <td className="p-3 tabular-nums">428 (0.16%)</td>
@@ -720,7 +721,7 @@ export const Cva6PlacementOptimizationCaseStudy: React.FC = () => {
               <tr className="bg-[#f4fae0] hover:bg-[#eef8d5] transition-colors font-semibold">
                 <td className="p-3 font-bold text-[#1b1c18] flex items-center gap-1.5">
                   <span className="w-2 h-2 bg-[#b7d83d]" />
-                  Run 3 (Selected)
+                  Iteration 3: Macro-Channel Spacing (Selected)
                 </td>
                 <td className="p-3 text-[#1b1c18]">5 µm macro channel + 8 macros shifted</td>
                 <td className="p-3 font-bold tabular-nums text-[#536600] text-sm">
@@ -739,7 +740,7 @@ export const Cva6PlacementOptimizationCaseStudy: React.FC = () => {
                 </td>
               </tr>
               <tr className="hover:bg-[#fbf9f3] transition-colors">
-                <td className="p-3 font-bold">Run 4</td>
+                <td className="p-3 font-bold">Iteration 4: Soft Blockage Trial</td>
                 <td className="p-3 text-[#454843]">Soft blockage & CKBD20*LVT trial</td>
                 <td className="p-3 font-bold tabular-nums text-[#b91c1c]">3332</td>
                 <td className="p-3 tabular-nums">370 (0.14%)</td>
@@ -768,7 +769,7 @@ export const Cva6PlacementOptimizationCaseStudy: React.FC = () => {
             <div className="space-y-3 pt-2">
               <div>
                 <div className="flex justify-between text-[11px] mb-1">
-                  <span>Run 1 (Floorplan-adjusted)</span>
+                  <span>Iteration 1 (Floorplan-adjusted)</span>
                   <span className="font-bold">3646 tracks</span>
                 </div>
                 <div className="h-4 bg-[#f0eee8] border border-[#d8d7ce] overflow-hidden">
@@ -778,7 +779,7 @@ export const Cva6PlacementOptimizationCaseStudy: React.FC = () => {
 
               <div>
                 <div className="flex justify-between text-[11px] mb-1">
-                  <span>Run 2 (High Placer Effort)</span>
+                  <span>Iteration 2 (High Placer Effort)</span>
                   <span className="font-bold">2983 tracks</span>
                 </div>
                 <div className="h-4 bg-[#f0eee8] border border-[#d8d7ce] overflow-hidden">
@@ -790,7 +791,7 @@ export const Cva6PlacementOptimizationCaseStudy: React.FC = () => {
                 <div className="flex justify-between text-[11px] mb-1 font-bold text-[#1b1c18]">
                   <span className="flex items-center gap-1">
                     <span className="w-1.5 h-1.5 bg-[#b7d83d]" />
-                    Run 3 (Selected Database)
+                    Iteration 3: Macro-Channel Spacing (Selected)
                   </span>
                   <span className="text-[#536600]">2903 tracks [OPTIMAL]</span>
                 </div>
@@ -801,7 +802,7 @@ export const Cva6PlacementOptimizationCaseStudy: React.FC = () => {
 
               <div>
                 <div className="flex justify-between text-[11px] mb-1 text-[#b91c1c]">
-                  <span>Run 4 (Soft Blockage Experiment)</span>
+                  <span>Iteration 4 (Soft Blockage Trial)</span>
                   <span className="font-bold">3332 tracks [+429 regressed]</span>
                 </div>
                 <div className="h-4 bg-[#f0eee8] border border-[#d8d7ce] overflow-hidden">
@@ -823,19 +824,19 @@ export const Cva6PlacementOptimizationCaseStudy: React.FC = () => {
 
             <div className="space-y-3 pt-2">
               <div className="p-2.5 bg-[#fbf9f3] border border-[#d8d7ce] flex justify-between items-center text-[11px]">
-                <span className="font-bold">Run 1:</span>
+                <span className="font-bold">Iteration 1:</span>
                 <span className="tabular-nums">Norm Max: <strong>0.52</strong> | Norm Total: <strong>5.20</strong></span>
               </div>
               <div className="p-2.5 bg-[#fbf9f3] border border-[#d8d7ce] flex justify-between items-center text-[11px]">
-                <span className="font-bold">Run 2:</span>
+                <span className="font-bold">Iteration 2:</span>
                 <span className="tabular-nums">Norm Max: <strong>1.39</strong> | Norm Total: <strong>7.98</strong></span>
               </div>
               <div className="p-2.5 bg-[#f4fae0] border border-[#536600] flex justify-between items-center text-[11px]">
-                <span className="font-bold text-[#1b1c18]">Run 3 (Selected):</span>
+                <span className="font-bold text-[#1b1c18]">Iteration 3 (Selected):</span>
                 <span className="tabular-nums text-[#536600]">Norm Max: <strong>2.82</strong> | Norm Total: <strong>5.77</strong></span>
               </div>
               <div className="p-2.5 bg-[#fff1f2] border border-[#fecdd3] flex justify-between items-center text-[11px] text-[#b91c1c]">
-                <span className="font-bold">Run 4 (Rejected):</span>
+                <span className="font-bold">Iteration 4 (Trial):</span>
                 <span className="tabular-nums">Norm Max: <strong>3.56</strong> | Norm Total: <strong>10.93</strong> [MAX PEAK]</span>
               </div>
             </div>
@@ -955,7 +956,7 @@ export const Cva6PlacementOptimizationCaseStudy: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start font-sans">
           <div className="lg:col-span-8 space-y-4">
             <p className="text-xs sm:text-sm text-[#454843] leading-relaxed">
-              During the Run 4 experimental sequence, an exploratory approach investigated pre-CTS clock-path buffering using higher-drive-strength <strong>CKBD20*LVT</strong> cells. The objective was to test whether manual repeater insertion along critical clock trunks could improve transition times before entering full CTS, while evaluating its corresponding impact on macro-channel congestion.
+              During an exploratory sequence evaluating soft blockages and repeater trials, an experimental approach investigated pre-CTS clock-path buffering using higher-drive-strength <strong>CKBD20*LVT</strong> cells. The objective was to test whether manual repeater insertion along critical clock trunks could improve transition times before entering full CTS, while evaluating its corresponding impact on macro-channel congestion.
             </p>
 
             {/* 9-Step Standard Procedure */}
@@ -1041,7 +1042,7 @@ eco_add_repeater -cells CKBD20*LVT -net <clock_net_name> -spread_distance 200 -s
                 SELECTED IMPLEMENTATION DATABASE
               </span>
               <h3 className="font-serif text-2xl md:text-3xl font-normal text-[#1b1c18] mt-0.5">
-                Run 3: Macro-Channel Spacing Optimization
+                Macro-Channel Spacing Optimization (Database cva6_fp1.db)
               </h3>
             </div>
             <div className="px-3 py-1 bg-[#1b1c18] text-[#cef053] font-technical text-xs font-bold uppercase tracking-wider flex items-center gap-1.5">
@@ -1051,7 +1052,7 @@ eco_add_repeater -cells CKBD20*LVT -net <clock_net_name> -spread_distance 200 -s
           </div>
 
           <p className="text-sm md:text-base text-[#454843] leading-relaxed font-sans">
-            The documented engineering decision was to proceed with the <strong>Run 3 database</strong> (<code className="font-technical text-xs text-[#1b1c18] bg-[#f0eee8] px-1 py-0.5 border border-[#d8d7ce]">proj/final_project/cva6/run2/pnr/floorplan/outputs/cva6_fp1.db</code>). Across all experimental runs, Run 3 provided the optimal balance between congestion relief and timing preservation.
+            The documented engineering decision was to proceed with the <strong>macro-channel spacing optimized database</strong> (<code className="font-technical text-xs text-[#1b1c18] bg-[#f0eee8] px-1 py-0.5 border border-[#d8d7ce]">proj/final_project/cva6/run2/pnr/floorplan/outputs/cva6_fp1.db</code>). Across all experimental investigations, this strategy provided the optimal balance between congestion relief, macro accessibility, and timing preservation.
           </p>
 
           {/* Key Decisive Evidence Pillars */}
@@ -1059,7 +1060,7 @@ eco_add_repeater -cells CKBD20*LVT -net <clock_net_name> -spread_distance 200 -s
             <div className="p-3 bg-[#fbf9f3] border border-[#d8d7ce]">
               <span className="text-[#757872] block text-[10px] uppercase font-semibold">TOTAL ROUTING OVERFLOW</span>
               <div className="text-base font-bold text-[#536600] mt-0.5">2903 Tracks</div>
-              <div className="text-[10px] text-[#757872] mt-0.5">Lowest of all 4 runs</div>
+              <div className="text-[10px] text-[#757872] mt-0.5">Lowest across all iterations</div>
             </div>
 
             <div className="p-3 bg-[#fbf9f3] border border-[#d8d7ce]">
@@ -1081,12 +1082,12 @@ eco_add_repeater -cells CKBD20*LVT -net <clock_net_name> -spread_distance 200 -s
             </div>
           </div>
 
-          {/* Explanation of Why Run 4 was Rejected */}
+          {/* Evaluation of Alternative Strategy (Soft Blockage Trial) */}
           <div className="p-3.5 bg-[#fbf9f3] border border-[#d8d7ce] font-sans text-xs text-[#454843] leading-relaxed">
             <strong className="text-[#1b1c18] font-technical uppercase text-[11px] block mb-1">
-              Alternative Strategy Evaluation (Why Run 4 was rejected):
+              Alternative Strategy Evaluation (Why Soft Blockage Trial was Not Selected):
             </strong>
-            While Run 4 explored an alternative physical-design strategy using soft blockages and clock-path buffering, it caused routing overflow to rebound by +429 tracks (to 3332) and increased normalized total hotspots to 10.93. The physical macro channel spacing implemented in Run 3 was therefore proven to be the superior and stable foundation for downstream CTS readiness.
+            While the trial explored an alternative physical-design strategy using soft blockages and clock-path buffering, it caused routing overflow to rebound by +429 tracks (to 3332) and increased normalized total hotspots to 10.93. The physical macro channel spacing strategy was therefore proven to be the superior and stable foundation for downstream CTS readiness.
           </div>
 
           {/* Concluding Quote Verbatim */}

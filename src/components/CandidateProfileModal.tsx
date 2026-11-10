@@ -39,17 +39,23 @@ VERIFIED EDA TOOLCHAIN:
 - Verilog HDL, Tcl, Linux Shell Scripting
 
 VERIFIED PROJECTS:
-1. CVA6 64-Bit RISC-V Processor:
+1. CVA6 RISC-V Processor:
    - Process Technology: 28 nm
-   - Clock Period: 1.5 ns (~666.67 MHz SDC Target)
-   - RTL Synthesis in Cadence Genus
-   - Floorplanning & Macro Placement in Cadence Innovus
+   - Clock Period: 1.5 ns (approx. 666.67 MHz)
+   - RTL Synthesis in Cadence Genus (178,799 LeafCells)
+   - Floorplanning with 15 µm Channels in Cadence Innovus
    - Standard-Cell Placement Completed in Cadence Innovus
-   - CTS Status: Not Started (Handoff Pending)
-2. AES Cryptographic Core:
+   - Clock Tree Synthesis: Completed via Cadence Innovus CCOpt
+   - Post-CTS Analysis: In Progress (Util: 82.7%, Setup WNS -0.318 ns, Hold WNS -0.224 ns)
+   - Routing: Theoretical Study Completed
+2. AES Core — RTL Synthesis & Timing Analysis:
    - Process Technology: 28 nm
    - Clock Period: 1000.0 ps / 1.0 ns
-   - RTL Synthesis in Cadence Genus with single-clock 1.0 ns period SDC constraint`;
+   - RTL Synthesis in Cadence Genus (9,474 leaf cells, 0.0 TNS, 0 violating paths)
+3. Half-Cycle Timing Constraint Test Case:
+   - Cadence Genus STA & SDC Analysis
+   - 3 Clocks: 1.0 ns (1 GHz), 2.2 ns (~450 MHz), 4.4 ns (~230 MHz)
+   - Half-cycle setup/hold path evaluation under diverse I/O delay budgets`;
 
     navigator.clipboard.writeText(text);
     setCopied(true);
@@ -206,14 +212,14 @@ VERIFIED PROJECTS:
                     className={`px-2 py-0.5 text-[10px] font-bold border ${
                       comp.status === 'COMPLETED'
                         ? 'bg-[#e9e7df] text-[#536600] border-[#d8d7ce]'
-                        : comp.status === 'STUDIED'
+                        : comp.status === 'THEORETICAL_STUDY'
                         ? 'bg-[#f5f3ed] text-[#757872] border-[#d8d7ce]'
                         : 'bg-[#1b1c18] text-[#fbf9f3] border-[#1b1c18]'
                     }`}
                   >
                     {comp.status === 'COMPLETED'
                       ? 'COMPLETED (HANDS-ON)'
-                      : comp.status === 'STUDIED'
+                      : comp.status === 'THEORETICAL_STUDY'
                       ? 'STUDIED (THEORY)'
                       : 'PLANNED / NOT STARTED'}
                   </span>
@@ -239,8 +245,10 @@ VERIFIED PROJECTS:
                     </div>
                     <span className="px-2 py-0.5 bg-[#f5f3ed] text-[10px] font-bold text-[#1b1c18] border border-[#d8d7ce]">
                       {proj.id === 'cva6-riscv'
-                        ? 'PLACEMENT: COMPLETED | CTS: PENDING'
-                        : 'SYNTHESIS: COMPLETED (1 ns CLOCK)'}
+                        ? 'CTS: COMPLETED | POST-CTS: IN PROGRESS'
+                        : proj.id === 'aes-core'
+                        ? 'SYNTHESIS: COMPLETED (1.0 ns CLOCK)'
+                        : 'STA & SDC: COMPLETED (3 CLOCKS)'}
                     </span>
                   </div>
                   <div className="flex flex-wrap items-center gap-2 text-[11px] text-[#757872] mt-1.5">

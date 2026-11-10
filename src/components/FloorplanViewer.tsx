@@ -48,8 +48,8 @@ export const FloorplanViewer: React.FC<FloorplanViewerProps> = ({
         {/* Status Indicator */}
         <div className="flex items-center gap-2 font-technical text-xs text-[#757872]">
           <span>STATUS:</span>
-          <span className="text-[#1b1c18] font-bold">
-            STANDARD-CELL PLACEMENT COMPLETED
+          <span className="text-[#536600] font-bold">
+            CTS COMPLETED (CCOpt) · POST-CTS: IN PROGRESS
           </span>
         </div>
       </div>
@@ -281,7 +281,7 @@ export const FloorplanViewer: React.FC<FloorplanViewerProps> = ({
               </div>
               <div className="p-2.5 flex justify-between">
                 <span className="text-[#757872]">DOWNSTREAM STAGE:</span>
-                <span className="text-[#757872] font-semibold">CTS (Not Started)</span>
+                <span className="text-[#536600] font-bold">Post-CTS Analysis (In Progress)</span>
               </div>
             </div>
 

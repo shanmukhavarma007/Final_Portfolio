@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { VerifiedProject } from '../data/portfolioData';
-import { ArrowLeft, Copy, Check, Terminal, ShieldCheck, CheckCircle2, AlertCircle } from 'lucide-react';
+import { ArrowLeft, Copy, Check, Terminal, ShieldCheck, CheckCircle2, AlertCircle, Clock, BookOpen } from 'lucide-react';
 import { Cva6EngineeringEvidenceGallery } from './Cva6EngineeringEvidenceGallery';
 import { Cva6TimingVsDensityCaseStudy } from './Cva6TimingVsDensityCaseStudy';
 import { Cva6PlacementOptimizationCaseStudy } from './Cva6PlacementOptimizationCaseStudy';
@@ -21,25 +21,33 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
   const [copiedScript, setCopiedScript] = useState(false);
 
   const tclScripts: Record<string, string> = {
-    'cva6-riscv': `# Cadence Innovus Floorplanning & Placement Flow for CVA6
-# Step 1: Initialize design with synthesized netlist from Cadence Genus
+    'cva6-riscv': `# Cadence Innovus Physical Implementation Flow for CVA6 (28 nm)
+# Step 1: Initialize design with synthesized netlist from Cadence Genus (178,799 LeafCells)
 init_design
 
-# Step 2: Define core and die boundaries
+# Step 2: Define core and die boundaries (Target utilization: 70%, 950 x 916 um)
 setPreference -site CORE
-floorPlan -site CORE -r 1.0 0.70 20 20 20 20
+floorPlan -site CORE -d 950.0 916.0 20.0 20.0 20.0 20.0
 
-# Step 3: Macro placement & halo keepouts for SRAM arrays
-# Place instruction cache and data cache SRAM macros along core periphery
-createPlaceHalo -halo 15 15 15 15 -allBlock
+# Step 3: Macro placement & halo keepouts for SRAM arrays (15 um channels)
+createPlaceHalo -halo 15.0 15.0 15.0 15.0 -allBlock
 
-# Step 4: Standard-Cell Placement in Cadence Innovus
+# Step 4: Standard-Cell Placement & Congestion Optimization in Cadence Innovus
 setPlaceMode -fp false
+setPlaceMode -place_global_cong_effort high
 place_opt_design -place
-
-# Step 5: Check Placement Legality
 checkPlace
-report_qor -summary`,
+report_congestion
+
+# Step 5: Clock Tree Synthesis (CCOpt)
+create_ccopt_clock_tree_spec -file ccopt.spec
+source ccopt.spec
+ccopt_design -cts
+
+# Step 6: Post-CTS Timing and Electrical DRV Analysis
+timeDesign -postCTS
+timeDesign -postCTS -hold
+report_constraint -all_violators`,
 
     'aes-core': `# Cadence Genus RTL Synthesis Script for AES Cryptographic Core
 # Step 1: Read technology libraries and HDL sources
@@ -47,7 +55,7 @@ set_db init_lib_search_path { ./lib }
 read_hdl -language v2001 { aes_cipher_top.v aes_key_expand.v aes_sbox.v }
 elaborate aes_cipher_top
 
-# Step 2: SDC Timing Constraints (Single clock domain, 1.0 ns period)
+# Step 2: SDC Timing Constraints (Single clock domain, 1.0 ns period / 1.0 GHz)
 create_clock -name clk -period 1.0 [get_ports clk]
 set_input_delay -clock clk 0.2 [all_inputs -no_clocks]
 set_output_delay -clock clk 0.2 [all_outputs]
@@ -58,8 +66,30 @@ syn_map
 syn_opt
 
 # Step 4: Quality of Results (QoR) Summary
+# 9,474 leaf instances, 5,774 cell area, max fanout 401, 0 violating paths, 0.0 TNS
 report_qor > aes_synthesis_qor.rpt
-write_hdl > aes_synthesized_netlist.v`
+write_hdl > aes_synthesized_netlist.v`,
+
+    'half-cycle-timing': `# Cadence Genus SDC Timing Constraints for Half-Cycle Paths
+# Step 1: Read technology library and RTL description
+set_db init_lib_search_path { ./lib }
+read_hdl -language v2001 { rtl_halfcycle_crosspaths.v }
+elaborate rtl_halfcycle_crosspaths
+
+# Step 2: Multi-Clock SDC Constraints
+# Domain 1: Fast Clock (1.0 ns / 1.0 GHz)
+create_clock -name clk_fast -period 1.0 [get_ports clk1]
+# Domain 2: Medium Clock (2.2 ns / ~450 MHz)
+create_clock -name clk_med  -period 2.2 [get_ports clk2]
+# Domain 3: Slow Clock (4.4 ns / ~230 MHz)
+create_clock -name clk_slow -period 4.4 [get_ports clk3]
+
+# Step 3: Half-cycle path timing check
+# Positive-edge launch to negative-edge capture requires T_period/2 capture check
+set_multicycle_path 0 -setup -from [get_cells reg_pos*] -to [get_cells reg_neg*]
+
+# Step 4: Report Timing under diverse I/O delay budgets
+report_timing -from [get_cells reg_pos*] -to [get_cells reg_neg*] > halfcycle_timing.rpt`
   };
 
   const scriptText = tclScripts[project.id] || '# Cadence EDA Execution Flow';
@@ -103,8 +133,10 @@ write_hdl > aes_synthesized_netlist.v`
             <CheckCircle2 className="w-3.5 h-3.5 text-[#cef053]" />
             <span>
               {project.id === 'cva6-riscv'
-                ? 'PLACEMENT: COMPLETED | CTS: PENDING'
-                : 'SYNTHESIS: COMPLETED (1 ns CLOCK)'}
+                ? 'CTS: COMPLETED | POST-CTS: IN PROGRESS'
+                : project.id === 'aes-core'
+                ? 'SYNTHESIS: COMPLETED (1.0 ns CLOCK | 0 VIOLATIONS)'
+                : 'STA & SDC: COMPLETED (3 CLOCKS)'}
             </span>
           </div>
         </div>
@@ -116,16 +148,16 @@ write_hdl > aes_synthesized_netlist.v`
           {project.subtitle}
         </p>
 
-        {/* CVA6 Placement Quick Action */}
+        {/* CVA6 Placement & CTS Quick Action */}
         {project.id === 'cva6-riscv' && onNavigateToFloorplan && (
           <div className="mt-5 p-4 bg-[#f5f3ed] border border-[#d8d7ce] flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
             <div>
               <div className="font-technical text-xs font-bold text-[#1b1c18] flex items-center gap-1.5">
                 <ShieldCheck className="w-4 h-4 text-[#536600]" />
-                VERIFIED STATUS: 28 nm PLACEMENT COMPLETED IN CADENCE INNOVUS
+                VERIFIED STATUS: 28 nm SYNTHESIS, PLACEMENT & CTS (CCOpt) COMPLETED
               </div>
               <p className="text-xs text-[#454843] mt-1">
-                Completed milestone: RTL synthesis in Cadence Genus, floorplanning, and standard-cell placement in Cadence Innovus on the 28 nm process node. CTS has not been started.
+                Completed milestones: RTL synthesis in Cadence Genus (178,799 leaf cells), floorplanning with 15 µm channels, standard-cell placement, and Clock Tree Synthesis (CCOpt) in Cadence Innovus. Actively analyzing post-CTS timing (util: 82.7%).
               </p>
             </div>
             <button
@@ -146,7 +178,7 @@ write_hdl > aes_synthesized_netlist.v`
                 VERIFIED STATUS: 28 nm RTL SYNTHESIS COMPLETED IN CADENCE GENUS (1.0 ns CLOCK)
               </div>
               <p className="text-xs text-[#454843] mt-1">
-                Completed milestone: 28 nm RTL logic synthesis in Cadence Genus under 1000.0 ps target clock period with 0 violating paths. Physical design stages have not been started.
+                Completed milestone: 28 nm RTL logic synthesis in Cadence Genus under 1000.0 ps target clock period with 0 violating paths and 0.0 TNS across 9,474 leaf cells. Physical layout not started.
               </p>
             </div>
             <a
@@ -155,6 +187,21 @@ write_hdl > aes_synthesized_netlist.v`
             >
               [ VIEW CADENCE GENUS QoR ] &darr;
             </a>
+          </div>
+        )}
+
+        {/* Half-Cycle Timing Testcase Quick Action */}
+        {project.id === 'half-cycle-timing' && (
+          <div className="mt-5 p-4 bg-[#f5f3ed] border border-[#d8d7ce] flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+            <div>
+              <div className="font-technical text-xs font-bold text-[#1b1c18] flex items-center gap-1.5">
+                <ShieldCheck className="w-4 h-4 text-[#536600]" />
+                VERIFIED STATUS: MULTI-CLOCK SDC & HALF-CYCLE STA IN CADENCE GENUS
+              </div>
+              <p className="text-xs text-[#454843] mt-1">
+                Completed milestone: Evaluated half-cycle timing equation margins (T_period / 2) across 1.0 ns (1 GHz), 2.2 ns (~450 MHz), and 4.4 ns (~230 MHz) clock domains under diverse I/O delay budgets.
+              </p>
+            </div>
           </div>
         )}
 
@@ -174,21 +221,33 @@ write_hdl > aes_synthesized_netlist.v`
             </div>
           </div>
           <div className="p-3">
-            <div className="text-[#757872] uppercase text-[10px] font-semibold">CLOCK PERIOD</div>
+            <div className="text-[#757872] uppercase text-[10px] font-semibold">CLOCK SPECIFICATION</div>
             <div className="text-sm font-bold text-[#1b1c18] mt-1">
-              {project.id === 'cva6-riscv' ? '1.5 ns (~666.67 MHz)' : '1.000 ns (1000.0 ps)'}
+              {project.id === 'cva6-riscv' 
+                ? '1.5 ns (~666.67 MHz)' 
+                : project.id === 'aes-core' 
+                ? '1.000 ns (1.0 GHz)' 
+                : '1.0 / 2.2 / 4.4 ns'}
             </div>
           </div>
           <div className="p-3">
             <div className="text-[#757872] uppercase text-[10px] font-semibold">IMPLEMENTATION STAGE</div>
             <div className="text-sm font-bold text-[#536600] mt-1">
-              {project.id === 'cva6-riscv' ? 'Placement Completed' : 'Synthesis Completed'}
+              {project.id === 'cva6-riscv' 
+                ? 'CTS Completed (CCOpt)' 
+                : project.id === 'aes-core' 
+                ? 'Synthesis Completed' 
+                : 'STA Completed'}
             </div>
           </div>
           <div className="p-3">
-            <div className="text-[#757872] uppercase text-[10px] font-semibold">NEXT STAGE</div>
+            <div className="text-[#757872] uppercase text-[10px] font-semibold">NEXT STAGE / CURRENT FOCUS</div>
             <div className="text-sm font-bold text-[#1b1c18] mt-1">
-              {project.id === 'cva6-riscv' ? 'CTS (Pending)' : 'Floorplanning (Planned)'}
+              {project.id === 'cva6-riscv' 
+                ? 'Post-CTS Analysis' 
+                : project.id === 'aes-core' 
+                ? 'Floorplanning (Planned)' 
+                : 'SDC Budgeting'}
             </div>
           </div>
         </div>
@@ -243,7 +302,7 @@ write_hdl > aes_synthesized_netlist.v`
               <div className="flex items-center gap-2">
                 <Terminal className="w-4 h-4 text-[#cef053]" />
                 <span className="font-technical text-xs font-bold text-[#cef053] uppercase">
-                  CADENCE AUTOMATION SCRIPT (TCL)
+                  CADENCE AUTOMATION SCRIPT (TCL & SDC)
                 </span>
               </div>
               <button
@@ -258,7 +317,7 @@ write_hdl > aes_synthesized_netlist.v`
                 ) : (
                   <>
                     <Copy className="w-3 h-3" />
-                    <span>COPY TCL</span>
+                    <span>COPY SCRIPT</span>
                   </>
                 )}
               </button>
@@ -294,7 +353,7 @@ write_hdl > aes_synthesized_netlist.v`
 
           <div className="border border-[#d8d7ce] bg-[#f5f3ed] p-5 text-xs font-technical">
             <span className="font-bold uppercase text-[#1b1c18] block mb-2">
-              ACADEMIC CONTEXT
+              ACADEMIC & TRAINING CONTEXT
             </span>
             <p className="text-[#454843] leading-relaxed">
               Implemented during hands-on training at Sumedha IT and undergraduate coursework at Vignan's Institute of Information Technology.
@@ -313,11 +372,45 @@ write_hdl > aes_synthesized_netlist.v`
         </div>
       )}
 
-      {/* AES Core Dedicated Technical Evidence Gallery: 2 Original Cadence Genus Screenshots */}
+      {/* AES Core Dedicated Technical Evidence Gallery: Original Cadence Genus Screenshots */}
       {project.id === 'aes-core' && (
         <div className="pt-4 space-y-3">
           <SiliconTraceReveal variant="evidence-to-aes" />
           <AesEngineeringEvidenceGallery />
+        </div>
+      )}
+
+      {/* Half-Cycle Timing Testcase Dedicated Evidence Gallery */}
+      {project.id === 'half-cycle-timing' && (
+        <div className="pt-4 space-y-4 border border-[#d8d7ce] bg-[#ffffff] p-6">
+          <div className="flex items-center gap-2 font-technical text-xs text-[#757872] uppercase pb-2 border-b border-[#d8d7ce]">
+            <span className="font-bold text-[#1b1c18]">CADENCE GENUS STA EVIDENCE</span>
+            <span>·</span>
+            <span className="text-[#536600] font-bold">MODULE rtl_halfcycle_crosspaths</span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+            <div>
+              <h3 className="font-serif text-xl font-normal text-[#1b1c18]">
+                Hierarchical Module Inspection in Cadence Genus
+              </h3>
+              <p className="font-sans text-xs md:text-sm text-[#454843] mt-2 leading-relaxed">
+                Design browser inspection confirming synthesizable elaboration of cross-clock domain registers. The circuit evaluates timing paths where launching registers trigger on the rising edge and capturing registers trigger on the falling edge, constraining the available datapath budget to half the clock period:
+              </p>
+              <div className="mt-3 p-3 bg-[#fbf9f3] border border-[#d8d7ce] font-technical text-xs space-y-1 text-[#1b1c18]">
+                <div><strong>Setup Check:</strong> T_datapath &lt; (T_period / 2) - T_setup - T_skew</div>
+                <div><strong>Hold Check:</strong> T_datapath &gt; T_hold + T_skew - (T_period / 2)</div>
+              </div>
+            </div>
+
+            <div className="border border-[#d8d7ce] bg-[#171a18] p-2 flex items-center justify-center">
+              <img
+                src="/assets/aistudio/image_3d42a868.png"
+                alt="Cadence Genus Design Browser showing rtl_halfcycle_crosspaths"
+                className="max-h-64 object-contain"
+              />
+            </div>
+          </div>
         </div>
       )}
     </div>

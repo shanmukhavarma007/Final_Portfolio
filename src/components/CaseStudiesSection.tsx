@@ -125,7 +125,7 @@ export const CaseStudiesSection: React.FC<CaseStudiesSectionProps> = ({
               5. Key Engineering Learning
             </div>
             <p className="font-sans text-xs text-[#454843] leading-relaxed">
-              Congestion cannot be isolated from timing: overly aggressive blockages (Run 4) forced cells into dense clusters, increasing overflow to 3332.
+              Congestion cannot be isolated from timing: overly aggressive soft blockages forced cells into dense clusters, increasing overflow to 3332 tracks.
             </p>
           </div>
 
@@ -135,7 +135,7 @@ export const CaseStudiesSection: React.FC<CaseStudiesSectionProps> = ({
               6. Selected Implementation
             </div>
             <p className="font-sans text-xs text-[#c5c7be] leading-relaxed">
-              <strong className="text-[#ffffff]">Run 3</strong> selected with lowest total overflow (2903) and lowest horizontal overflow (306, 0.11%), saved at <code className="text-[#cef053] font-technical">cva6_fp1.db</code>.
+              <strong className="text-[#ffffff]">Macro-Channel Optimization</strong> selected with lowest total overflow (2903 tracks) and lowest horizontal overflow (306, 0.11%), saved at <code className="text-[#cef053] font-technical">cva6_fp1.db</code>.
             </p>
           </div>
         </div>
@@ -157,7 +157,7 @@ export const CaseStudiesSection: React.FC<CaseStudiesSectionProps> = ({
                 </span>
                 <span className="text-[#c5c7c1]">·</span>
                 <span className="text-[#536600] font-bold uppercase">
-                  SELECTED DATABASE: RUN 3
+                  SELECTED DATABASE: cva6_fp1.db
                 </span>
               </div>
               <div className="flex items-center gap-2 font-technical text-xs text-[#757872]">
@@ -182,7 +182,7 @@ export const CaseStudiesSection: React.FC<CaseStudiesSectionProps> = ({
                 <div className="pt-2 flex flex-wrap items-center gap-3 font-technical text-xs">
                   <div className="px-2.5 py-1 bg-[#f5f3ed] border border-[#d8d7ce] flex items-center gap-1.5">
                     <span className="text-[#757872]">Lowest Total Overflow:</span>
-                    <strong className="text-[#1b1c18]">2903 (Run 3)</strong>
+                    <strong className="text-[#1b1c18]">2903 tracks (cva6_fp1.db)</strong>
                   </div>
                   <div className="px-2.5 py-1 bg-[#f5f3ed] border border-[#d8d7ce] flex items-center gap-1.5">
                     <span className="text-[#757872]">Horizontal Overflow:</span>
