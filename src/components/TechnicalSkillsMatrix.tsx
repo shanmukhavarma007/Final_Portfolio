@@ -95,10 +95,6 @@ export const TechnicalSkillsMatrix: React.FC = () => {
           </div>
         </div>
 
-        <p className="font-sans text-xs md:text-sm text-[#454843] mt-2 max-w-4xl leading-relaxed">
-          Structured for semiconductor recruiters and physical design hiring managers to evaluate hands-on toolchain execution versus theoretical foundation in under 30 seconds. Zero arbitrary percentage bars.
-        </p>
-
         {/* Filter Strip */}
         <div className="mt-4 flex flex-wrap items-center gap-2 text-xs font-technical">
           <span className="text-[#757872] text-[11px] uppercase mr-1">FILTER BY COMPETENCY:</span>
