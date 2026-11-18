@@ -257,7 +257,7 @@ export default function App() {
                         transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
                         className="mt-4 text-base sm:text-lg text-[#454843] leading-relaxed max-w-3xl"
                       >
-                        Interested in the engineering that takes digital designs from RTL towards physical implementation, I’m an Electronics and Communication Engineering graduate building my career in ASIC Physical Design. Through hands-on training at Sumedha IT, I’ve worked across RTL synthesis and SDC-driven timing constraints using Cadence Genus, followed by floorplanning, macro placement and standard-cell placement using Cadence Innovus. My work is documented through practical CVA6 implementation and AES synthesis projects, supported by original EDA tool outputs and engineering evidence.
+                        Interested in the engineering that takes digital designs from RTL towards physical implementation, I’m an Electronics and Communication Engineering graduate building my career in ASIC Physical Design. Through hands-on training at Sumedha IT, I’ve worked across RTL synthesis and SDC-driven timing constraints using Cadence Genus, followed by floorplanning, macro placement, standard-cell placement, Clock Tree Synthesis (CCOpt), signal routing, and post-route timing/DRC analysis using Cadence Innovus. My work is documented through practical CVA6 implementation and AES synthesis projects, supported by original EDA tool outputs and engineering evidence.
                       </motion.p>
 
                       {/* Recruiter-First Action Triggers with Hover & Tap Animations */}
@@ -392,14 +392,13 @@ export default function App() {
                             <span className="text-[#757872]">CVA6 Status:</span>
                             <span className="font-bold text-[#536600] flex items-center gap-1">
                               <span className="w-1.5 h-1.5 bg-[#b7d83d]" />
-                              CTS Done · Post-CTS Active
+                              Post-Route Done · GDSII Pending
                             </span>
                           </div>
                           <div className="flex justify-between">
-                            <span className="text-[#757872]">CTS Status:</span>
-                            <span className="font-bold text-[#536600] flex items-center gap-1">
-                              <span className="w-1.5 h-1.5 bg-[#b7d83d]" />
-                              Completed (CCOpt)
+                            <span className="text-[#757872]">Post-Route DRCs:</span>
+                            <span className="font-bold text-[#1b1c18]">
+                              Post-Route Stage · 10 DRCs (from 40)
                             </span>
                           </div>
                         </div>
@@ -453,17 +452,17 @@ export default function App() {
                           EDA TOOLS
                         </div>
                         <div className="text-base font-bold text-[#1b1c18] mt-1">
-                          Cadence Genus & Innovus
+                          Cadence Genus &amp; Innovus
                         </div>
-                        <div className="text-[10px] text-[#757872] mt-0.5">Synthesis & Placement</div>
+                        <div className="text-[10px] text-[#757872] mt-0.5">Synthesis through Post-Route</div>
                       </div>
 
                       <div className="p-4 transition-colors hover:bg-[#ffffff]">
                         <div className="text-[#757872] uppercase text-[11px]">PROJECTS</div>
                         <div className="text-base font-bold text-[#1b1c18] mt-1">
-                          CVA6 & AES Core
+                          CVA6 &amp; AES Core
                         </div>
-                        <div className="text-[10px] text-[#757872] mt-0.5">2 Verified Projects</div>
+                        <div className="text-[10px] text-[#757872] mt-0.5">3 Verified Entries</div>
                       </div>
                     </motion.div>
 
@@ -496,7 +495,7 @@ export default function App() {
                       </span>
                       <span className="text-[#c5c7c1]">·</span>
                       <span className="font-technical text-xs text-[#536600] font-bold">
-                        [CTS COMPLETED IN CADENCE INNOVUS CCOpt · POST-CTS IN PROGRESS]
+                        [POST-ROUTE IMPLEMENTATION COMPLETED · GDSII &amp; SIGNOFF PENDING]
                       </span>
                       <span className="text-[#c5c7c1]">·</span>
                       <span className="font-technical text-xs font-bold text-[#1b1c18] bg-[#e9e7df] px-2 py-0.5 border border-[#d8d7ce]">
@@ -504,7 +503,7 @@ export default function App() {
                       </span>
                     </div>
                     <span className="font-technical text-xs text-[#757872]">
-                      INNOVUS PLACEMENT & CTS TOPOGRAPHY
+                      INNOVUS PHYSICAL &amp; POST-ROUTE TOPOGRAPHY
                     </span>
                   </div>
 
@@ -519,7 +518,7 @@ export default function App() {
                     </div>
                     <div className="p-3">
                       <div className="text-[#757872] uppercase text-[10px] font-semibold">EDA TOOLS</div>
-                      <div className="text-sm font-bold text-[#1b1c18] mt-0.5">Cadence Genus & Innovus</div>
+                      <div className="text-sm font-bold text-[#1b1c18] mt-0.5">Cadence Genus &amp; Innovus</div>
                     </div>
                     <div className="p-3">
                       <div className="text-[#757872] uppercase text-[10px] font-semibold">CLOCK PERIOD</div>
@@ -527,7 +526,7 @@ export default function App() {
                     </div>
                     <div className="p-3">
                       <div className="text-[#757872] uppercase text-[10px] font-semibold">IMPLEMENTATION STAGE</div>
-                      <div className="text-sm font-bold text-[#536600] mt-0.5">CTS Completed (CCOpt) · Post-CTS Active</div>
+                      <div className="text-sm font-bold text-[#536600] mt-0.5">Post-Route Done · GDSII &amp; Signoff Pending</div>
                     </div>
                   </div>
 
@@ -578,18 +577,18 @@ export default function App() {
                   transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
                   className="space-y-4"
                 >
-                  <div className="flex items-center justify-between pb-2 border-b border-[#d8d7ce]">
-                    <div className="flex items-center gap-2">
+                  <div className="flex flex-wrap items-center justify-between pb-2 border-b border-[#d8d7ce] gap-2">
+                    <div className="flex flex-wrap items-center gap-2">
                       <span className="font-technical text-xs font-bold uppercase text-[#1b1c18]">
-                        IMPLEMENTATION PROGRESSION // CLOCK TREE SYNTHESIS & POST-CTS ANALYSIS
+                        IMPLEMENTATION PROGRESSION // ROUTING &amp; POST-ROUTE ANALYSIS
                       </span>
                       <span className="text-[#c5c7c1]">·</span>
                       <span className="font-technical text-xs text-[#536600] font-bold">
-                        [CTS STATUS: COMPLETED · POST-CTS: IN PROGRESS]
+                        [POST-ROUTE COMPLETED · GDSII &amp; SIGNOFF PENDING]
                       </span>
                     </div>
                     <span className="font-technical text-xs text-[#757872]">
-                      9-STAGE VERIFIED PROGRESSION
+                      10-STAGE VERIFIED PROGRESSION
                     </span>
                   </div>
 
@@ -686,17 +685,17 @@ export default function App() {
                     <span>·</span>
                     <span>[MODULE 02] // CVA6 RISC-V CORE</span>
                     <span>·</span>
-                    <span className="text-[#536600] font-bold">CTS COMPLETED (CCOpt) · POST-CTS IN PROGRESS</span>
+                    <span className="text-[#536600] font-bold">POST-ROUTE COMPLETED · GDSII &amp; SIGNOFF PENDING</span>
                     <span>·</span>
                     <span className="font-bold text-[#1b1c18] bg-[#e9e7df] px-2 py-0.5 border border-[#d8d7ce]">
                       PROCESS TECHNOLOGY // 28 nm
                     </span>
                   </div>
                   <h1 className="font-serif text-3xl md:text-4xl text-[#1b1c18] font-normal">
-                    CVA6 Core Floorplanning, Placement & CTS Progression
+                    CVA6 Core Floorplanning, Placement, CTS &amp; Post-Route Progression
                   </h1>
                   <p className="font-sans text-sm md:text-base text-[#454843] mt-2 max-w-3xl leading-relaxed">
-                    Interactive CAD inspection viewport for the 64-bit CVA6 core implemented in Cadence Innovus on the 28 nm technology node. Review macro arrangements, core boundaries, standard-cell placement, and completed CCOpt clock tree synthesis.
+                    Interactive CAD inspection viewport for the 64-bit CVA6 core implemented in Cadence Innovus on the 28 nm technology node. Review macro arrangements, core boundaries, placement, CCOpt CTS, routing (0 antenna violations), and post-route optimization (DRCs 40 &rarr; 10, Setup WNS -0.114 ns).
                   </p>
 
                   {/* Prominent CVA6 Project Specifications Strip */}
@@ -710,7 +709,7 @@ export default function App() {
                     </div>
                     <div className="p-3">
                       <div className="text-[#757872] uppercase text-[10px] font-semibold">EDA TOOLS</div>
-                      <div className="text-sm font-bold text-[#1b1c18] mt-0.5">Cadence Genus & Innovus</div>
+                      <div className="text-sm font-bold text-[#1b1c18] mt-0.5">Cadence Genus &amp; Innovus</div>
                     </div>
                     <div className="p-3">
                       <div className="text-[#757872] uppercase text-[10px] font-semibold">CLOCK PERIOD</div>
@@ -718,7 +717,7 @@ export default function App() {
                     </div>
                     <div className="p-3">
                       <div className="text-[#757872] uppercase text-[10px] font-semibold">IMPLEMENTATION STAGE</div>
-                      <div className="text-sm font-bold text-[#536600] mt-0.5">CTS Completed (CCOpt) · Post-CTS Active</div>
+                      <div className="text-sm font-bold text-[#536600] mt-0.5">Post-Route Done · GDSII &amp; Signoff Pending</div>
                     </div>
                   </div>
                 </div>
@@ -798,20 +797,20 @@ export default function App() {
                 className="space-y-8"
               >
                 <div className="border border-[#d8d7ce] bg-[#ffffff] p-6">
-                  <div className="flex items-center gap-2 font-technical text-xs text-[#757872] uppercase mb-2">
-                    <span className="font-bold text-[#1b1c18]">IMPLEMENTATION PROGRESSION // CLOCK TREE SYNTHESIS</span>
+                  <div className="flex flex-wrap items-center gap-2 font-technical text-xs text-[#757872] uppercase mb-2">
+                    <span className="font-bold text-[#1b1c18]">IMPLEMENTATION PROGRESSION // ROUTING &amp; POST-ROUTE ANALYSIS</span>
                     <span>·</span>
-                    <span>[CCOpt EXECUTION]</span>
+                    <span>[POST-ROUTE STAGE]</span>
                     <span>·</span>
                     <span className="text-[#536600] font-bold">
-                      STATUS: CTS COMPLETED · POST-CTS ANALYSIS IN PROGRESS
+                      POST-ROUTE COMPLETED – GDSII GENERATION AND SIGNOFF PENDING
                     </span>
                   </div>
                   <h1 className="font-serif text-3xl md:text-4xl text-[#1b1c18] font-normal">
-                    Clock Tree Synthesis (CTS) & Post-CTS Timing Analysis
+                    Routing, Post-Route Optimization &amp; Pending Signoff Gate
                   </h1>
                   <p className="font-sans text-sm md:text-base text-[#454843] mt-2 max-w-3xl leading-relaxed">
-                    Verified milestone progression: CVA6 Clock Tree Synthesis has been completed using Cadence Innovus CCOpt. Post-CTS timing (setup WNS -0.318 ns, hold WNS -0.224 ns) and electrical DRV analysis are currently in progress, with practical detailed routing remaining for subsequent phases.
+                    Verified implementation progression: CVA6 progressed through CCOpt CTS, routing (0 antenna violations), and Post-Route Stage optimization (DRCs reduced 40 &rarr; 10; LVT &amp; useful skew Setup WNS -0.114 ns, Hold WNS -0.001 ns). GDSII stream-out and final signoff remain pending.
                   </p>
                 </div>
 

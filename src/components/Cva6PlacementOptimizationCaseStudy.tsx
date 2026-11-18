@@ -95,16 +95,20 @@ interface ExperimentRun {
   status: 'BASELINE' | 'EXPLORATORY' | 'SELECTED' | 'SUBSEQUENT_EXP';
   coreUtil: string;
   totalOverflow: number;
+  totalOverflowDisplay?: string;
   hOverflow: string;
   vOverflow: string;
   normMaxHotspot: number;
   normTotalHotspot: number;
+  macroChannelSpacing?: string;
+  partialBlockage?: string;
+  telemetryRows?: { label: string; value: string }[];
   objective: string;
   modifications: string[];
-  toolConfig: string[];
+  toolConfig?: string[];
   resultsSummary: string;
   interpretation: string;
-  databasePath?: string;
+  stageBaseline?: string;
 }
 
 const EXPERIMENT_RUNS: ExperimentRun[] = [
@@ -136,8 +140,8 @@ const EXPERIMENT_RUNS: ExperimentRun[] = [
     interpretation: 'High overall density in narrow channels restricts track accessibility for downstream global routers, confirming that physical floorplan geometry and placer effort needed iterative adjustment.'
   },
   {
-    id: 'iteration1',
-    runNumber: 'Iteration 1',
+    id: 'experiment1',
+    runNumber: 'Experiment 1',
     name: 'Floorplan Geometry Adjustment',
     badge: 'GEOMETRY MODIFIED',
     status: 'EXPLORATORY',
@@ -163,8 +167,8 @@ const EXPERIMENT_RUNS: ExperimentRun[] = [
     interpretation: 'Broadening horizontal core width provided valuable lateral space, reducing overall routing pressure from the default run, though vertical overflow remained above 1%.'
   },
   {
-    id: 'iteration2',
-    runNumber: 'Iteration 2',
+    id: 'experiment2',
+    runNumber: 'Experiment 2',
     name: 'Increased Congestion Optimization Effort',
     badge: 'ALGORITHM TUNED',
     status: 'EXPLORATORY',
@@ -191,11 +195,11 @@ const EXPERIMENT_RUNS: ExperimentRun[] = [
     interpretation: 'Because placement-stage timing was considered not particularly problematic, focusing placer effort on congestion paid dividends. However, localized hotspots between macros indicated physical spacing was still required.'
   },
   {
-    id: 'iteration3',
-    runNumber: 'Iteration 3 (Selected)',
+    id: 'experiment3',
+    runNumber: 'Experiment 3',
     name: 'Macro Channel Spacing Optimization',
-    badge: 'SELECTED DATABASE',
-    status: 'SELECTED',
+    badge: 'HISTORICAL CHANNEL TRIAL',
+    status: 'EXPLORATORY',
     coreUtil: '82.6%',
     totalOverflow: 2903,
     hOverflow: '306 (0.11%)',
@@ -210,19 +214,18 @@ const EXPERIMENT_RUNS: ExperimentRun[] = [
       'Retained high detail wire-length optimization effort (place_detail_wire_length_opt_effort: high)'
     ],
     toolConfig: [
-      '# Macro position adjustments in Tcl database:',
+      '# Macro position adjustments in Cadence Innovus Tcl:',
       'placeInstance <sram_macro_0..7> -shift_y 5.0',
       'setPlaceMode -place_global_cong_effort high',
       'setPlaceMode -place_detail_wire_length_opt_effort high',
       'place_opt_design -place'
     ],
-    resultsSummary: 'Lowest total routing overflow among all four experiments: 2903 tracks. Horizontal overflow achieved its lowest level at 306 tracks (0.11%). Vertical overflow bounded at 2596 tracks (0.96%). Core utilization balanced at 82.6%. Normalized total hotspot 5.77.',
-    interpretation: 'Physical-design intervention proved superior to purely algorithmic tuning. Providing physical space for routing tracks between macros directly relieved pin congestion while preserving timing slacks.',
-    databasePath: 'proj/final_project/cva6/run2/pnr/floorplan/outputs/cva6_fp1.db'
+    resultsSummary: 'Lowest total routing overflow among the early tuning experiments: 2903 tracks. Horizontal overflow measured 306 tracks (0.11%). Vertical overflow bounded at 2596 tracks (0.96%). Core utilization balanced at 82.6%. Normalized total hotspot 5.77.',
+    interpretation: 'Physical-design intervention proved superior to purely algorithmic tuning among the early macro-shift trials. Providing physical space for routing tracks between macros directly relieved pin congestion while preserving timing slacks.'
   },
   {
-    id: 'iteration4',
-    runNumber: 'Iteration 4 (Trial)',
+    id: 'experiment4',
+    runNumber: 'Experiment 4 (Trial)',
     name: 'Soft Blockage & Clock-Path Buffering Experiment',
     badge: 'SUBSEQUENT EXPERIMENT (NOT SELECTED)',
     status: 'SUBSEQUENT_EXP',
@@ -247,12 +250,48 @@ const EXPERIMENT_RUNS: ExperimentRun[] = [
       'set_db eco_honor_fixed_wires true'
     ],
     resultsSummary: 'Total routing overflow increased back up to 3332 tracks (H: 370 [0.14%], V: 2962 [1.10%]). Normalized hotspot maximum rose to 3.56 with normalized total hotspot rising to 10.93.',
-    interpretation: 'Allowing standard cells into the macro channels via soft blockages worsened localized routing contention. The clock buffering experiment demonstrated feasibility but degraded congestion, confirming the macro-channel spacing database as the superior implementation foundation.'
+    interpretation: 'Allowing standard cells into the macro channels via soft blockages worsened localized routing contention. The clock buffering experiment demonstrated feasibility but degraded congestion, and was not selected for progression.'
+  },
+  {
+    id: 'successful-placement',
+    runNumber: 'SUCCESSFUL EXPERIMENT — SELECTED DATABASE',
+    name: 'Successful Placement Configuration',
+    badge: 'SUCCESSFUL — SELECTED PLACEMENT DATABASE',
+    status: 'SELECTED',
+    coreUtil: '82.6%',
+    totalOverflow: 0.2,
+    totalOverflowDisplay: '0.20%',
+    hOverflow: '0.09%',
+    vOverflow: '0.11%',
+    normMaxHotspot: 0.35,
+    normTotalHotspot: 1.56,
+    macroChannelSpacing: '20 µm',
+    partialBlockage: '30%',
+    telemetryRows: [
+      { label: 'Core utilization', value: '82.6%' },
+      { label: 'Total congestion overflow', value: '0.20%' },
+      { label: 'Horizontal overflow', value: '0.09%' },
+      { label: 'Vertical overflow', value: '0.11%' },
+      { label: 'Maximum normalized hotspot', value: '0.35' },
+      { label: 'Total normalized hotspot', value: '1.56' },
+      { label: 'Macro channel spacing', value: '20 µm' },
+      { label: 'Partial placement blockage', value: '30%' }
+    ],
+    objective: 'Validate the placement-stage floorplan configuration featuring 20 µm macro-channel spacing between stacked macro hierarchies and 30% partial placement blockage under default placement settings prior to Clock Tree Synthesis.',
+    modifications: [
+      'Floorplan database selected for placement analysis.',
+      'Macro channel spacing: 20 µm between stacked macro hierarchies.',
+      'Partial placement blockage: 30% density between macros.',
+      'Placement strategy: Default settings.'
+    ],
+    resultsSummary: 'Achieved 0.20% total congestion overflow (0.09% horizontal, 0.11% vertical), 0.35 maximum normalized hotspot, and 1.56 total normalized hotspot at 82.6% core utilization.',
+    interpretation: 'The selected placement configuration achieved a low congestion overflow of 0.20% with a total normalized hotspot score of 1.56 at 82.6% core utilization. The 20 µm macro-channel spacing and 30% partial placement blockage provided a physical placement configuration suitable for progressing to Clock Tree Synthesis. Based on the documented placement assessment, this database was approved to proceed to CTS.',
+    stageBaseline: 'Placement Stage (Approved for CTS)'
   }
 ];
 
 export const Cva6PlacementOptimizationCaseStudy: React.FC = () => {
-  const [selectedRunId, setSelectedRunId] = useState<string>('iteration3');
+  const [selectedRunId, setSelectedRunId] = useState<string>('successful-placement');
   const [activeModalItem, setActiveModalItem] = useState<CaseStudyEvidence | null>(null);
   const [zoomScale, setZoomScale] = useState<number>(1);
   const [activeMetricTab, setActiveMetricTab] = useState<'total' | 'directions' | 'hotspots'>('total');
@@ -322,10 +361,10 @@ export const Cva6PlacementOptimizationCaseStudy: React.FC = () => {
             <span className="font-bold text-[#1b1c18]">CVA6 64-BIT CORE</span>
           </div>
           <div className="p-2.5 bg-[#ffffff] border border-[#d8d7ce]">
-            <span className="text-[#536600] block text-[10px] uppercase font-bold">SELECTED DATABASE</span>
+            <span className="text-[#536600] block text-[10px] uppercase font-bold">SELECTED PLACEMENT CONFIG</span>
             <span className="font-bold text-[#1b1c18] flex items-center gap-1">
               <span className="w-2 h-2 bg-[#b7d83d]" />
-              Macro Channels (cva6_fp1.db)
+              20 µm Channels · 30% Blockage
             </span>
           </div>
           <div className="p-2.5 bg-[#ffffff] border border-[#d8d7ce]">
@@ -333,12 +372,12 @@ export const Cva6PlacementOptimizationCaseStudy: React.FC = () => {
             <span className="font-bold text-[#536600]">Cadence Innovus</span>
           </div>
           <div className="p-2.5 bg-[#ffffff] border border-[#d8d7ce]">
-            <span className="text-[#757872] block text-[10px] uppercase">INVESTIGATIONS</span>
-            <span className="font-bold text-[#1b1c18]">4 Measured Iterations</span>
+            <span className="text-[#757872] block text-[10px] uppercase">PLACEMENT OVERFLOW / HOTSPOT</span>
+            <span className="font-bold text-[#1b1c18]">0.20% · Score 1.56</span>
           </div>
           <div className="p-2.5 bg-[#ffffff] border border-[#d8d7ce]">
-            <span className="text-[#757872] block text-[10px] uppercase">CURRENT STATUS</span>
-            <span className="font-bold text-[#536600]">CTS Done · Post-CTS Active</span>
+            <span className="text-[#757872] block text-[10px] uppercase">OVERALL PROJECT STATUS</span>
+            <span className="font-bold text-[#536600]">Post-Route Done · Signoff Pending</span>
           </div>
         </div>
       </div>
@@ -442,12 +481,11 @@ export const Cva6PlacementOptimizationCaseStudy: React.FC = () => {
             </p>
             <div className="p-3 bg-[#ffffff] border border-[#d8d7ce] space-y-1 text-[11px]">
               <div className="font-bold text-[#1b1c18]">OVERALL IMPLEMENTATION STATUS:</div>
-              <div className="text-[#536600]">&bull; Floorplanning & Macro Placement: COMPLETED</div>
-              <div className="text-[#536600]">&bull; Standard-Cell Placement: COMPLETED (WNS -0.483 ns, 1529 ovf)</div>
-              <div className="text-[#536600]">&bull; Clock Tree Synthesis (CCOpt): COMPLETED</div>
-              <div className="text-[#536600]">&bull; Post-CTS Analysis: IN PROGRESS (WNS -0.318 ns, 82.7% util)</div>
-              <div className="text-[#757872]">&bull; Routing Concepts: THEORETICAL STUDY COMPLETED</div>
-              <div className="text-[#757872]">&bull; Practical Detailed Routing: NOT YET STARTED</div>
+              <div className="text-[#536600]">&bull; Floorplanning &amp; Macro Placement: COMPLETED</div>
+              <div className="text-[#536600]">&bull; Standard-Cell Placement: COMPLETED (Selected config: 0.20% ovf, 1.56 hotspot)</div>
+              <div className="text-[#536600]">&bull; Clock Tree Synthesis (CCOpt) &amp; Post-CTS: COMPLETED</div>
+              <div className="text-[#536600]">&bull; Detailed Routing &amp; Post-Route Optimization: COMPLETED</div>
+              <div className="text-[#757872]">&bull; GDSII Generation &amp; Physical Signoff: PENDING</div>
             </div>
           </div>
         </div>
@@ -467,7 +505,7 @@ export const Cva6PlacementOptimizationCaseStudy: React.FC = () => {
         </div>
 
         {/* Timeline Tabs / Horizontal Stepper */}
-        <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 font-technical text-xs">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 font-technical text-xs">
           {EXPERIMENT_RUNS.map((run) => {
             const isSelected = run.id === selectedRunId;
             const isSelectedDatabase = run.status === 'SELECTED';
@@ -476,21 +514,25 @@ export const Cva6PlacementOptimizationCaseStudy: React.FC = () => {
               <button
                 key={run.id}
                 onClick={() => setSelectedRunId(run.id)}
-                className={`p-3 text-left border transition-all cursor-pointer relative flex flex-col justify-between ${
+                className={`p-3.5 text-left border transition-all cursor-pointer relative flex flex-col justify-between ${
                   isSelected
                     ? 'bg-[#1b1c18] text-[#fbf9f3] border-[#1b1c18] shadow-md ring-1 ring-[#cef053]'
                     : isSelectedDatabase
-                    ? 'bg-[#fbf9f3] border-[#536600] text-[#1b1c18] hover:bg-[#ffffff]'
+                    ? 'bg-[#171a18] border-[#cef053] text-[#fbf9f3] hover:bg-[#1b1c18]'
                     : 'bg-[#fbf9f3] border-[#d8d7ce] text-[#454843] hover:bg-[#ffffff] hover:border-[#1b1c18]'
                 }`}
               >
                 <div>
-                  <div className="flex items-center justify-between text-[10px]">
-                    <span className={`font-bold uppercase ${isSelected ? 'text-[#cef053]' : isSelectedDatabase ? 'text-[#536600]' : 'text-[#757872]'}`}>
+                  <div className="flex items-center justify-between gap-2 text-[10px]">
+                    <span
+                      className={`font-bold uppercase ${
+                        isSelected || isSelectedDatabase ? 'text-[#cef053]' : 'text-[#757872]'
+                      }`}
+                    >
                       {run.runNumber}
                     </span>
                     {isSelectedDatabase && (
-                      <span className="w-2 h-2 rounded-full bg-[#b7d83d]" />
+                      <span className="w-2 h-2 rounded-full bg-[#b7d83d] shrink-0" />
                     )}
                   </div>
                   <div className="font-serif text-sm font-medium mt-1 line-clamp-1">
@@ -498,12 +540,35 @@ export const Cva6PlacementOptimizationCaseStudy: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="mt-3 pt-2 border-t border-current/20 flex items-center justify-between text-[10px]">
-                  <span className="opacity-75">Overflow:</span>
-                  <span className="font-bold tabular-nums">
-                    {run.totalOverflow > 0 ? run.totalOverflow : 'Baseline'}
-                  </span>
-                </div>
+                {isSelectedDatabase ? (
+                  <div className="mt-3 pt-2 border-t border-current/20 grid grid-cols-3 gap-2 text-[10px]">
+                    <div>
+                      <span className="opacity-70 block">Overflow</span>
+                      <span className="font-bold tabular-nums text-[#cef053]">
+                        {run.totalOverflowDisplay || run.totalOverflow}
+                      </span>
+                    </div>
+                    <div>
+                      <span className="opacity-70 block">Hotspot Score</span>
+                      <span className="font-bold tabular-nums text-[#cef053]">
+                        {run.normTotalHotspot.toFixed(2)}
+                      </span>
+                    </div>
+                    <div>
+                      <span className="opacity-70 block">Core Util</span>
+                      <span className="font-bold tabular-nums text-[#cef053]">
+                        {run.coreUtil}
+                      </span>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="mt-3 pt-2 border-t border-current/20 flex items-center justify-between text-[10px]">
+                    <span className="opacity-75">Overflow:</span>
+                    <span className="font-bold tabular-nums">
+                      {run.totalOverflowDisplay || (run.totalOverflow > 0 ? `${run.totalOverflow} tracks` : 'Baseline')}
+                    </span>
+                  </div>
+                )}
               </button>
             );
           })}
@@ -538,10 +603,10 @@ export const Cva6PlacementOptimizationCaseStudy: React.FC = () => {
               </span>
             </div>
 
-            {currentRun.databasePath && (
+            {currentRun.stageBaseline && (
               <div className="flex items-center gap-1.5 text-[11px] text-[#536600] font-bold">
                 <Database className="w-3.5 h-3.5" />
-                <span>DB: {currentRun.databasePath}</span>
+                <span>Stage: {currentRun.stageBaseline}</span>
               </div>
             )}
           </div>
@@ -561,9 +626,9 @@ export const Cva6PlacementOptimizationCaseStudy: React.FC = () => {
 
               <div>
                 <span className="font-technical font-bold text-[#1b1c18] uppercase text-xs block mb-1.5">
-                  2. Design Modifications:
+                  2. Engineering Modifications:
                 </span>
-                <ul className="space-y-1.5 text-xs text-[#454843]">
+                <ul className="space-y-1.5 text-xs sm:text-sm text-[#454843]">
                   {currentRun.modifications.map((mod, i) => (
                     <li key={i} className="flex items-start gap-2">
                       <span className="font-technical text-[#536600] font-bold select-none">&bull;</span>
@@ -573,63 +638,91 @@ export const Cva6PlacementOptimizationCaseStudy: React.FC = () => {
                 </ul>
               </div>
 
-              {/* Tcl / Tool Commands */}
-              <div>
-                <span className="font-technical font-bold text-[#1b1c18] uppercase text-xs block mb-1.5 flex items-center gap-1.5">
-                  <Terminal className="w-3.5 h-3.5 text-[#536600]" />
-                  3. Tool Configuration & Execution Syntax:
-                </span>
-                <pre className="p-3 bg-[#121413] text-[#cef053] border border-[#1b1c18] font-technical text-xs overflow-x-auto leading-relaxed">
-                  {currentRun.toolConfig.join('\n')}
-                </pre>
-              </div>
+              {/* Tcl / Tool Commands (Only shown when explicitly verified in historical trials) */}
+              {currentRun.toolConfig && currentRun.toolConfig.length > 0 ? (
+                <div>
+                  <span className="font-technical font-bold text-[#1b1c18] uppercase text-xs block mb-1.5 flex items-center gap-1.5">
+                    <Terminal className="w-3.5 h-3.5 text-[#536600]" />
+                    3. Tool Configuration &amp; Execution Syntax:
+                  </span>
+                  <pre className="p-3 bg-[#121413] text-[#cef053] border border-[#1b1c18] font-technical text-xs overflow-x-auto leading-relaxed">
+                    {currentRun.toolConfig.join('\n')}
+                  </pre>
+                </div>
+              ) : (
+                <div className="p-3.5 bg-[#ffffff] border border-[#d8d7ce] text-xs font-sans text-[#454843] space-y-1">
+                  <div className="font-technical font-bold text-[#1b1c18] uppercase text-[11px] flex items-center gap-1.5">
+                    <ShieldCheck className="w-3.5 h-3.5 text-[#536600]" />
+                    <span>Stage Distinction — Placement-Stage Configuration Approved for CTS</span>
+                  </div>
+                  <p className="leading-relaxed">
+                    This configuration represents the placement-stage physical database approved to proceed to Clock Tree Synthesis (CTS), not the final post-route stage. Overall CVA6 project progression remains at <strong>Post-Route Implementation Completed</strong> (with GDSII generation and final signoff pending).
+                  </p>
+                </div>
+              )}
             </div>
 
             {/* Right: Observed Results & Engineering Interpretation */}
             <div className="lg:col-span-5 space-y-4">
-              {/* Telemetry Snapshot Pill Box */}
+              {/* Telemetry Snapshot Box */}
               <div className="p-4 bg-[#ffffff] border border-[#d8d7ce] space-y-2.5 font-technical text-xs">
                 <div className="font-bold text-[#1b1c18] pb-1.5 border-b border-[#d8d7ce] flex items-center justify-between">
                   <span>MEASURED RUN TELEMETRY</span>
                   <span className="text-[#536600]">VERIFIED REPORT</span>
                 </div>
-                <div className="grid grid-cols-2 gap-2 text-[11px]">
-                  <div className="p-2 bg-[#fbf9f3] border border-[#d8d7ce]">
-                    <span className="text-[#757872] block text-[10px]">TOTAL OVERFLOW</span>
-                    <span className="font-bold text-[#1b1c18] text-sm tabular-nums">
-                      {currentRun.totalOverflow}
-                    </span>
+
+                {currentRun.telemetryRows ? (
+                  <table className="w-full text-xs font-technical">
+                    <tbody className="divide-y divide-[#e6e4dc]">
+                      {currentRun.telemetryRows.map((row) => (
+                        <tr key={row.label}>
+                          <td className="py-2 text-[#454843]">{row.label}</td>
+                          <td className="py-2 text-right font-bold text-[#1b1c18] tabular-nums">
+                            {row.value}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                ) : (
+                  <div className="grid grid-cols-2 gap-2 text-[11px]">
+                    <div className="p-2 bg-[#fbf9f3] border border-[#d8d7ce]">
+                      <span className="text-[#757872] block text-[10px]">TOTAL OVERFLOW</span>
+                      <span className="font-bold text-[#1b1c18] text-sm tabular-nums">
+                        {currentRun.totalOverflowDisplay || currentRun.totalOverflow}
+                      </span>
+                    </div>
+                    <div className="p-2 bg-[#fbf9f3] border border-[#d8d7ce]">
+                      <span className="text-[#757872] block text-[10px]">CORE UTILIZATION</span>
+                      <span className="font-bold text-[#1b1c18] text-sm">
+                        {currentRun.coreUtil}
+                      </span>
+                    </div>
+                    <div className="p-2 bg-[#fbf9f3] border border-[#d8d7ce]">
+                      <span className="text-[#757872] block text-[10px]">HORIZONTAL (H)</span>
+                      <span className="font-bold text-[#1b1c18]">
+                        {currentRun.hOverflow}
+                      </span>
+                    </div>
+                    <div className="p-2 bg-[#fbf9f3] border border-[#d8d7ce]">
+                      <span className="text-[#757872] block text-[10px]">VERTICAL (V)</span>
+                      <span className="font-bold text-[#1b1c18]">
+                        {currentRun.vOverflow}
+                      </span>
+                    </div>
+                    <div className="col-span-2 p-2 bg-[#fbf9f3] border border-[#d8d7ce] flex justify-between items-center text-[11px]">
+                      <span className="text-[#757872]">NORMALIZED HOTSPOTS:</span>
+                      <span className="font-bold text-[#1b1c18]">
+                        Max: {currentRun.normMaxHotspot} | Total: {currentRun.normTotalHotspot}
+                      </span>
+                    </div>
                   </div>
-                  <div className="p-2 bg-[#fbf9f3] border border-[#d8d7ce]">
-                    <span className="text-[#757872] block text-[10px]">CORE UTILIZATION</span>
-                    <span className="font-bold text-[#1b1c18] text-sm">
-                      {currentRun.coreUtil}
-                    </span>
-                  </div>
-                  <div className="p-2 bg-[#fbf9f3] border border-[#d8d7ce]">
-                    <span className="text-[#757872] block text-[10px]">HORIZONTAL (H)</span>
-                    <span className="font-bold text-[#1b1c18]">
-                      {currentRun.hOverflow}
-                    </span>
-                  </div>
-                  <div className="p-2 bg-[#fbf9f3] border border-[#d8d7ce]">
-                    <span className="text-[#757872] block text-[10px]">VERTICAL (V)</span>
-                    <span className="font-bold text-[#1b1c18]">
-                      {currentRun.vOverflow}
-                    </span>
-                  </div>
-                  <div className="col-span-2 p-2 bg-[#fbf9f3] border border-[#d8d7ce] flex justify-between items-center text-[11px]">
-                    <span className="text-[#757872]">NORMALIZED HOTSPOTS:</span>
-                    <span className="font-bold text-[#1b1c18]">
-                      Max: {currentRun.normMaxHotspot} | Total: {currentRun.normTotalHotspot}
-                    </span>
-                  </div>
-                </div>
+                )}
               </div>
 
               <div>
                 <span className="font-technical font-bold text-[#1b1c18] uppercase text-xs block mb-1">
-                  4. Engineering Interpretation:
+                  {currentRun.toolConfig && currentRun.toolConfig.length > 0 ? '4.' : '3.'} Engineering Interpretation:
                 </span>
                 <p className="text-xs text-[#454843] leading-relaxed p-3 bg-[#ffffff] border border-[#d8d7ce]">
                   {currentRun.interpretation}
@@ -698,8 +791,13 @@ export const Cva6PlacementOptimizationCaseStudy: React.FC = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-[#d8d7ce] bg-[#ffffff] text-[#1b1c18]">
-              <tr className="hover:bg-[#fbf9f3] transition-colors">
-                <td className="p-3 font-bold">Iteration 1: Floorplan Adjusted</td>
+              <tr
+                onClick={() => setSelectedRunId('experiment1')}
+                className={`cursor-pointer transition-colors ${
+                  selectedRunId === 'experiment1' ? 'bg-[#f5f3ed] ring-1 ring-inset ring-[#1b1c18]' : 'hover:bg-[#fbf9f3]'
+                }`}
+              >
+                <td className="p-3 font-bold">Experiment 1: Floorplan Adjusted</td>
                 <td className="p-3 text-[#454843]">Aspect ratio (950 × 916 µm)</td>
                 <td className="p-3 font-bold tabular-nums">3646</td>
                 <td className="p-3 tabular-nums">485 (0.15%)</td>
@@ -708,8 +806,13 @@ export const Cva6PlacementOptimizationCaseStudy: React.FC = () => {
                 <td className="p-3 tabular-nums">5.20</td>
                 <td className="p-3 text-[#757872] text-[11px]">Exploratory Baseline</td>
               </tr>
-              <tr className="hover:bg-[#fbf9f3] transition-colors">
-                <td className="p-3 font-bold">Iteration 2: High Placer Effort</td>
+              <tr
+                onClick={() => setSelectedRunId('experiment2')}
+                className={`cursor-pointer transition-colors ${
+                  selectedRunId === 'experiment2' ? 'bg-[#f5f3ed] ring-1 ring-inset ring-[#1b1c18]' : 'hover:bg-[#fbf9f3]'
+                }`}
+              >
+                <td className="p-3 font-bold">Experiment 2: High Placer Effort</td>
                 <td className="p-3 text-[#454843]">Congestion & wire-length opt: high</td>
                 <td className="p-3 font-bold tabular-nums text-[#536600]">2983</td>
                 <td className="p-3 tabular-nums">428 (0.16%)</td>
@@ -718,29 +821,34 @@ export const Cva6PlacementOptimizationCaseStudy: React.FC = () => {
                 <td className="p-3 tabular-nums">7.98</td>
                 <td className="p-3 text-[#757872] text-[11px]">Substantial Drop</td>
               </tr>
-              <tr className="bg-[#f4fae0] hover:bg-[#eef8d5] transition-colors font-semibold">
-                <td className="p-3 font-bold text-[#1b1c18] flex items-center gap-1.5">
-                  <span className="w-2 h-2 bg-[#b7d83d]" />
-                  Iteration 3: Macro-Channel Spacing (Selected)
+              <tr
+                onClick={() => setSelectedRunId('experiment3')}
+                className={`cursor-pointer transition-colors ${
+                  selectedRunId === 'experiment3' ? 'bg-[#f5f3ed] ring-1 ring-inset ring-[#1b1c18]' : 'hover:bg-[#fbf9f3]'
+                }`}
+              >
+                <td className="p-3 font-bold text-[#1b1c18]">
+                  Experiment 3: Macro-Channel Spacing
                 </td>
-                <td className="p-3 text-[#1b1c18]">5 µm macro channel + 8 macros shifted</td>
-                <td className="p-3 font-bold tabular-nums text-[#536600] text-sm">
-                  2903 <span className="text-[10px] text-[#536600] font-normal">[LOWEST]</span>
+                <td className="p-3 text-[#454843]">5 µm macro channel + 8 macros shifted</td>
+                <td className="p-3 font-bold tabular-nums text-[#1b1c18]">
+                  2903
                 </td>
-                <td className="p-3 tabular-nums text-[#536600] font-bold">
-                  306 (0.11%) <span className="text-[10px]">[LOWEST]</span>
-                </td>
+                <td className="p-3 tabular-nums">306 (0.11%)</td>
                 <td className="p-3 tabular-nums">2596 (0.96%)</td>
                 <td className="p-3 tabular-nums">2.82</td>
                 <td className="p-3 tabular-nums">5.77</td>
-                <td className="p-3">
-                  <span className="px-2 py-0.5 bg-[#1b1c18] text-[#cef053] text-[10px] uppercase font-bold">
-                    SELECTED DB
-                  </span>
+                <td className="p-3 text-[#757872] text-[11px]">
+                  Historical Channel Trial
                 </td>
               </tr>
-              <tr className="hover:bg-[#fbf9f3] transition-colors">
-                <td className="p-3 font-bold">Iteration 4: Soft Blockage Trial</td>
+              <tr
+                onClick={() => setSelectedRunId('experiment4')}
+                className={`cursor-pointer transition-colors ${
+                  selectedRunId === 'experiment4' ? 'bg-[#fff1f2] ring-1 ring-inset ring-[#be123c]' : 'hover:bg-[#fbf9f3]'
+                }`}
+              >
+                <td className="p-3 font-bold">Experiment 4: Soft Blockage Trial</td>
                 <td className="p-3 text-[#454843]">Soft blockage & CKBD20*LVT trial</td>
                 <td className="p-3 font-bold tabular-nums text-[#b91c1c]">3332</td>
                 <td className="p-3 tabular-nums">370 (0.14%)</td>
@@ -748,6 +856,38 @@ export const Cva6PlacementOptimizationCaseStudy: React.FC = () => {
                 <td className="p-3 tabular-nums text-[#b91c1c]">3.56</td>
                 <td className="p-3 tabular-nums text-[#b91c1c]">10.93</td>
                 <td className="p-3 text-[#b91c1c] text-[11px] font-bold">Not Selected</td>
+              </tr>
+              <tr
+                onClick={() => setSelectedRunId('successful-placement')}
+                className={`cursor-pointer transition-colors font-semibold ${
+                  selectedRunId === 'successful-placement'
+                    ? 'bg-[#1b1c18] text-[#fbf9f3]'
+                    : 'bg-[#f4fae0] hover:bg-[#eef8d5] text-[#1b1c18]'
+                }`}
+              >
+                <td className="p-3 font-bold flex items-center gap-1.5">
+                  <span className="w-2 h-2 bg-[#b7d83d] shrink-0" />
+                  <span>Successful Placement Configuration</span>
+                </td>
+                <td className={`p-3 ${selectedRunId === 'successful-placement' ? 'text-[#d8d7ce]' : 'text-[#1b1c18]'}`}>
+                  20 µm macro channels + 30% partial blockage (default settings)
+                </td>
+                <td className={`p-3 font-bold tabular-nums text-sm ${selectedRunId === 'successful-placement' ? 'text-[#cef053]' : 'text-[#536600]'}`}>
+                  0.20%
+                </td>
+                <td className={`p-3 tabular-nums font-bold ${selectedRunId === 'successful-placement' ? 'text-[#cef053]' : 'text-[#536600]'}`}>
+                  0.09%
+                </td>
+                <td className="p-3 tabular-nums">0.11%</td>
+                <td className="p-3 tabular-nums">0.35</td>
+                <td className={`p-3 tabular-nums font-bold ${selectedRunId === 'successful-placement' ? 'text-[#cef053]' : 'text-[#536600]'}`}>
+                  1.56
+                </td>
+                <td className="p-3">
+                  <span className="px-2 py-0.5 bg-[#cef053] text-[#1b1c18] text-[10px] uppercase font-bold whitespace-nowrap">
+                    SUCCESSFUL — SELECTED PLACEMENT DATABASE
+                  </span>
+                </td>
               </tr>
             </tbody>
           </table>
@@ -760,16 +900,16 @@ export const Cva6PlacementOptimizationCaseStudy: React.FC = () => {
             <div className="flex items-center justify-between pb-2 border-b border-[#d8d7ce]">
               <span className="font-bold text-[#1b1c18] uppercase flex items-center gap-1.5">
                 <BarChart3 className="w-4 h-4 text-[#536600]" />
-                Total Routing Track Overflow Comparison
+                Total Routing Overflow Comparison
               </span>
               <span className="text-[10px] text-[#757872]">LOWER IS BETTER</span>
             </div>
 
-            {/* Custom SVG Bar Chart */}
+            {/* Custom Bar Chart */}
             <div className="space-y-3 pt-2">
               <div>
                 <div className="flex justify-between text-[11px] mb-1">
-                  <span>Iteration 1 (Floorplan-adjusted)</span>
+                  <span>Experiment 1 (Floorplan-adjusted)</span>
                   <span className="font-bold">3646 tracks</span>
                 </div>
                 <div className="h-4 bg-[#f0eee8] border border-[#d8d7ce] overflow-hidden">
@@ -779,7 +919,7 @@ export const Cva6PlacementOptimizationCaseStudy: React.FC = () => {
 
               <div>
                 <div className="flex justify-between text-[11px] mb-1">
-                  <span>Iteration 2 (High Placer Effort)</span>
+                  <span>Experiment 2 (High Placer Effort)</span>
                   <span className="font-bold">2983 tracks</span>
                 </div>
                 <div className="h-4 bg-[#f0eee8] border border-[#d8d7ce] overflow-hidden">
@@ -788,25 +928,35 @@ export const Cva6PlacementOptimizationCaseStudy: React.FC = () => {
               </div>
 
               <div>
-                <div className="flex justify-between text-[11px] mb-1 font-bold text-[#1b1c18]">
-                  <span className="flex items-center gap-1">
-                    <span className="w-1.5 h-1.5 bg-[#b7d83d]" />
-                    Iteration 3: Macro-Channel Spacing (Selected)
-                  </span>
-                  <span className="text-[#536600]">2903 tracks [OPTIMAL]</span>
+                <div className="flex justify-between text-[11px] mb-1">
+                  <span>Experiment 3 (Macro-Channel Trial)</span>
+                  <span className="font-bold">2903 tracks</span>
                 </div>
-                <div className="h-4 bg-[#f0eee8] border border-[#1b1c18] overflow-hidden">
-                  <div className="h-full bg-[#536600]" style={{ width: `${(2903 / 4000) * 100}%` }} />
+                <div className="h-4 bg-[#f0eee8] border border-[#d8d7ce] overflow-hidden">
+                  <div className="h-full bg-[#454843]" style={{ width: `${(2903 / 4000) * 100}%` }} />
                 </div>
               </div>
 
               <div>
                 <div className="flex justify-between text-[11px] mb-1 text-[#b91c1c]">
-                  <span>Iteration 4 (Soft Blockage Trial)</span>
-                  <span className="font-bold">3332 tracks [+429 regressed]</span>
+                  <span>Experiment 4 (Soft Blockage Trial)</span>
+                  <span className="font-bold">3332 tracks</span>
                 </div>
                 <div className="h-4 bg-[#f0eee8] border border-[#d8d7ce] overflow-hidden">
                   <div className="h-full bg-[#b91c1c]" style={{ width: `${(3332 / 4000) * 100}%` }} />
+                </div>
+              </div>
+
+              <div>
+                <div className="flex justify-between text-[11px] mb-1 font-bold text-[#1b1c18]">
+                  <span className="flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 bg-[#b7d83d]" />
+                    Successful Placement Configuration (Selected)
+                  </span>
+                  <span className="text-[#536600]">0.20% overflow [APPROVED FOR CTS]</span>
+                </div>
+                <div className="h-4 bg-[#f0eee8] border border-[#1b1c18] overflow-hidden">
+                  <div className="h-full bg-[#536600]" style={{ width: '14%' }} />
                 </div>
               </div>
             </div>
@@ -822,22 +972,29 @@ export const Cva6PlacementOptimizationCaseStudy: React.FC = () => {
               <span className="text-[10px] text-[#536600] font-bold">NORMALIZED (NOT %)</span>
             </div>
 
-            <div className="space-y-3 pt-2">
+            <div className="space-y-2.5 pt-2">
               <div className="p-2.5 bg-[#fbf9f3] border border-[#d8d7ce] flex justify-between items-center text-[11px]">
-                <span className="font-bold">Iteration 1:</span>
+                <span className="font-bold">Experiment 1:</span>
                 <span className="tabular-nums">Norm Max: <strong>0.52</strong> | Norm Total: <strong>5.20</strong></span>
               </div>
               <div className="p-2.5 bg-[#fbf9f3] border border-[#d8d7ce] flex justify-between items-center text-[11px]">
-                <span className="font-bold">Iteration 2:</span>
+                <span className="font-bold">Experiment 2:</span>
                 <span className="tabular-nums">Norm Max: <strong>1.39</strong> | Norm Total: <strong>7.98</strong></span>
               </div>
-              <div className="p-2.5 bg-[#f4fae0] border border-[#536600] flex justify-between items-center text-[11px]">
-                <span className="font-bold text-[#1b1c18]">Iteration 3 (Selected):</span>
-                <span className="tabular-nums text-[#536600]">Norm Max: <strong>2.82</strong> | Norm Total: <strong>5.77</strong></span>
+              <div className="p-2.5 bg-[#fbf9f3] border border-[#d8d7ce] flex justify-between items-center text-[11px]">
+                <span className="font-bold">Experiment 3:</span>
+                <span className="tabular-nums">Norm Max: <strong>2.82</strong> | Norm Total: <strong>5.77</strong></span>
               </div>
               <div className="p-2.5 bg-[#fff1f2] border border-[#fecdd3] flex justify-between items-center text-[11px] text-[#b91c1c]">
-                <span className="font-bold">Iteration 4 (Trial):</span>
+                <span className="font-bold">Experiment 4 (Trial):</span>
                 <span className="tabular-nums">Norm Max: <strong>3.56</strong> | Norm Total: <strong>10.93</strong> [MAX PEAK]</span>
+              </div>
+              <div className="p-2.5 bg-[#1b1c18] border border-[#1b1c18] flex justify-between items-center text-[11px] text-[#fbf9f3]">
+                <span className="font-bold text-[#cef053] flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 bg-[#b7d83d]" />
+                  Successful Placement (Selected):
+                </span>
+                <span className="tabular-nums text-[#cef053]">Norm Max: <strong>0.35</strong> | Norm Total: <strong>1.56</strong> [LOWEST]</span>
               </div>
             </div>
 
@@ -934,7 +1091,7 @@ export const Cva6PlacementOptimizationCaseStudy: React.FC = () => {
 
             <div className="text-[11px] font-technical text-[#757872] space-y-1">
               <div><strong>Factual Verification:</strong> Where terminal report text requires high magnification, the original screenshot is presented in full resolution rather than introducing estimated numbers.</div>
-              <div className="text-[#536600] font-semibold">&bull; Placement Stage: CTS has not started; post-route timing closure is not claimed.</div>
+              <div className="text-[#536600] font-semibold">&bull; Artifact Scope: Pre-CTS placement timing snapshot; overall CVA6 flow has progressed through Post-Route (signoff pending).</div>
             </div>
           </div>
         </div>
@@ -1027,58 +1184,58 @@ eco_add_repeater -cells CKBD20*LVT -net <clock_net_name> -spread_distance 200 -s
           <div className="flex items-center gap-2 font-technical text-xs">
             <span className="text-[#757872] font-bold">SECTION F // ENGINEERING VERDICT</span>
             <span className="text-[#c5c7c1]">·</span>
-            <span className="text-[#536600] font-bold uppercase">Final Implementation Database Selection</span>
+            <span className="text-[#536600] font-bold uppercase">Final Implementation Baseline Selection</span>
           </div>
           <span className="font-technical text-[11px] font-bold text-[#1b1c18] px-2 py-0.5 bg-[#ffffff] border border-[#d8d7ce]">
             DEFENSIBLE CONCLUSION
           </span>
         </div>
 
-        {/* Selected Database Callout Banner */}
+        {/* Selected Baseline Callout Banner */}
         <div className="p-6 bg-[#ffffff] border-l-4 border-l-[#536600] border-y border-r border-[#d8d7ce] shadow-sm space-y-4">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
               <span className="text-[11px] font-technical text-[#536600] font-bold uppercase block tracking-wider">
-                SELECTED IMPLEMENTATION DATABASE
+                SUCCESSFUL EXPERIMENT — SELECTED PLACEMENT DATABASE
               </span>
               <h3 className="font-serif text-2xl md:text-3xl font-normal text-[#1b1c18] mt-0.5">
-                Macro-Channel Spacing Optimization (Database cva6_fp1.db)
+                Successful Placement Configuration (20 µm Macro Channels · 30% Partial Blockage)
               </h3>
             </div>
             <div className="px-3 py-1 bg-[#1b1c18] text-[#cef053] font-technical text-xs font-bold uppercase tracking-wider flex items-center gap-1.5">
               <CheckCircle2 className="w-4 h-4 text-[#cef053]" />
-              <span>OFFICIAL CVA6 PNR DATABASE</span>
+              <span>APPROVED TO PROCEED TO CTS</span>
             </div>
           </div>
 
           <p className="text-sm md:text-base text-[#454843] leading-relaxed font-sans">
-            The documented engineering decision was to proceed with the <strong>macro-channel spacing optimized database</strong> (<code className="font-technical text-xs text-[#1b1c18] bg-[#f0eee8] px-1 py-0.5 border border-[#d8d7ce]">proj/final_project/cva6/run2/pnr/floorplan/outputs/cva6_fp1.db</code>). Across all experimental investigations, this strategy provided the optimal balance between congestion relief, macro accessibility, and timing preservation.
+            The selected placement configuration achieved a low congestion overflow of 0.20% with a total normalized hotspot score of 1.56 at 82.6% core utilization. The 20 µm macro-channel spacing and 30% partial placement blockage provided a physical placement configuration suitable for progressing to Clock Tree Synthesis. Based on the documented placement assessment, this database was approved to proceed to CTS (while subsequent CTS, routing, and post-route optimization have since completed).
           </p>
 
           {/* Key Decisive Evidence Pillars */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 font-technical text-xs pt-2">
             <div className="p-3 bg-[#fbf9f3] border border-[#d8d7ce]">
-              <span className="text-[#757872] block text-[10px] uppercase font-semibold">TOTAL ROUTING OVERFLOW</span>
-              <div className="text-base font-bold text-[#536600] mt-0.5">2903 Tracks</div>
-              <div className="text-[10px] text-[#757872] mt-0.5">Lowest across all iterations</div>
+              <span className="text-[#757872] block text-[10px] uppercase font-semibold">TOTAL CONGESTION OVERFLOW</span>
+              <div className="text-base font-bold text-[#536600] mt-0.5">0.20%</div>
+              <div className="text-[10px] text-[#757872] mt-0.5">H: 0.09% · V: 0.11%</div>
             </div>
 
             <div className="p-3 bg-[#fbf9f3] border border-[#d8d7ce]">
-              <span className="text-[#757872] block text-[10px] uppercase font-semibold">HORIZONTAL (H) OVERFLOW</span>
-              <div className="text-base font-bold text-[#536600] mt-0.5">306 (0.11%)</div>
-              <div className="text-[10px] text-[#757872] mt-0.5">Lowest horizontal congestion</div>
+              <span className="text-[#757872] block text-[10px] uppercase font-semibold">NORMALIZED HOTSPOT</span>
+              <div className="text-base font-bold text-[#536600] mt-0.5">1.56 Total</div>
+              <div className="text-[10px] text-[#757872] mt-0.5">Max normalized: 0.35</div>
             </div>
 
             <div className="p-3 bg-[#fbf9f3] border border-[#d8d7ce]">
-              <span className="text-[#757872] block text-[10px] uppercase font-semibold">VERTICAL (V) OVERFLOW</span>
-              <div className="text-base font-bold text-[#1b1c18] mt-0.5">2596 (0.96%)</div>
-              <div className="text-[10px] text-[#757872] mt-0.5">Bounded below 1.0%</div>
+              <span className="text-[#757872] block text-[10px] uppercase font-semibold">FLOORPLAN CONSTRAINTS</span>
+              <div className="text-base font-bold text-[#1b1c18] mt-0.5">20 µm · 30%</div>
+              <div className="text-[10px] text-[#757872] mt-0.5">Macro channels &amp; blockage</div>
             </div>
 
             <div className="p-3 bg-[#fbf9f3] border border-[#d8d7ce]">
               <span className="text-[#757872] block text-[10px] uppercase font-semibold">CORE UTILIZATION</span>
               <div className="text-base font-bold text-[#1b1c18] mt-0.5">82.6%</div>
-              <div className="text-[10px] text-[#757872] mt-0.5">Balanced cell density</div>
+              <div className="text-[10px] text-[#757872] mt-0.5">Approved for CTS handoff</div>
             </div>
           </div>
 

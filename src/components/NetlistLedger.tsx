@@ -51,18 +51,18 @@ export const NetlistLedger: React.FC<NetlistLedgerProps> = ({
 
         {/* Status Indicators & Next Milestone Label */}
         <div className="flex flex-col items-start sm:items-end gap-1">
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <div className="border border-[#1b1c18] bg-[#1b1c18] text-[#cef053] px-2.5 py-1 font-technical text-xs uppercase font-bold flex items-center gap-1.5">
               <CheckCircle2 className="w-3.5 h-3.5 text-[#cef053]" />
-              <span>[ CTS: COMPLETED ]</span>
+              <span>[ POST-ROUTE: COMPLETED ]</span>
             </div>
-            <div className="border border-[#536600] bg-[#ffffff] text-[#536600] px-2.5 py-1 font-technical text-xs uppercase font-bold flex items-center gap-1.5">
-              <Activity className="w-3.5 h-3.5 animate-pulse text-[#536600]" />
-              <span>[ POST-CTS: IN PROGRESS ]</span>
+            <div className="border border-[#757872] bg-[#ffffff] text-[#1b1c18] px-2.5 py-1 font-technical text-xs uppercase font-bold flex items-center gap-1.5">
+              <Clock className="w-3.5 h-3.5 text-[#536600]" />
+              <span>[ GDSII &amp; SIGNOFF: PENDING ]</span>
             </div>
           </div>
           <span className="text-[10px] font-technical text-[#757872] uppercase tracking-wider">
-            Current Focus: Post-CTS Timing & Electrical DRV Evaluation (Util: 82.7%)
+            Stage: Post-Route Stage · DRCs: 10 (from 40) · Antenna: 0 · Setup WNS: -0.114 ns
           </span>
         </div>
       </div>
@@ -131,32 +131,40 @@ export const NetlistLedger: React.FC<NetlistLedgerProps> = ({
                 <span className="text-[#757872]">Standard-Cell Placement</span>
                 <span className="text-[#536600] font-bold flex items-center gap-1">
                   <CheckCircle2 className="w-3.5 h-3.5 text-[#536600]" />
-                  Legalized (WNS -0.483 ns)
+                  82.6% Util (0.2% Overflow)
                 </span>
               </motion.div>
 
               <motion.div variants={rowVariants} className="py-2.5 flex justify-between items-center">
-                <span className="text-[#757872]">Clock Tree Synthesis (CTS)</span>
+                <span className="text-[#757872]">CTS (CCOpt) &amp; Post-CTS</span>
                 <span className="text-[#536600] font-bold flex items-center gap-1">
                   <CheckCircle2 className="w-3.5 h-3.5 text-[#536600]" />
-                  COMPLETED (CCOpt)
+                  COMPLETED (0 max_tran)
+                </span>
+              </motion.div>
+
+              <motion.div variants={rowVariants} className="py-2.5 flex justify-between items-center">
+                <span className="text-[#757872]">Signal Routing (Post-CTS Stage)</span>
+                <span className="text-[#536600] font-bold flex items-center gap-1">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-[#536600]" />
+                  COMPLETED (0 Antenna)
                 </span>
               </motion.div>
             </motion.div>
           </div>
 
           <div className="mt-4 pt-3 border-t border-[#d8d7ce] flex justify-between items-center text-[11px] font-technical text-[#757872]">
-            <span>TOOL: Cadence Innovus CCOpt</span>
-            <span className="text-[#536600] font-semibold">STAGE: CTS COMPLETED</span>
+            <span>TOOL: Cadence Innovus (28 nm Flow)</span>
+            <span className="text-[#536600] font-semibold">STAGE: POST-ROUTE COMPLETED</span>
           </div>
         </div>
 
-        {/* Column 2: Current Active Stage & Downstream Boundaries */}
+        {/* Column 2: Post-Route Results & Pending Signoff Gate */}
         <div className="p-5 flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between pb-2 border-b border-[#d8d7ce]">
               <span className="font-technical text-xs font-bold text-[#1b1c18] uppercase">
-                B. Active Stage & Strict Downstream Boundaries
+                B. Post-Route Results &amp; Pending Signoff Gate
               </span>
               <span className="font-technical text-[10px] text-[#536600] font-bold">
                 FACTUAL INTEGRITY
@@ -171,46 +179,45 @@ export const NetlistLedger: React.FC<NetlistLedgerProps> = ({
               className="mt-3 divide-y divide-[#d8d7ce] text-xs font-technical"
             >
               <motion.div variants={rowVariants} className="py-2.5 flex justify-between items-center bg-[#fbf9f3] px-2 -mx-2">
-                <span className="text-[#1b1c18] font-bold">Post-CTS Analysis</span>
+                <span className="text-[#1b1c18] font-bold">Post-Route DRC Cleanup</span>
                 <span className="text-[#536600] font-bold flex items-center gap-1">
-                  <Activity className="w-3.5 h-3.5 text-[#536600] animate-pulse" />
-                  IN PROGRESS (Util: 82.7%)
+                  <CheckCircle2 className="w-3.5 h-3.5 text-[#536600]" />
+                  40 &rarr; 10 DRCs (-75%)
                 </span>
               </motion.div>
 
               <motion.div variants={rowVariants} className="py-2.5 flex justify-between items-center">
-                <span className="text-[#757872]">Post-CTS Setup Slack</span>
+                <span className="text-[#757872]">Post-Route Setup (LVT + Skew)</span>
                 <span className="text-[#1b1c18] font-semibold">
-                  WNS: -0.318 ns, TNS: -243.042 ns
+                  WNS: -0.114 ns · 934 Paths
                 </span>
               </motion.div>
 
               <motion.div variants={rowVariants} className="py-2.5 flex justify-between items-center">
-                <span className="text-[#757872]">Post-CTS Hold Slack</span>
+                <span className="text-[#757872]">Post-Route Hold (Multi-Corner)</span>
                 <span className="text-[#1b1c18] font-semibold">
-                  WNS: -0.224 ns, TNS: -72.328 ns
+                  WNS: -0.001 ns · 7 Paths
                 </span>
               </motion.div>
 
               <motion.div variants={rowVariants} className="py-2.5 flex justify-between items-center">
-                <span className="text-[#757872]">Routing Concepts</span>
-                <span className="text-[#757872] font-semibold flex items-center gap-1">
-                  <BookOpen className="w-3.5 h-3.5 text-[#757872]" />
-                  THEORETICAL STUDY COMPLETED
+                <span className="text-[#757872]">Antenna &amp; Glitch Checks</span>
+                <span className="text-[#536600] font-semibold">
+                  0 Antenna · 0 Glitch
                 </span>
               </motion.div>
 
               <motion.div variants={rowVariants} className="py-2.5 flex justify-between items-center">
-                <span className="text-[#757872]">Practical Detailed Routing</span>
+                <span className="text-[#757872]">GDSII Generation / Stream-Out</span>
                 <span className="text-[#757872] font-semibold">
-                  NOT YET DOCUMENTED / NOT RUN
+                  PENDING (NOT STARTED)
                 </span>
               </motion.div>
 
               <motion.div variants={rowVariants} className="py-2.5 flex justify-between items-center">
-                <span className="text-[#757872]">Physical Sign-off (DRC/LVS)</span>
+                <span className="text-[#757872]">Final Signoff (DRC / LVS / STA)</span>
                 <span className="text-[#757872] font-semibold">
-                  NOT REACHED
+                  PENDING (10 DRCs REMAIN)
                 </span>
               </motion.div>
             </motion.div>
@@ -262,10 +269,10 @@ export const NetlistLedger: React.FC<NetlistLedgerProps> = ({
           </div>
           <div className="p-3.5 bg-[#ffffff] border border-[#d8d7ce]">
             <span className="font-technical font-bold text-xs text-[#1b1c18] uppercase block mb-1.5">
-              CCOpt CTS & Post-CTS Analysis
+              Routing &amp; Post-Route Optimization
             </span>
             <p className="leading-relaxed text-[#454843]">
-              Synthesized balanced clock trees via Innovus CCOpt under 1.5 ns clock. Actively evaluating post-CTS setup (WNS -0.318 ns), hold slack across path groups, and electrical DRVs (post-CTS util: 82.7%).
+              Completed CCOpt CTS, detailed routing (0 antenna violations), DRC cleanup (40 &rarr; 10), and LVT + useful skew optimization (Setup WNS -0.114 ns, Hold WNS -0.001 ns). GDSII &amp; final signoff pending.
             </p>
           </div>
         </div>
@@ -277,7 +284,7 @@ export const NetlistLedger: React.FC<NetlistLedgerProps> = ({
           <ShieldCheck className="w-4 h-4 text-[#536600] shrink-0" />
           <span className="font-bold">FACTUAL INTEGRITY COMMITMENT:</span>
           <span className="text-[#454843]">
-            Synthesis, floorplanning, placement, and Clock Tree Synthesis (CTS) are completed in Cadence Innovus. Post-CTS analysis is active. Routing concepts have been studied theoretically; practical detailed routing and physical signoff (DRC/LVS) have not been run. No fabricated metrics or tapeouts are claimed.
+            RTL synthesis through routing and post-route optimization are completed at the Post-Route Stage (10 DRCs remaining, 0 antenna, 0 glitch). GDSII generation, LVS, and final physical/timing signoff remain pending and are not claimed complete.
           </span>
         </div>
         <div className="shrink-0 font-bold text-[#536600]">

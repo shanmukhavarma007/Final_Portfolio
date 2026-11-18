@@ -25,10 +25,12 @@ export interface VerifiedProject {
     floorplan: 'COMPLETED' | 'NOT_STARTED';
     placement: 'COMPLETED' | 'NOT_STARTED';
     cts: 'COMPLETED' | 'NOT_STARTED';
-    postCtsAnalysis: 'IN_PROGRESS' | 'NOT_STARTED';
-    routingConcepts: 'THEORETICAL_STUDY_COMPLETED' | 'STUDIED';
-    detailedRouting: 'NOT_STARTED';
-    physicalSignoff: 'NOT_REACHED' | 'NOT_COMPLETED';
+    postCtsAnalysis: 'COMPLETED' | 'IN_PROGRESS' | 'NOT_STARTED';
+    routingConcepts: 'COMPLETED' | 'THEORETICAL_STUDY_COMPLETED' | 'STUDIED';
+    detailedRouting: 'COMPLETED' | 'NOT_STARTED';
+    postRouteOptimization?: 'COMPLETED' | 'NOT_STARTED';
+    gdsiiGeneration?: 'PENDING' | 'NOT_STARTED';
+    physicalSignoff: 'PENDING' | 'NOT_REACHED' | 'NOT_COMPLETED';
     tapeout?: 'NOT_REACHED' | 'NOT_COMPLETED';
   };
   overview: string;
@@ -51,7 +53,7 @@ export interface TechnicalTopic {
 export const ENGINEER_PROFILE = {
   name: 'Shanmukha Varma Penmetsa',
   role: 'Entry-Level ASIC Physical Design Engineer',
-  tagline: '28 nm Physical Design — Synthesis, Floorplanning, Placement, CTS & Post-CTS Analysis (Cadence Genus & Innovus)',
+  tagline: '28 nm Physical Design — RTL Synthesis through Routing & Post-Route Optimization (Cadence Genus & Innovus)',
   technologyNode: '28 nm',
   education: {
     degree: 'B.Tech in Electronics and Communication Engineering',
@@ -67,10 +69,10 @@ export const ENGINEER_PROFILE = {
   linkedin: 'https://www.linkedin.com/in/shanmukhavarma-penmetsa/',
   statusBadge: 'ENTRY-LEVEL ASIC PHYSICAL DESIGN CANDIDATE',
   summary:
-    "Interested in the engineering that takes digital designs from RTL towards physical implementation, I’m an Electronics and Communication Engineering graduate building my career in ASIC Physical Design. Through hands-on training at Sumedha IT, I’ve worked across RTL synthesis and SDC-driven timing constraints using Cadence Genus, followed by floorplanning, macro placement, standard-cell placement, and Clock Tree Synthesis (CCOpt) using Cadence Innovus on the 28 nm node. My work is documented through practical CVA6 implementation, post-CTS timing and DRV analysis, and AES synthesis projects, supported by original EDA tool outputs and engineering evidence.",
+    "Interested in the engineering that takes digital designs from RTL towards physical implementation, I’m an Electronics and Communication Engineering graduate building my career in ASIC Physical Design. Through hands-on training at Sumedha IT, I’ve worked across RTL synthesis and SDC-driven timing constraints using Cadence Genus, followed by floorplanning, macro placement, standard-cell placement, Clock Tree Synthesis (CCOpt), routing, and post-route timing/DRC analysis using Cadence Innovus on the 28 nm node. My work is documented through practical CVA6 implementation and AES synthesis projects, supported by original EDA tool outputs and engineering evidence.",
   edaTools: [
     { name: 'Cadence Genus', role: 'RTL Synthesis, QoR Analysis, SDC constraint application' },
-    { name: 'Cadence Innovus', role: 'Floorplanning, Macro Placement, Placement, CTS (CCOpt) & Post-CTS Analysis' },
+    { name: 'Cadence Innovus', role: 'Floorplanning, Macro Placement, Placement, CTS (CCOpt), Routing & Post-Route Opt' },
     { name: 'OpenLane', role: 'Open-source RTL-to-GDSII flow exposure' }
   ],
   scriptingAndLanguages: [
@@ -86,12 +88,12 @@ export const ENGINEER_PROFILE = {
     { area: 'Power Planning', tool: 'Cadence Innovus', status: 'COMPLETED' as TechnicalStatus },
     { area: 'Standard-Cell Placement', tool: 'Cadence Innovus', status: 'COMPLETED' as TechnicalStatus },
     { area: 'Clock Tree Synthesis (CCOpt)', tool: 'Cadence Innovus', status: 'COMPLETED' as TechnicalStatus },
-    { area: 'Post-CTS Timing & DRV Analysis', tool: 'Cadence Innovus', status: 'IN_PROGRESS' as TechnicalStatus },
+    { area: 'Post-CTS Timing & DRV Analysis', tool: 'Cadence Innovus', status: 'COMPLETED' as TechnicalStatus },
+    { area: 'Signal Routing & Antenna Check', tool: 'Cadence Innovus', status: 'COMPLETED' as TechnicalStatus },
+    { area: 'Post-Route Timing Opt (LVT & Useful Skew)', tool: 'Cadence Innovus', status: 'COMPLETED' as TechnicalStatus },
     { area: 'Static Timing Analysis (STA)', tool: 'Genus / Innovus / Theory', status: 'COMPLETED' as TechnicalStatus },
     { area: 'Congestion & Hotspot Analysis', tool: 'Cadence Innovus', status: 'COMPLETED' as TechnicalStatus },
-    { area: 'Routing Concepts', tool: 'Theoretical Study', status: 'THEORETICAL_STUDY' as TechnicalStatus },
-    { area: 'Detailed Routing', tool: 'Cadence Innovus', status: 'PLANNED_NOT_STARTED' as TechnicalStatus },
-    { area: 'Physical Signoff (DRC/LVS)', tool: 'Physical Verification', status: 'PLANNED_NOT_STARTED' as TechnicalStatus }
+    { area: 'GDSII Generation & Final Signoff (DRC/LVS)', tool: 'Physical Verification', status: 'PLANNED_NOT_STARTED' as TechnicalStatus }
   ]
 };
 
@@ -127,7 +129,7 @@ export const RECRUITER_SKILL_GROUPS: RecruiterSkillGroup[] = [
         name: 'Cadence Innovus',
         level: 'HANDS-ON FLOW',
         toolOrContext: 'Physical Design System',
-        details: 'Core & die floorplanning, halo keepouts, SRAM macro placement, global & detailed standard-cell placement, Clock Tree Synthesis (CCOpt), and post-CTS timing/DRV analysis.'
+        details: 'Core & die floorplanning, halo keepouts, SRAM macro placement, global & detailed standard-cell placement, Clock Tree Synthesis (CCOpt), signal routing, and post-route timing/DRC optimization.'
       },
       {
         name: 'OpenLane',
@@ -140,8 +142,8 @@ export const RECRUITER_SKILL_GROUPS: RecruiterSkillGroup[] = [
   {
     groupLetter: 'B',
     groupTitle: 'ASIC Implementation',
-    category: 'NETLIST-TO-CTS IMPLEMENTATION FLOW',
-    description: 'Complete physical design flow spanning RTL synthesis through Clock Tree Synthesis and post-CTS analysis.',
+    category: 'NETLIST-TO-POST-ROUTE IMPLEMENTATION FLOW',
+    description: 'Hands-on physical design flow spanning RTL synthesis through Clock Tree Synthesis, detailed routing, and post-route timing & DRC optimization.',
     skills: [
       {
         name: 'RTL Synthesis',
@@ -165,7 +167,7 @@ export const RECRUITER_SKILL_GROUPS: RecruiterSkillGroup[] = [
         name: 'Floorplanning & Die Boundary',
         level: 'HANDS-ON FLOW',
         toolOrContext: 'Cadence Innovus',
-        details: 'Target utilization setup (70%), core-to-die margins, aspect ratio optimization (950 × 916 µm), and core row establishment.'
+        details: 'Target utilization setup (70%), core-to-die margins, aspect ratio optimization (950 × 916 µm), and 30% partial blockage between macros.'
       },
       {
         name: 'Macro Placement & Pin Access',
@@ -183,25 +185,25 @@ export const RECRUITER_SKILL_GROUPS: RecruiterSkillGroup[] = [
         name: 'Standard-Cell Placement',
         level: 'HANDS-ON FLOW',
         toolOrContext: 'Cadence Innovus',
-        details: 'Timing-driven global & detailed standard-cell placement across core rows with checkPlace legalization checks.'
+        details: 'Timing-driven global & detailed standard-cell placement (82.6% core util, 0.2% overflow, 1.56 hotspot) with checkPlace legalization.'
       },
       {
         name: 'Clock Tree Synthesis (CTS)',
         level: 'HANDS-ON FLOW',
         toolOrContext: 'Cadence Innovus CCOpt',
-        details: 'Synthesizing clock trees using Cadence Innovus CCOpt engine, clock buffer insertion, and latency balancing.'
+        details: 'Synthesizing clock trees using Cadence Innovus CCOpt engine, clock buffer insertion, and post-CTS setup/hold stabilization.'
       },
       {
-        name: 'CCOpt Execution',
+        name: 'Signal Routing & Antenna Integrity',
         level: 'HANDS-ON FLOW',
-        toolOrContext: 'Cadence Innovus',
-        details: 'Concurrent clock and datapath optimization to achieve balanced clock insertion delay and target skew.'
+        toolOrContext: 'Cadence Innovus (Post-CTS Stage)',
+        details: 'Executed signal routing from the Post-CTS Stage achieving 0 antenna violations, 0.51% overflow, and reducing geometry DRCs from 40 to 10 in post-route.'
       },
       {
-        name: 'Post-CTS Analysis',
+        name: 'Post-Route Timing Optimization',
         level: 'HANDS-ON FLOW',
-        toolOrContext: 'Cadence Innovus',
-        details: 'Evaluating post-CTS setup slack (WNS -0.318 ns), hold slack across path groups (WNS -0.224 ns), and electrical DRVs.'
+        toolOrContext: 'Cadence Innovus (Post-Route Stage)',
+        details: 'Improved post-route setup WNS from -0.201 ns to -0.114 ns (TNS -161.833 ns to -28.249 ns) and hold WNS from -0.004 ns to -0.001 ns via LVT enabling and useful skew analysis.'
       }
     ]
   },
@@ -239,13 +241,13 @@ export const RECRUITER_SKILL_GROUPS: RecruiterSkillGroup[] = [
         name: 'Congestion Analysis',
         level: 'HANDS-ON FLOW',
         toolOrContext: 'Cadence Innovus',
-        details: 'Inspecting horizontal & vertical routing overflow edges (1,529 overflow edges), GCell congestion distribution, and hotspot scores.'
+        details: 'Tracking directional routing overflow across stages (Placement 0.2% → CTS 0.47% → Post-CTS 0.53% → Post-Route 0.51% [531 H, 827 V]) and hotspot evolution (1.56 → 18.12).'
       },
       {
         name: 'Design-Rule Violation Analysis',
         level: 'HANDS-ON FLOW',
         toolOrContext: 'Cadence Innovus',
-        details: 'Evaluating max_transition (7 nets violating), max_fanout (902 nets violating), max_capacitance, and max_length electrical rules.'
+        details: 'Reduced routing geometry DRCs by 75% (40 → 10), verified 0 antenna & 0 glitch violations, and tightened max_transition to 1 net (-0.002 ns) after useful skew.'
       },
       {
         name: 'Timing-versus-Density Trade-offs',
@@ -294,64 +296,61 @@ export const VERIFIED_PROJECTS: VerifiedProject[] = [
     id: 'cva6-riscv',
     slug: 'cva6-riscv-processor',
     index: '01 / PROJECT',
-    title: 'CVA6 RISC-V Processor — Synthesis, Placement, CTS & Post-CTS Analysis',
-    subtitle: 'RTL Synthesis, Floorplanning, Placement, CTS (CCOpt) & Post-CTS Timing/DRV Analysis in Cadence Genus & Innovus (28 nm)',
+    title: 'CVA6 RISC-V Processor — RTL Synthesis through Post-Route Implementation',
+    subtitle: '28 nm Implementation Completed Through Post-Route Analysis (LVT & Useful Skew); GDSII Generation & Final Signoff Pending',
     category: 'RISC-V_PROCESSOR',
     technologyNode: '28 nm',
     edaToolchain: ['Cadence Genus', 'Cadence Innovus'],
     languages: ['Verilog HDL', 'Tcl', 'Python', 'Linux Shell'],
-    clockConstraint: 'Period: 1.5 ns (approx. 666.67 MHz, Synthesis & CTS Target)',
+    clockConstraint: 'Period: 1.5 ns (~666.67 MHz Target Clock)',
     completedStages: [
       'RTL logic synthesis in Cadence Genus (178,799 leaf instances, 28 nm)',
-      'Floorplan planning & core boundary creation (Target util: 70%, 950 × 916 µm)',
-      'Macro placement with 15 µm channels & halo keepouts for SRAM arrays',
-      'Power planning & orthogonal power strap distribution',
-      'Standard-cell placement in Cadence Innovus with congestion analysis',
-      'Clock Tree Synthesis completed using Cadence Innovus CCOpt engine',
-      'Post-CTS setup timing, hold timing, and design-rule violation (DRV) analysis'
+      'Floorplanning & SRAM macro placement (950 × 916 µm, 850,552 µm² area, 15 µm channels, 30% partial blockage)',
+      'Standard-cell placement (82.6% util, 0.2% overflow, 1.56 hotspot, Setup WNS -0.507 ns)',
+      'Clock Tree Synthesis (CCOpt) & Post-CTS optimization (83.6% util, Setup WNS -0.248 ns, Hold WNS -0.139 ns, 0 max_tran)',
+      'Routing executed from Post-CTS Stage (40 DRCs identified, 0.51% overflow, 18.12 hotspot, 0 antenna violations)',
+      'Post-Route Stage optimization: DRCs reduced 40 → 10 (-75%), 0 antenna & 0 glitch violations',
+      'Post-Route timing refinement: LVT enabling + useful skew reduced Setup WNS -0.201 → -0.114 ns & Hold WNS -0.004 → -0.001 ns'
     ],
     currentStatus: {
       synthesis: 'COMPLETED',
       floorplan: 'COMPLETED',
       placement: 'COMPLETED',
       cts: 'COMPLETED',
-      postCtsAnalysis: 'IN_PROGRESS',
-      routingConcepts: 'THEORETICAL_STUDY_COMPLETED',
-      detailedRouting: 'NOT_STARTED',
-      physicalSignoff: 'NOT_REACHED',
+      postCtsAnalysis: 'COMPLETED',
+      routingConcepts: 'COMPLETED',
+      detailedRouting: 'COMPLETED',
+      postRouteOptimization: 'COMPLETED',
+      gdsiiGeneration: 'PENDING',
+      physicalSignoff: 'PENDING',
       tapeout: 'NOT_REACHED'
     },
     overview:
-      'Comprehensive 28 nm physical design implementation of the 64-bit CVA6 (Ariane) RISC-V processor core. Completed RTL logic synthesis in Cadence Genus (178,799 leaf cells), established floorplan geometry with 15 µm macro channels, executed standard-cell placement, and completed Clock Tree Synthesis (CTS) using Cadence Innovus CCOpt. Currently conducting in-depth post-CTS timing and electrical DRV analysis while mastering routing concepts theoretically.',
+      'End-to-end 28 nm physical implementation of the 64-bit CVA6 RISC-V processor core from RTL synthesis in Cadence Genus through placement, CCOpt Clock Tree Synthesis, detailed routing, and post-route timing/DRC optimization in Cadence Innovus (Floorplanning Stage → Post-Route Stage). Post-route engineering reduced DRC count by 75% (40 → 10) with 0 antenna violations, while LVT enabling and useful skew analysis drove setup WNS from -0.201 ns down to -0.114 ns (violating paths 3,079 → 934) and hold WNS from -0.004 ns down to -0.001 ns (15 → 7 paths). GDSII generation and final physical signoff remain pending.',
     implementationScope: [
-      'RTL Synthesis: Elaborated CVA6 RTL into 178,799 leaf cells (23,675 sequential, 155,124 combinational) in Cadence Genus',
-      'Floorplanning: Target utilization 70%, 15 µm channels between SRAM macros to ensure routing accessibility and pin escape',
-      'Placement & Congestion: Timing-driven placement resulting in WNS -0.483 ns, TNS -2035.472 ns, 1529 congestion overflow edges (76 H, 1453 V), hotspot ex_stage_i score 4.77',
-      'CTS Completed: Invoked Cadence Innovus CCOpt engine, synthesized clock networks, and validated initial handoff timing compliance',
-      'Post-CTS Analysis: Evaluated post-CTS setup slack (WNS -0.318 ns, TNS -243.042 ns), hold slack across path groups (WNS -0.224 ns, TNS -72.328 ns), and DRVs (7 max_tran violations, 902 max_fanout violations); recorded post-CTS core utilization of 82.7%',
-      'Routing Concepts: Completed theoretical study of global and detailed routing algorithms, track assignments, and DRC signoff criteria'
+      'Placement (Floorplanning Stage baseline): 82.6% core utilization, 0.2% routing overflow (545 = 250 H + 295 V), 1.56 hotspot (max 0.35), Setup WNS -0.507 ns / TNS -1903.6 ns across 29,204 violating paths',
+      'CTS (Placement Stage baseline): 83.2% core utilization, 0.47% overflow (1,260 = 303 H + 957 V), 14.83 hotspot (max 3.56), Setup WNS -0.301 ns (5,191 paths), Hold WNS -0.209 ns (2,468 paths)',
+      'Post-CTS (Clock Tree Synthesis Stage baseline): 83.6% core utilization, 0.53% overflow (1,418 = 290 H + 1,128 V), 16.39 hotspot (max 2.17), Setup WNS -0.248 ns / TNS -185.141 ns (4,600 paths), Hold WNS -0.139 ns (170 paths), max_tran resolved to 0',
+      'Routing (Post-CTS Stage baseline): 40 DRC violations (EOLSpc 29 M2, WMJ 7 M4, EncEdg 2 VIA1, Short 1 M5, CutEol 1 VIA3), 0.51% overflow (1,357 = 531 H + 827 V), 18.12 hotspot (max 2.43), Setup WNS -0.290 ns (10,107 paths), Hold WNS -0.143 ns (823 paths), 0 Antenna Violations',
+      'Post-Route Timing & DRC Closure Progress (Post-Route Stage): DRCs reduced by 75% from 40 to 10 (WMJ 7 M4, Short 2 [M4/M5], EncEdg 1 VIA3), 0 antenna & 0 glitch violations. LVT enabling improved Setup WNS (-0.201 → -0.122 ns; TNS -161.833 → -29.582 ns; 3,079 → 1,001 paths), and Useful Skew further reduced Setup WNS to -0.114 ns (TNS -28.249 ns; 934 paths; m2r cleared to +0.007 ns), max_tran to 1 net (-0.002 ns), and Hold WNS to -0.001 ns (7 paths)',
+      'Upcoming Pending Milestones: Resolving remaining 10 DRCs and 934 setup / 7 hold paths, GDSII generation / stream-out, final DRC/LVS/antenna physical signoff, final STA signoff, and deliverable database handoff'
     ],
     verifiedDeliverables: [
-      'Cadence Innovus post-CTS setup mode timing & DRV summary report screenshot (WNS: -0.318 ns, TNS: -243.042 ns, 6,356 violating paths)',
-      'Cadence Innovus post-CTS hold timing report screenshot across functional hold corners (WNS: -0.224 ns, TNS: -72.328 ns, 1,249 violating paths)',
-      'Cadence Innovus placement congestion distribution & hotspot report screenshot (Overflow: 5452 = 516 H + 4936 V, max hotspot: 34.08)',
-      'Cadence Innovus placement congestion map overlay screenshot displaying macro channels and execution datapath congestion',
-      'Cadence Innovus placement density topography map screenshot',
-      'Cadence Innovus 28 nm floorplan geometry screenshot with peripheral SRAM macro arrangement (950 × 916 µm)',
-      'Cadence Innovus placement-stage setup timing report screenshot (WNS: -0.483 ns, TNS: -2035.472 ns)',
-      'Cadence Genus synthesis Quality of Results (QoR) report screenshot (178,799 leaf cells, 23,675 sequential, 155,124 combinational)',
-      'Cadence Innovus committed floorplan database (cva6_fp1.db)',
-      'Tcl execution scripts for reproducible Genus synthesis and Innovus placement/CCOpt CTS flows'
+      'Post-Route DRC summary report screenshot confirming 75% reduction (40 DRCs → 10 DRCs: WMJ 7, Short 2, EncEdg 1)',
+      'Post-Route timing comparison screenshots: Before LVT (-0.201 ns) → After LVT (-0.122 ns) → After Useful Skew (-0.114 ns setup / -0.001 ns hold)',
+      'Routing congestion & DRC spatial die map screenshots (route vs. post-route comparison) and overflow/hotspot report (0.51%, 18.12)',
+      'Route-stage Setup/Hold timing & Antenna report screenshot confirming 0 Antenna Violations across 53,382 paths',
+      'Cadence Innovus post-CTS timing & DRV reports and placement congestion topography captures',
+      'Cadence Innovus 28 nm Floorplanning Stage layout (950 × 916 µm) and Genus synthesis QoR (178,799 leaf cells)',
+      'Tcl automation scripts for Genus synthesis and Innovus floorplan, placement, CCOpt CTS, routing, and post-route optimization'
     ],
     honestBoundaryNotes: [
-      'Clock Tree Synthesis (CTS) is COMPLETED using Cadence Innovus CCOpt.',
-      'Post-CTS timing and design-rule analysis is actively IN PROGRESS.',
-      'Routing concepts have been studied THEORETICALLY; practical detailed routing has NOT yet been confirmed or run.',
-      'Physical sign-off (DRC/LVS) and tape-out have NOT been performed.',
-      'Synthesis metrics (178,799 leaf cells, 23,675 sequential, 155,124 combinational) represent gate-level netlist statistics.',
-      'Placement metrics (WNS -0.483 ns, TNS -2035.472 ns, 1529 overflow edges) are strictly placement-stage results.',
-      'Post-CTS metrics (WNS -0.318 ns, TNS -243.042 ns, hold WNS -0.224 ns, core util 82.7%) represent actual post-CTS observations.',
-      'No fabricated DRC/LVS signoff, routing completion, or silicon tapeout claims are made.'
+      'CURRENT STAGE: POST-ROUTE IMPLEMENTATION COMPLETED – GDSII GENERATION AND SIGNOFF PENDING.',
+      'Post-route physical implementation and timing optimization (LVT & useful skew) are COMPLETED at the Post-Route Stage.',
+      'Timing is significantly improved across stages (Setup WNS -0.507 ns → -0.114 ns; Hold WNS -0.209 ns → -0.001 ns) but is NOT claimed as zero-violation closed (934 setup & 7 hold paths, 1 max_tran net remain).',
+      'Geometry DRCs were reduced from 40 to 10 (75% reduction); zero-DRC signoff is NOT claimed while 10 DRCs remain.',
+      'Antenna violations: 0 violations verified in route report; Glitch violations: 0 verified in post-route.',
+      'GDSII stream-out, LVS verification, final DRC/STA signoff, and final deliverable handoff are explicitly PENDING and NOT started.'
     ]
   },
   {
@@ -508,51 +507,51 @@ export const TECHNICAL_LEARNING_TOPICS: TechnicalTopic[] = [
   },
   {
     id: 'topic-05',
-    index: '05 / IN PROGRESS',
-    title: 'Post-CTS Timing Slack & Electrical DRV Analysis',
+    index: '05 / IMPLEMENTED',
+    title: 'Post-CTS Timing Slack & Electrical DRV Evaluation',
     category: 'POST-CTS ANALYSIS',
-    status: 'IN_PROGRESS',
-    statusLabel: 'IN PROGRESS (ACTIVE ANALYSIS)',
+    status: 'COMPLETED',
+    statusLabel: 'COMPLETED (HANDS-ON IMPLEMENTATION)',
     description:
-      'Active investigation of post-CTS timing reports: setup WNS (-0.318 ns, TNS -243.042 ns across 53,382 paths), hold timing slack across functional corners (func_hold_ff125c_rcb, func_hold_ffm40c_cb; WNS -0.224 ns), and electrical DRV evaluation (7 max_tran, 902 max_fanout). Recorded post-CTS core utilization of 82.7%.',
+      'Completed post-CTS timing and DRV evaluation after the Clock Tree Synthesis Stage (83.6% core utilization): Setup WNS improved to -0.248 ns (TNS -185.141 ns, 4,600 violating paths), Hold WNS improved to -0.139 ns (170 paths), and max_tran violations were resolved to 0.',
     scopeSummary:
-      'In active progress in Cadence Innovus post-CTS database.'
+      'Completed in Cadence Innovus at the Clock Tree Synthesis Stage prior to signal routing.'
   },
   {
     id: 'topic-06',
-    index: '06 / THEORETICAL',
-    title: 'Routing Concepts & Detailed Routing Algorithms',
-    category: 'ROUTING THEORY',
-    status: 'THEORETICAL_STUDY',
-    statusLabel: 'THEORETICAL STUDY COMPLETED',
+    index: '06 / IMPLEMENTED',
+    title: 'Detailed Signal Routing & Antenna Check in Cadence Innovus',
+    category: 'ROUTING',
+    status: 'COMPLETED',
+    statusLabel: 'COMPLETED (HANDS-ON IMPLEMENTATION)',
     description:
-      'Theoretical mastery of global routing, track assignment, and detailed grid-based routing (maze routing, A* search). Studied antenna effect mitigation, cross-talk coupling, and design rule checking (DRC) fundamentals.',
+      'Executed signal routing from the Post-CTS Stage under 0.51% total overflow (1,357 edges: 0.20% H, 0.31% V) and 18.12 hotspot score, verifying 0 antenna violations across the routed metal stack while logging 40 initial geometry DRCs for post-route repair.',
     scopeSummary:
-      'Studied theoretically in training coursework. Practical detailed routing has not yet been confirmed or run.'
+      'Completed in Cadence Innovus with verified antenna cleanliness (0 Violations).'
   },
   {
     id: 'topic-07',
-    index: '07 / THEORETICAL',
-    title: 'Power Distribution Network & Dynamic IR Drop',
-    category: 'POWER INTEGRITY',
-    status: 'THEORETICAL_STUDY',
-    statusLabel: 'THEORETICAL STUDY COMPLETED',
+    index: '07 / IMPLEMENTED',
+    title: 'Post-Route DRC Cleanup, LVT Enabling & Useful Skew Optimization',
+    category: 'POST-ROUTE OPTIMIZATION',
+    status: 'COMPLETED',
+    statusLabel: 'COMPLETED (HANDS-ON IMPLEMENTATION)',
     description:
-      'Theoretical concepts of on-chip power distribution networks: power rings, orthogonal power straps (VDD/VSS), static vs dynamic IR drop definitions, and decoupling capacitor (decap) placement theory.',
+      'Completed Post-Route Stage physical and timing refinement: reduced DRCs by 75% (40 → 10), maintained 0 antenna & 0 glitch violations, enabled LVT cells (Setup WNS -0.201 → -0.122 ns), and applied useful skew analysis (Setup WNS -0.114 ns, 934 paths; Hold WNS -0.001 ns, 7 paths).',
     scopeSummary:
-      'Studied theoretically. No dynamic or static IR-drop signoff simulations have been performed.'
+      'Completed in Cadence Innovus during the Post-Route Stage.'
   },
   {
     id: 'topic-08',
-    index: '08 / FUTURE ROADMAP',
-    title: 'Practical Detailed Nano-Routing & DRC/LVS Verification',
-    category: 'PHYSICAL VERIFICATION',
+    index: '08 / PENDING MILESTONE',
+    title: 'GDSII Generation & Final Physical Signoff (DRC / LVS / STA)',
+    category: 'GDSII & SIGNOFF PENDING',
     status: 'PLANNED_NOT_STARTED',
-    statusLabel: 'PLANNED / NOT STARTED (FUTURE ROADMAP)',
+    statusLabel: 'PENDING (NEXT MILESTONE)',
     description:
-      'Future technical milestone: invoking the Innovus NanoRoute engine to perform detailed wire routing, resolving remaining electrical DRVs, and executing physical verification checks.',
+      'Upcoming signoff phase: resolving the remaining 10 DRCs (WMJ 7 on M4, Short 2, EncEdg 1 on VIA3) and remaining 934 setup / 7 hold paths, executing final STA & physical DRC/LVS verification, and streaming out the final GDSII deliverable.',
     scopeSummary:
-      'Planned future milestone following post-CTS timing optimization.'
+      'Pending final milestone following completed post-route implementation.'
   }
 ];
 
@@ -565,8 +564,8 @@ export const CVA6_FLOORPLAN_BLOCKS = [
     y: 720,
     width: 320,
     height: 240,
-    description: 'Instruction cache SRAM macro array placed along northwest core boundary with 15 µm halo channel.',
-    status: 'Placed & Oriented'
+    description: 'Instruction cache SRAM macro array placed along northwest core boundary with 15 µm halo channel and 30% partial blockage.',
+    status: 'Routed & Post-Route Opt'
   },
   {
     id: 'blk-sram-dcache',
@@ -576,8 +575,8 @@ export const CVA6_FLOORPLAN_BLOCKS = [
     y: 720,
     width: 320,
     height: 240,
-    description: 'Data cache SRAM macro array placed along northeast core boundary with 15 µm halo channel.',
-    status: 'Placed & Oriented'
+    description: 'Data cache SRAM macro array placed along northeast core boundary with 15 µm halo channel; m2r setup cleared (+0.007 ns).',
+    status: 'Routed & Post-Route Opt'
   },
   {
     id: 'blk-core-ex',
@@ -587,8 +586,8 @@ export const CVA6_FLOORPLAN_BLOCKS = [
     y: 280,
     width: 500,
     height: 380,
-    description: 'Central execution datapath (ex_stage_i). Highest congestion hotspot area (score: 4.77) placed via Innovus.',
-    status: 'Standard Cells Placed & CTS Clocked'
+    description: 'Central execution datapath (ex_stage_i). Progressed through placement, CCOpt CTS, routing, and LVT + useful skew optimization.',
+    status: 'Post-Route Completed'
   },
   {
     id: 'blk-core-frontend',
@@ -598,8 +597,8 @@ export const CVA6_FLOORPLAN_BLOCKS = [
     y: 100,
     width: 380,
     height: 150,
-    description: 'Standard-cell logic area for instruction fetch and decode logic placed and clocked via Cadence Innovus CCOpt.',
-    status: 'Standard Cells Placed & CTS Clocked'
+    description: 'Standard-cell logic area for instruction fetch and decode logic routed and optimized during the Post-Route Stage.',
+    status: 'Post-Route Completed'
   },
   {
     id: 'blk-core-lsu',
@@ -609,7 +608,7 @@ export const CVA6_FLOORPLAN_BLOCKS = [
     y: 100,
     width: 380,
     height: 150,
-    description: 'Standard-cell logic area for load/store unit and queue logic placed and clocked via Cadence Innovus.',
-    status: 'Standard Cells Placed & CTS Clocked'
+    description: 'Standard-cell logic area for load/store unit routed with 0 antenna violations and 0 glitch violations.',
+    status: 'Post-Route Completed'
   }
 ];

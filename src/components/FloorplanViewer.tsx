@@ -49,7 +49,7 @@ export const FloorplanViewer: React.FC<FloorplanViewerProps> = ({
         <div className="flex items-center gap-2 font-technical text-xs text-[#757872]">
           <span>STATUS:</span>
           <span className="text-[#536600] font-bold">
-            CTS COMPLETED (CCOpt) · POST-CTS: IN PROGRESS
+            POST-ROUTE COMPLETED · GDSII &amp; SIGNOFF PENDING
           </span>
         </div>
       </div>
@@ -281,7 +281,7 @@ export const FloorplanViewer: React.FC<FloorplanViewerProps> = ({
               </div>
               <div className="p-2.5 flex justify-between">
                 <span className="text-[#757872]">DOWNSTREAM STAGE:</span>
-                <span className="text-[#536600] font-bold">Post-CTS Analysis (In Progress)</span>
+                <span className="text-[#536600] font-bold">GDSII &amp; Signoff Pending</span>
               </div>
             </div>
 
@@ -310,7 +310,7 @@ export const FloorplanViewer: React.FC<FloorplanViewerProps> = ({
 
           <div className="mt-4 pt-3 border-t border-[#d8d7ce] flex items-center justify-between text-[11px] font-technical text-[#757872]">
             <span>DESIGN: CVA6 64-BIT RISC-V</span>
-            <span className="text-[#536600] font-semibold">PLACEMENT COMPLETED</span>
+            <span className="text-[#536600] font-semibold">POST-ROUTE COMPLETED</span>
           </div>
         </div>
       </div>

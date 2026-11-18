@@ -25,7 +25,7 @@ export const ProjectsLedger: React.FC<ProjectsLedgerProps> = ({
             Verified Physical Design & Synthesis Projects
           </h2>
           <p className="font-sans text-sm md:text-base text-[#454843] mt-1.5 max-w-3xl leading-relaxed">
-            Hands-on semiconductor implementation projects executed in Cadence Genus and Cadence Innovus on the 28 nm node. Features synthesis, floorplanning, placement, and Clock Tree Synthesis (CCOpt) with genuine EDA reports.
+            Hands-on semiconductor implementation projects executed in Cadence Genus and Cadence Innovus on the 28 nm node, spanning RTL synthesis, floorplanning, placement, CCOpt CTS, routing, and post-route optimization with genuine EDA reports.
           </p>
         </div>
 
@@ -74,9 +74,9 @@ export const ProjectsLedger: React.FC<ProjectsLedgerProps> = ({
                       </span>
                     </div>
 
-                    <span className="font-technical text-[11px] px-2 py-0.5 border bg-[#e9e7df] text-[#1b1c18] border-[#d8d7ce] font-bold">
+                    <span className="font-technical text-[11px] px-2 py-0.5 border bg-[#1b1c18] text-[#cef053] border-[#1b1c18] font-bold">
                       {isCva6 
-                        ? 'CTS: COMPLETED' 
+                        ? 'POST-ROUTE COMPLETED' 
                         : isAes 
                         ? 'SYNTHESIS: COMPLETED' 
                         : 'STA & SDC: COMPLETED'}
@@ -104,7 +104,7 @@ export const ProjectsLedger: React.FC<ProjectsLedgerProps> = ({
                     </span>
                     <span className="px-2 py-0.5 bg-[#f5f3ed] border border-[#d8d7ce] text-[#536600] font-semibold text-[11px]">
                       {isCva6 
-                        ? 'POST-CTS: IN PROGRESS' 
+                        ? 'GDSII & SIGNOFF PENDING' 
                         : isAes 
                         ? '0 VIOLATING PATHS' 
                         : 'MULTI-BUDGET STA'}
@@ -135,7 +135,7 @@ export const ProjectsLedger: React.FC<ProjectsLedgerProps> = ({
                     {isCva6 && (
                       <div>
                         <span className="font-bold text-[#1b1c18]">CURRENT STATUS: </span>
-                        Clock Tree Synthesis completed via Cadence Innovus CCOpt. Post-CTS analysis in progress (util: 82.7%). Detailed routing not started.
+                        Post-route implementation completed (DRCs reduced 40 &rarr; 10, 0 antenna, Setup WNS -0.114 ns via LVT &amp; useful skew). GDSII generation and signoff pending.
                       </div>
                     )}
                     {isAes && (
@@ -147,7 +147,7 @@ export const ProjectsLedger: React.FC<ProjectsLedgerProps> = ({
                     {isHalfCycle && (
                       <div>
                         <span className="font-bold text-[#1b1c18]">CURRENT STATUS: </span>
-                        Static Timing Analysis & SDC constraints verified in Cadence Genus across 3 clocks (1 GHz, ~450 MHz, ~230 MHz).
+                        Static Timing Analysis &amp; SDC constraints verified in Cadence Genus across 3 clocks (1 GHz, ~450 MHz, ~230 MHz).
                       </div>
                     )}
                   </div>
@@ -160,7 +160,7 @@ export const ProjectsLedger: React.FC<ProjectsLedgerProps> = ({
                   <span className="text-[#757872]">LANGUAGES: {project.languages.join(', ')}</span>
                   <span className="text-[#536600] font-bold mt-0.5">
                     {isCva6 
-                      ? '★ VERIFIED CTS & PLACEMENT EVIDENCE' 
+                      ? '★ VERIFIED POST-ROUTE & CTS EVIDENCE' 
                       : isAes 
                       ? '★ VERIFIED SYNTHESIS QoR' 
                       : '★ VERIFIED STA & SDC REPORTS'}

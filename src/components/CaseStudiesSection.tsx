@@ -135,7 +135,7 @@ export const CaseStudiesSection: React.FC<CaseStudiesSectionProps> = ({
               6. Selected Implementation
             </div>
             <p className="font-sans text-xs text-[#c5c7be] leading-relaxed">
-              <strong className="text-[#ffffff]">Macro-Channel Optimization</strong> selected with lowest total overflow (2903 tracks) and lowest horizontal overflow (306, 0.11%), saved at <code className="text-[#cef053] font-technical">cva6_fp1.db</code>.
+              <strong className="text-[#ffffff]">Successful Placement Configuration</strong> selected to proceed to CTS with <strong className="text-[#cef053]">0.20%</strong> total overflow, <strong className="text-[#cef053]">1.56</strong> hotspot score, and <strong className="text-[#cef053]">20 µm</strong> macro channels (30% partial blockage).
             </p>
           </div>
         </div>
@@ -157,7 +157,7 @@ export const CaseStudiesSection: React.FC<CaseStudiesSectionProps> = ({
                 </span>
                 <span className="text-[#c5c7c1]">·</span>
                 <span className="text-[#536600] font-bold uppercase">
-                  SELECTED DATABASE: cva6_fp1.db
+                  SELECTED PLACEMENT DATABASE · APPROVED FOR CTS
                 </span>
               </div>
               <div className="flex items-center gap-2 font-technical text-xs text-[#757872]">
@@ -181,20 +181,20 @@ export const CaseStudiesSection: React.FC<CaseStudiesSectionProps> = ({
                 {/* Key Metrics Quick Ribbon */}
                 <div className="pt-2 flex flex-wrap items-center gap-3 font-technical text-xs">
                   <div className="px-2.5 py-1 bg-[#f5f3ed] border border-[#d8d7ce] flex items-center gap-1.5">
-                    <span className="text-[#757872]">Lowest Total Overflow:</span>
-                    <strong className="text-[#1b1c18]">2903 tracks (cva6_fp1.db)</strong>
+                    <span className="text-[#757872]">Total Overflow:</span>
+                    <strong className="text-[#536600]">0.20% (0.09% H · 0.11% V)</strong>
                   </div>
                   <div className="px-2.5 py-1 bg-[#f5f3ed] border border-[#d8d7ce] flex items-center gap-1.5">
-                    <span className="text-[#757872]">Horizontal Overflow:</span>
-                    <strong className="text-[#536600]">306 (0.11%)</strong>
+                    <span className="text-[#757872]">Normalized Hotspot:</span>
+                    <strong className="text-[#1b1c18]">1.56 Total (0.35 Max)</strong>
                   </div>
                   <div className="px-2.5 py-1 bg-[#f5f3ed] border border-[#d8d7ce] flex items-center gap-1.5">
-                    <span className="text-[#757872]">Die Dimensions:</span>
-                    <strong className="text-[#1b1c18]">950 × 916 µm</strong>
+                    <span className="text-[#757872]">Core Utilization:</span>
+                    <strong className="text-[#1b1c18]">82.6%</strong>
                   </div>
                   <div className="px-2.5 py-1 bg-[#f5f3ed] border border-[#d8d7ce] flex items-center gap-1.5">
-                    <span className="text-[#757872]">Macro Channel Spacing:</span>
-                    <strong className="text-[#1b1c18]">+5 µm Corridor</strong>
+                    <span className="text-[#757872]">Macro Channels &amp; Blockage:</span>
+                    <strong className="text-[#1b1c18]">20 µm · 30% Partial</strong>
                   </div>
                 </div>
               </div>

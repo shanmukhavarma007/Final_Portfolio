@@ -35,19 +35,19 @@ SPECIALIZED TRAINING:
 
 VERIFIED EDA TOOLCHAIN:
 - Cadence Genus (RTL Synthesis, QoR Analysis, SDC Constraints)
-- Cadence Innovus (Floorplanning, Macro Placement, Standard-Cell Placement)
-- Verilog HDL, Tcl, Linux Shell Scripting
+- Cadence Innovus (Floorplanning, Placement, CCOpt CTS, Routing & Post-Route Opt)
+- Verilog HDL, Tcl, Python, Linux Shell Scripting
 
 VERIFIED PROJECTS:
 1. CVA6 RISC-V Processor:
    - Process Technology: 28 nm
    - Clock Period: 1.5 ns (approx. 666.67 MHz)
-   - RTL Synthesis in Cadence Genus (178,799 LeafCells)
-   - Floorplanning with 15 µm Channels in Cadence Innovus
-   - Standard-Cell Placement Completed in Cadence Innovus
-   - Clock Tree Synthesis: Completed via Cadence Innovus CCOpt
-   - Post-CTS Analysis: In Progress (Util: 82.7%, Setup WNS -0.318 ns, Hold WNS -0.224 ns)
-   - Routing: Theoretical Study Completed
+   - Stage: Post-Route Implementation Completed – GDSII Generation & Signoff Pending
+   - Floorplan & Placement: 950 x 916 um (30% macro partial blockage), 82.6% util, 0.2% overflow
+   - CTS & Post-CTS: CCOpt completed; post-CTS 83.6% util, 0 max_tran violations
+   - Routing & Post-Route: DRCs reduced 40 -> 10 (-75%), 0 antenna violations, 0 glitch violations
+   - Timing Optimization (LVT + Useful Skew): Setup WNS -0.201 -> -0.114 ns (934 paths); Hold WNS -0.001 ns (7 paths)
+   - Pending: Final DRC/LVS/STA signoff and GDSII stream-out
 2. AES Core — RTL Synthesis & Timing Analysis:
    - Process Technology: 28 nm
    - Clock Period: 1000.0 ps / 1.0 ns
@@ -245,7 +245,7 @@ VERIFIED PROJECTS:
                     </div>
                     <span className="px-2 py-0.5 bg-[#f5f3ed] text-[10px] font-bold text-[#1b1c18] border border-[#d8d7ce]">
                       {proj.id === 'cva6-riscv'
-                        ? 'CTS: COMPLETED | POST-CTS: IN PROGRESS'
+                        ? 'POST-ROUTE DONE | GDSII PENDING'
                         : proj.id === 'aes-core'
                         ? 'SYNTHESIS: COMPLETED (1.0 ns CLOCK)'
                         : 'STA & SDC: COMPLETED (3 CLOCKS)'}

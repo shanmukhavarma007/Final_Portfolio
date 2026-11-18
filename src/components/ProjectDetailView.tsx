@@ -44,10 +44,19 @@ create_ccopt_clock_tree_spec -file ccopt.spec
 source ccopt.spec
 ccopt_design -cts
 
-# Step 6: Post-CTS Timing and Electrical DRV Analysis
+# Step 6: Post-CTS Timing and Electrical DRV Analysis (Clock Tree Synthesis Stage)
 timeDesign -postCTS
 timeDesign -postCTS -hold
-report_constraint -all_violators`,
+report_constraint -all_violators
+
+# Step 7: Detailed Routing (Post-CTS Stage) & Post-Route Optimization (Post-Route Stage)
+routeDesign -globalDetail
+verify_drc
+verifyProcessAntenna
+setOptMode -usefulSkewPostRoute true
+optDesign -postRoute -setup -hold
+timeDesign -postRoute
+timeDesign -postRoute -hold`,
 
     'aes-core': `# Cadence Genus RTL Synthesis Script for AES Cryptographic Core
 # Step 1: Read technology libraries and HDL sources
@@ -133,7 +142,7 @@ report_timing -from [get_cells reg_pos*] -to [get_cells reg_neg*] > halfcycle_ti
             <CheckCircle2 className="w-3.5 h-3.5 text-[#cef053]" />
             <span>
               {project.id === 'cva6-riscv'
-                ? 'CTS: COMPLETED | POST-CTS: IN PROGRESS'
+                ? 'POST-ROUTE COMPLETED – GDSII & SIGNOFF PENDING'
                 : project.id === 'aes-core'
                 ? 'SYNTHESIS: COMPLETED (1.0 ns CLOCK | 0 VIOLATIONS)'
                 : 'STA & SDC: COMPLETED (3 CLOCKS)'}
@@ -148,16 +157,16 @@ report_timing -from [get_cells reg_pos*] -to [get_cells reg_neg*] > halfcycle_ti
           {project.subtitle}
         </p>
 
-        {/* CVA6 Placement & CTS Quick Action */}
+        {/* CVA6 Placement, CTS & Post-Route Quick Action */}
         {project.id === 'cva6-riscv' && onNavigateToFloorplan && (
           <div className="mt-5 p-4 bg-[#f5f3ed] border border-[#d8d7ce] flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
             <div>
               <div className="font-technical text-xs font-bold text-[#1b1c18] flex items-center gap-1.5">
                 <ShieldCheck className="w-4 h-4 text-[#536600]" />
-                VERIFIED STATUS: 28 nm SYNTHESIS, PLACEMENT & CTS (CCOpt) COMPLETED
+                VERIFIED STATUS: POST-ROUTE IMPLEMENTATION COMPLETED – GDSII GENERATION AND SIGNOFF PENDING
               </div>
               <p className="text-xs text-[#454843] mt-1">
-                Completed milestones: RTL synthesis in Cadence Genus (178,799 leaf cells), floorplanning with 15 µm channels, standard-cell placement, and Clock Tree Synthesis (CCOpt) in Cadence Innovus. Actively analyzing post-CTS timing (util: 82.7%).
+                Completed milestones: RTL synthesis (178,799 cells), floorplan (950 × 916 µm, 30% macro partial blockage), placement, CCOpt CTS, routing (0 antenna violations), and post-route optimization (DRCs 40 &rarr; 10; LVT &amp; useful skew Setup WNS -0.114 ns, Hold WNS -0.001 ns). GDSII &amp; final signoff pending.
               </p>
             </div>
             <button
@@ -234,7 +243,7 @@ report_timing -from [get_cells reg_pos*] -to [get_cells reg_neg*] > halfcycle_ti
             <div className="text-[#757872] uppercase text-[10px] font-semibold">IMPLEMENTATION STAGE</div>
             <div className="text-sm font-bold text-[#536600] mt-1">
               {project.id === 'cva6-riscv' 
-                ? 'CTS Completed (CCOpt)' 
+                ? 'Post-Route Completed' 
                 : project.id === 'aes-core' 
                 ? 'Synthesis Completed' 
                 : 'STA Completed'}
@@ -244,7 +253,7 @@ report_timing -from [get_cells reg_pos*] -to [get_cells reg_neg*] > halfcycle_ti
             <div className="text-[#757872] uppercase text-[10px] font-semibold">NEXT STAGE / CURRENT FOCUS</div>
             <div className="text-sm font-bold text-[#1b1c18] mt-1">
               {project.id === 'cva6-riscv' 
-                ? 'Post-CTS Analysis' 
+                ? 'GDSII & Signoff Pending' 
                 : project.id === 'aes-core' 
                 ? 'Floorplanning (Planned)' 
                 : 'SDC Budgeting'}

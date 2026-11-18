@@ -727,22 +727,40 @@ export const Cva6TimingVsDensityCaseStudy: React.FC = () => {
         </div>
       </div>
 
-      {/* 7. Evidence Classification Matrix (4-Tier Rubric) */}
+      {/* 7. Evidence Classification Matrix (5-Tier Rubric) */}
       <div className="p-6 md:p-8 bg-[#fbf9f3] space-y-4">
-        <div className="flex items-center justify-between pb-2 border-b border-[#d8d7ce]">
+        <div className="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-[#d8d7ce]">
           <div className="flex items-center gap-2 font-technical text-xs">
             <span className="text-[#757872] font-bold">06 // INTEGRITY CLASSIFICATION</span>
             <span className="text-[#c5c7c1]">·</span>
             <span className="text-[#1b1c18] font-bold uppercase">Evidence Classification Matrix</span>
           </div>
-          <span className="font-technical text-[10px] text-[#536600] font-bold px-2 py-0.5 bg-[#ffffff] border border-[#d8d7ce]">
-            VERIFIED AUDIT RUBRIC
-          </span>
+          <div className="flex flex-wrap items-center gap-2 font-technical text-[10px]">
+            <span className="px-2 py-0.5 bg-[#1b1c18] text-[#cef053] font-bold">
+              POST-ROUTE COMPLETED
+            </span>
+            <span className="px-2 py-0.5 bg-[#fffdf6] border border-[#d97706]/50 text-[#b45309] font-bold">
+              NEXT MILESTONE: OUTPUT GENERATION
+            </span>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
-          {/* APPLIED */}
-          <div className="p-3.5 bg-[#ffffff] border border-[#d8d7ce] space-y-1.5">
+        {/* 5-Stage Progression Strip */}
+        <div className="flex flex-wrap items-center gap-1.5 font-technical text-[10px] text-[#757872] pb-1">
+          <span className="text-[#536600] font-bold">APPLIED</span>
+          <span>&rarr;</span>
+          <span className="text-[#1b1c18] font-bold">OBSERVED</span>
+          <span>&rarr;</span>
+          <span className="text-[#757872] font-bold">INTERPRETED</span>
+          <span>&rarr;</span>
+          <span className="text-[#536600] font-bold">COMPLETED</span>
+          <span>&rarr;</span>
+          <span className="text-[#b45309] font-bold">IN PROGRESS</span>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-3 text-xs">
+          {/* 1. APPLIED */}
+          <div className="lg:col-span-2 p-3.5 bg-[#ffffff] border border-[#d8d7ce] space-y-1.5">
             <div className="font-technical text-xs font-bold text-[#536600] uppercase flex items-center justify-between">
               <span>[ APPLIED ]</span>
               <span className="w-2 h-2 bg-[#b7d83d]" />
@@ -755,8 +773,8 @@ export const Cva6TimingVsDensityCaseStudy: React.FC = () => {
             </p>
           </div>
 
-          {/* OBSERVED */}
-          <div className="p-3.5 bg-[#ffffff] border border-[#d8d7ce] space-y-1.5">
+          {/* 2. OBSERVED */}
+          <div className="lg:col-span-2 p-3.5 bg-[#ffffff] border border-[#d8d7ce] space-y-1.5">
             <div className="font-technical text-xs font-bold text-[#1b1c18] uppercase flex items-center justify-between">
               <span>[ OBSERVED ]</span>
               <span className="w-2 h-2 bg-[#1b1c18]" />
@@ -769,8 +787,8 @@ export const Cva6TimingVsDensityCaseStudy: React.FC = () => {
             </p>
           </div>
 
-          {/* INTERPRETED */}
-          <div className="p-3.5 bg-[#ffffff] border border-[#d8d7ce] space-y-1.5">
+          {/* 3. INTERPRETED */}
+          <div className="lg:col-span-2 md:col-span-2 p-3.5 bg-[#ffffff] border border-[#d8d7ce] space-y-1.5">
             <div className="font-technical text-xs font-bold text-[#757872] uppercase flex items-center justify-between">
               <span>[ INTERPRETED ]</span>
               <span className="w-2 h-2 bg-[#757872]" />
@@ -783,18 +801,87 @@ export const Cva6TimingVsDensityCaseStudy: React.FC = () => {
             </p>
           </div>
 
-          {/* NOT ESTABLISHED */}
-          <div className="p-3.5 bg-[#ffffff] border border-[#d8d7ce] space-y-1.5">
-            <div className="font-technical text-xs font-bold text-[#b91c1c] uppercase flex items-center justify-between">
-              <span>[ NOT ESTABLISHED ]</span>
-              <span className="w-2 h-2 bg-[#b91c1c]" />
+          {/* 4. COMPLETED */}
+          <div className="lg:col-span-3 p-3.5 bg-[#ffffff] border border-[#536600] space-y-2.5 flex flex-col justify-between">
+            <div className="space-y-1.5">
+              <div className="font-technical text-xs font-bold text-[#536600] uppercase flex items-center justify-between">
+                <span>[ COMPLETED ]</span>
+                <span className="w-2 h-2 bg-[#b7d83d]" />
+              </div>
+              <div className="text-[11px] font-bold text-[#1b1c18] font-technical">
+                Downstream Physical Implementation
+              </div>
+              <p className="text-[#454843] text-[11px] leading-relaxed">
+                Completed Clock Tree Synthesis, routing and post-route implementation of the CVA6 design. Post-route analysis recorded 10 remaining DRC violations and zero reported antenna violations. Performed post-route setup and hold timing assessment, LVT cell optimization experiments and useful skew analysis.
+              </p>
             </div>
-            <div className="text-[11px] font-bold text-[#1b1c18] font-technical">
-              Uncompleted Downstream
+
+            <div className="grid grid-cols-2 gap-1.5 pt-2 border-t border-[#d8d7ce] font-technical text-[11px]">
+              <div className="p-2 bg-[#fbf9f3] border border-[#d8d7ce] flex items-center justify-between">
+                <span className="text-[#757872]">Post-route DRCs</span>
+                <span className="font-bold text-[#1b1c18] tabular-nums">10</span>
+              </div>
+              <div className="p-2 bg-[#fbf9f3] border border-[#d8d7ce] flex items-center justify-between">
+                <span className="text-[#757872]">Antenna violations</span>
+                <span className="font-bold text-[#536600] tabular-nums">0</span>
+              </div>
+              <div className="p-2 bg-[#fbf9f3] border border-[#d8d7ce] flex items-center justify-between">
+                <span className="text-[#757872]">Congestion overflow</span>
+                <span className="font-bold text-[#1b1c18] tabular-nums">0.51%</span>
+              </div>
+              <div className="p-2 bg-[#fbf9f3] border border-[#d8d7ce] flex items-center justify-between">
+                <span className="text-[#757872]">Hotspot score</span>
+                <span className="font-bold text-[#1b1c18] tabular-nums">18.12</span>
+              </div>
             </div>
-            <p className="text-[#454843] text-[11px] leading-relaxed">
-              Post-route timing closure, full detailed routing completion, final DRC/LVS clean status, or tapeout fabrication readiness.
-            </p>
+          </div>
+
+          {/* 5. IN PROGRESS */}
+          <div className="lg:col-span-3 md:col-span-2 p-3.5 bg-[#fffdf6] border border-[#d97706]/50 space-y-2.5 flex flex-col justify-between">
+            <div className="space-y-1.5">
+              <div className="font-technical text-xs font-bold text-[#b45309] uppercase flex items-center justify-between">
+                <span>[ IN PROGRESS ]</span>
+                <span className="w-2 h-2 bg-[#f59e0b]" />
+              </div>
+              <div className="text-[11px] font-bold text-[#1b1c18] font-technical">
+                GDSII &amp; Final Output Generation
+              </div>
+              <p className="text-[#454843] text-[11px] leading-relaxed">
+                Post-route implementation has been completed. Currently progressing toward final physical design output generation, including GDSII stream-out and associated verification deliverables.
+              </p>
+            </div>
+
+            <div className="pt-2 border-t border-[#d97706]/25 space-y-1.5">
+              <div className="font-technical text-[10px] font-bold text-[#b45309] uppercase">
+                Pending Deliverables
+              </div>
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-3 gap-y-1 text-[11px] text-[#454843] font-technical">
+                <li className="flex items-start gap-1.5">
+                  <span className="text-[#b45309] font-bold select-none">&bull;</span>
+                  <span>GDSII stream-out.</span>
+                </li>
+                <li className="flex items-start gap-1.5">
+                  <span className="text-[#b45309] font-bold select-none">&bull;</span>
+                  <span>Final DRC verification.</span>
+                </li>
+                <li className="flex items-start gap-1.5">
+                  <span className="text-[#b45309] font-bold select-none">&bull;</span>
+                  <span>LVS verification.</span>
+                </li>
+                <li className="flex items-start gap-1.5">
+                  <span className="text-[#b45309] font-bold select-none">&bull;</span>
+                  <span>Final timing signoff.</span>
+                </li>
+                <li className="flex items-start gap-1.5">
+                  <span className="text-[#b45309] font-bold select-none">&bull;</span>
+                  <span>Final implementation reports.</span>
+                </li>
+                <li className="flex items-start gap-1.5">
+                  <span className="text-[#b45309] font-bold select-none">&bull;</span>
+                  <span>Design output handoff.</span>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>

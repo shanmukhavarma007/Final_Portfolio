@@ -3,7 +3,7 @@ import { Terminal, Copy, Check } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
 export const EdaTerminalConsole: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'genus_synth' | 'genus_sdc' | 'innovus_fp' | 'innovus_place'>('genus_synth');
+  const [activeTab, setActiveTab] = useState<'genus_synth' | 'genus_sdc' | 'innovus_fp' | 'innovus_place' | 'innovus_postroute'>('genus_synth');
   const [copied, setCopied] = useState(false);
 
   const scripts = {
@@ -112,9 +112,33 @@ checkPlace
 # Generate placement-stage QoR report before CTS handoff
 report_qor -summary > reports/cva6_placement_qor.rpt
 
-# Save placement database ready for CTS handoff
-saveDesign dbs/cva6_placement_completed.enc
-puts "[INFO] Standard-cell placement completed. Ready for future CTS handoff."`
+# Save placement checkpoint ready for CTS handoff
+saveDesign placement_stage_checkpoint
+puts "[INFO] Standard-cell placement completed. Ready for CTS."`,
+
+    innovus_postroute: `# ==============================================================================
+# Cadence Innovus Routing & Post-Route Optimization - CVA6 (Post-Route Stage)
+# Flow: routeDesign -> DRC & Antenna Check -> LVT Enabling -> Useful Skew Opt
+# ==============================================================================
+
+# Load Post-CTS Stage checkpoint and execute global & detailed signal routing
+restoreDesign post_cts_stage cva6_top
+routeDesign -globalDetail
+verify_drc -report reports/route_drc_40.rpt
+verifyProcessAntenna -report reports/route_antenna.rpt
+
+# Enable LVT cells & useful skew for post-route setup/hold refinement
+setOptMode -usefulSkewPostRoute true
+optDesign -postRoute -setup -hold
+
+# Audit Post-Route Stage timing (Setup WNS: -0.114 ns | Hold WNS: -0.001 ns)
+timeDesign -postRoute -reportOnly > reports/postroute_setup_skew.rpt
+timeDesign -postRoute -hold -reportOnly > reports/postroute_hold_skew.rpt
+verify_drc -report reports/postroute_drc_10.rpt
+
+# Save Post-Route Stage state (GDSII generation & final signoff pending)
+saveDesign post_route_stage
+puts "[INFO] Post-route completed (DRCs: 40 -> 10, Antenna: 0). GDSII/Signoff pending."`
   };
 
   const currentScript = scripts[activeTab];
@@ -199,6 +223,16 @@ puts "[INFO] Standard-cell placement completed. Ready for future CTS handoff."`
           }`}
         >
           [ Innovus: Placement & checkPlace ]
+        </button>
+        <button
+          onClick={() => setActiveTab('innovus_postroute')}
+          className={`px-3 py-2 border-r border-[#333833] transition-colors cursor-pointer ${
+            activeTab === 'innovus_postroute'
+              ? 'bg-[#171a18] text-[#cef053] font-bold border-t-2 border-t-[#cef053]'
+              : 'text-[#757872] hover:text-[#fbf9f3]'
+          }`}
+        >
+          [ Innovus: Route & Post-Route Opt ]
         </button>
       </div>
 

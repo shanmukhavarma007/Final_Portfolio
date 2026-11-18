@@ -160,6 +160,81 @@ const ENGINEERING_DECISIONS: EngineeringDecision[] = [
       evidenceAsset: '/assets/aistudio/image_1fd9e88f.png',
       evidenceNote: 'Cadence Innovus congestion map showing localized track density in the central datapath corridor.'
     }
+  },
+  {
+    id: 'post-route-drc-reduction',
+    index: 'DECISION 06',
+    title: 'Post-Route DRC Cleanup & Antenna Verification',
+    subtitle: 'Resolving M2 end-of-line spacing violations to cut total DRCs by 75% (40 → 10)',
+    badge: 'POST-ROUTE DRC CLEANUP',
+    observation:
+      'Initial detailed routing from the Post-CTS Stage introduced 40 geometry DRCs—dominated by 29 EOLSpc violations on M2 alongside 7 WMJ on M4, 2 EncEdg on VIA1, 1 Short on M5, and 1 CutEol on VIA3—while passing antenna checks cleanly (0 violations).',
+    engineeringConsideration:
+      'Attempting to fix dense lower-layer EOLSpc and via enclosure errors blindly can ripple new routing detours into saturated channels, increasing overflow (0.51%) and hotspot scores (18.12) or degrading setup slack. Targeted post-route track repair must clear lower-layer spacing violations without destabilizing antenna immunity or timing.',
+    decisionInvestigation:
+      'Executed targeted physical cleanup during the Post-Route Stage, completely eliminating all 29 EOLSpc (M2), 2 EncEdg (VIA1), and 1 CutEol (VIA3) violations. Total DRCs dropped 75% from 40 to 10 (leaving 7 WMJ M4, 2 Short M4/M5, and 1 EncEdg VIA3 pending signoff) with 0.51% overflow, 0 antenna violations, and 0 glitch violations.',
+    supportingEvidence: {
+      reportType: 'Post-Route Violation Summary By Layer and Type',
+      edaTool: 'Cadence Innovus (Post-Route Stage)',
+      metrics: [
+        'DRC Count: 40 → 10 (-75%)',
+        'EOLSpc (M2): 29 → 0 Cleared',
+        'Antenna Violations: 0 Verified',
+        'Remaining: 7 WMJ, 2 Short, 1 EncEdg'
+      ],
+      evidenceAsset: '/assets/aistudio/cva6_postroute_drc_10.png',
+      evidenceNote: 'Verified Post-Route Stage DRC table showing 10 remaining violations down from 40 at route.'
+    }
+  },
+  {
+    id: 'lvt-cell-enabling',
+    index: 'DECISION 07',
+    title: 'Post-Route LVT Cell Enabling vs. Leakage Budget',
+    subtitle: 'Swapping critical setup cells to Low-Vt to recover 79 ps WNS and clear m2r violations',
+    badge: 'VT SWAPPING // LVT OPT',
+    observation:
+      'Prior to enabling LVT standard cells at the Post-Route Stage, setup WNS stood at -0.201 ns (TNS -161.833 ns across 3,079 violating paths) with 6 max_tran nets (-0.067 ns). Hold WNS was -0.004 ns (15 paths).',
+    engineeringConsideration:
+      'Low-Threshold Voltage (LVT) cells reduce switching delay on critical paths without requiring wide buffer upsizing that disturbs routed metal tracks. However, unconstrained LVT usage dramatically escalates static leakage power and can accelerate short-path hold violations.',
+    decisionInvestigation:
+      'Selectively enabled LVT cells during post-route optimization strictly along violating setup endpoints. Setup WNS improved 39.3% (-0.201 → -0.122 ns), TNS dropped 81.7% (-161.833 → -29.582 ns), violating paths fell from 3,079 to 1,001, max_tran halved (6 → 3 nets), and m2r paths turned positive (+0.006 ns) while hold WNS remained steady (-0.003 ns).',
+    supportingEvidence: {
+      reportType: 'Post-Route Timing Report (After Enabling LVT)',
+      edaTool: 'Cadence Innovus (Post-Route Stage)',
+      metrics: [
+        'Setup WNS: -0.201 → -0.122 ns',
+        'Setup TNS: -161.833 → -29.582 ns',
+        'Violating Paths: 3,079 → 1,001',
+        'm2r Path Group: +0.006 ns (MET)'
+      ],
+      evidenceAsset: '/assets/aistudio/cva6_postroute_setup_after_lvt.png',
+      evidenceNote: 'Cadence Innovus post-route setup timing report immediately following LVT cell enabling.'
+    }
+  },
+  {
+    id: 'useful-skew-analysis',
+    index: 'DECISION 08',
+    title: 'Post-Route Useful Skew Analysis vs. Hold Margin',
+    subtitle: 'Borrowing clock skew slack to refine Setup WNS to -0.114 ns and Hold WNS to -0.001 ns',
+    badge: 'USEFUL SKEW OPT',
+    observation:
+      'After LVT optimization, 1,001 setup paths (-0.122 ns WNS) and 3 max_tran violations remained due to unbalanced stage-to-stage combinational logic depth in default and r2o groups.',
+    engineeringConsideration:
+      'Useful skew intentionally shifts capture/launch clock arrival times to lend timing budget from slack-rich adjacent stages to critical stages. Pushing useful skew too far steals margin from downstream paths or creates hold failures.',
+    decisionInvestigation:
+      'Applied bounded useful skew optimization during the Post-Route Stage, tightening Setup WNS to -0.114 ns (TNS -28.249 ns, 934 violating paths), clearing max_tran down to 1 net (-0.002 ns), improving m2r to +0.007 ns, and simultaneously converging Hold WNS to -0.001 ns (TNS -0.002 ns, 7 violating paths). Remaining endpoints are queued for final signoff closure.',
+    supportingEvidence: {
+      reportType: 'Post-Route Timing Report (After Useful Skew Analysis)',
+      edaTool: 'Cadence Innovus (Post-Route Stage)',
+      metrics: [
+        'Setup WNS: -0.122 → -0.114 ns',
+        'Violating Setup Paths: 1,001 → 934',
+        'Hold WNS: -0.001 ns (7 Paths)',
+        'max_tran: 3 → 1 net (-0.002 ns)'
+      ],
+      evidenceAsset: '/assets/aistudio/cva6_postroute_setup_useful_skew.png',
+      evidenceNote: 'Latest Post-Route Stage setup & DRV report after useful skew analysis.'
+    }
   }
 ];
 

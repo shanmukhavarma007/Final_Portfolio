@@ -41,17 +41,17 @@ export const MethodologyFlow: React.FC<MethodologyFlowProps> = ({
     },
     {
       step: '05',
-      name: 'Detailed Signal Routing',
-      tool: 'Future Cadence Innovus Milestone',
-      status: 'PLANNED_NOT_STARTED',
-      description: 'Grid-based signal routing connecting placed standard cells while satisfying design rules. (Current status: Not started).'
+      name: 'Detailed Routing & Post-Route Opt',
+      tool: 'Cadence Innovus — Routing & Opt',
+      status: 'COMPLETED',
+      description: 'Executed signal routing (0 antenna violations, 0.51% overflow) and post-route timing/DRC cleanup (DRCs reduced 40 to 10; LVT & useful skew Setup WNS -0.114 ns, Hold WNS -0.001 ns).'
     },
     {
       step: '06',
-      name: 'Physical Signoff (DRC / LVS)',
-      tool: 'Future Signoff Milestone',
+      name: 'GDSII Generation & Physical Signoff',
+      tool: 'Pending Signoff Milestone',
       status: 'PLANNED_NOT_STARTED',
-      description: 'Full-chip physical verification: Design Rule Checking (DRC) and Layout Versus Schematic (LVS) verification. (Current status: Not completed).'
+      description: 'Resolving remaining 10 DRCs and final timing paths, full DRC/LVS/antenna/STA verification, and GDSII stream-out. (Current status: Pending).'
     }
   ];
 
