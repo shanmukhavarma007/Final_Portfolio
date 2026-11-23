@@ -809,17 +809,17 @@ export const Cva6TimingVsDensityCaseStudy: React.FC = () => {
                 <span className="w-2 h-2 bg-[#b7d83d]" />
               </div>
               <div className="text-[11px] font-bold text-[#1b1c18] font-technical">
-                Downstream Physical Implementation
+                Downstream Physical Implementation &amp; Route ECO
               </div>
               <p className="text-[#454843] text-[11px] leading-relaxed">
-                Completed Clock Tree Synthesis, routing and post-route implementation of the CVA6 design. Post-route analysis recorded 10 remaining DRC violations and zero reported antenna violations. Performed post-route setup and hold timing assessment, LVT cell optimization experiments and useful skew analysis.
+                Completed Clock Tree Synthesis, routing (40 initial DRCs, 0 antenna) and initial post-route analysis (10 initial DRCs). Subsequent Route ECO macro-pin via optimization achieved <strong>0 verified DRC violations</strong>, alongside LVT, useful skew, and separate I2O (+0.028 ns) &amp; Default (+0.186 ns) group fixes.
               </p>
             </div>
 
             <div className="grid grid-cols-2 gap-1.5 pt-2 border-t border-[#d8d7ce] font-technical text-[11px]">
               <div className="p-2 bg-[#fbf9f3] border border-[#d8d7ce] flex items-center justify-between">
-                <span className="text-[#757872]">Post-route DRCs</span>
-                <span className="font-bold text-[#1b1c18] tabular-nums">10</span>
+                <span className="text-[#757872]">Final Post-ECO DRCs</span>
+                <span className="font-bold text-[#536600] tabular-nums">0 (from 10 init PR)</span>
               </div>
               <div className="p-2 bg-[#fbf9f3] border border-[#d8d7ce] flex items-center justify-between">
                 <span className="text-[#757872]">Antenna violations</span>

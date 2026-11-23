@@ -62,7 +62,7 @@ export const NetlistLedger: React.FC<NetlistLedgerProps> = ({
             </div>
           </div>
           <span className="text-[10px] font-technical text-[#757872] uppercase tracking-wider">
-            Stage: Post-Route Stage · DRCs: 10 (from 40) · Antenna: 0 · Setup WNS: -0.114 ns
+            cva6_route.db + ECO · DRCs: 0 Verified (from 10 init PR / 40 route) · Antenna: 0 · I2O +0.028 ns · Default +0.186 ns
           </span>
         </div>
       </div>
@@ -123,7 +123,7 @@ export const NetlistLedger: React.FC<NetlistLedgerProps> = ({
                 <span className="text-[#757872]">Macro Placement</span>
                 <span className="text-[#536600] font-bold flex items-center gap-1">
                   <CheckCircle2 className="w-3.5 h-3.5 text-[#536600]" />
-                  15 µm Halo Channels
+                  20 µm Channels · 30% Blockage
                 </span>
               </motion.div>
 
@@ -179,24 +179,24 @@ export const NetlistLedger: React.FC<NetlistLedgerProps> = ({
               className="mt-3 divide-y divide-[#d8d7ce] text-xs font-technical"
             >
               <motion.div variants={rowVariants} className="py-2.5 flex justify-between items-center bg-[#fbf9f3] px-2 -mx-2">
-                <span className="text-[#1b1c18] font-bold">Post-Route DRC Cleanup</span>
+                <span className="text-[#1b1c18] font-bold">Route ECO DRC Verification</span>
                 <span className="text-[#536600] font-bold flex items-center gap-1">
                   <CheckCircle2 className="w-3.5 h-3.5 text-[#536600]" />
-                  40 &rarr; 10 DRCs (-75%)
+                  40 &rarr; 10 init PR &rarr; 0 Verified
                 </span>
               </motion.div>
 
               <motion.div variants={rowVariants} className="py-2.5 flex justify-between items-center">
-                <span className="text-[#757872]">Post-Route Setup (LVT + Skew)</span>
-                <span className="text-[#1b1c18] font-semibold">
-                  WNS: -0.114 ns · 934 Paths
+                <span className="text-[#757872]">I2O Timing Group (Max-Delay)</span>
+                <span className="text-[#536600] font-semibold">
+                  FIXED · WNS: +0.028 ns (Group Only)
                 </span>
               </motion.div>
 
               <motion.div variants={rowVariants} className="py-2.5 flex justify-between items-center">
-                <span className="text-[#757872]">Post-Route Hold (Multi-Corner)</span>
-                <span className="text-[#1b1c18] font-semibold">
-                  WNS: -0.001 ns · 7 Paths
+                <span className="text-[#757872]">Default Group (IO 60%&rarr;40%)</span>
+                <span className="text-[#536600] font-semibold">
+                  FIXED · WNS: +0.186 ns (Group Only)
                 </span>
               </motion.div>
 
@@ -210,14 +210,14 @@ export const NetlistLedger: React.FC<NetlistLedgerProps> = ({
               <motion.div variants={rowVariants} className="py-2.5 flex justify-between items-center">
                 <span className="text-[#757872]">GDSII Generation / Stream-Out</span>
                 <span className="text-[#757872] font-semibold">
-                  PENDING (NOT STARTED)
+                  PENDING (NOT DELIVERED)
                 </span>
               </motion.div>
 
               <motion.div variants={rowVariants} className="py-2.5 flex justify-between items-center">
-                <span className="text-[#757872]">Final Signoff (DRC / LVS / STA)</span>
+                <span className="text-[#757872]">Final Signoff (LVS / Full STA)</span>
                 <span className="text-[#757872] font-semibold">
-                  PENDING (10 DRCs REMAIN)
+                  PENDING (NOT CLAIMED)
                 </span>
               </motion.div>
             </motion.div>
@@ -256,23 +256,23 @@ export const NetlistLedger: React.FC<NetlistLedgerProps> = ({
               Floorplanning & Macro Channels
             </span>
             <p className="leading-relaxed text-[#454843]">
-              Allocated 70% target utilization with 15 µm channels between SRAM macros to reserve routing resources and maintain clean macro interface pin escape into higher metal layers.
+              Allocated 950 × 916 µm (850,552 µm²) floorplan with 20 µm macro channels and 30% density partial placement blockages to preserve routing tracks and macro pin escape.
             </p>
           </div>
           <div className="p-3.5 bg-[#ffffff] border border-[#d8d7ce]">
             <span className="font-technical font-bold text-xs text-[#1b1c18] uppercase block mb-1.5">
-              Placement & Congestion Analysis
+              Placement &amp; Congestion Analysis
             </span>
             <p className="leading-relaxed text-[#454843]">
-              Placed standard cells across core rows, identifying 1,529 overflow edges (76 H, 1,453 V) and localized congestion around execution stage ex_stage_i (hotspot score: 4.77).
+              Selected placement database (cva6_fp1.db) achieved 82.6% core utilization, 0.20% routing overflow, and 1.56 hotspot score, validated suitable for CCOpt CTS.
             </p>
           </div>
           <div className="p-3.5 bg-[#ffffff] border border-[#d8d7ce]">
             <span className="font-technical font-bold text-xs text-[#1b1c18] uppercase block mb-1.5">
-              Routing &amp; Post-Route Optimization
+              Route ECO (0 DRCs) &amp; Timing Opt
             </span>
             <p className="leading-relaxed text-[#454843]">
-              Completed CCOpt CTS, detailed routing (0 antenna violations), DRC cleanup (40 &rarr; 10), and LVT + useful skew optimization (Setup WNS -0.114 ns, Hold WNS -0.001 ns). GDSII &amp; final signoff pending.
+              Resolved 10 initial post-route DRCs to 0 verified DRCs via macro-pin via rotation and route_via_with_block_pins_only true; fixed I2O (+0.028 ns) &amp; Default (+0.186 ns) groups. GDSII &amp; final signoff pending.
             </p>
           </div>
         </div>
@@ -284,7 +284,7 @@ export const NetlistLedger: React.FC<NetlistLedgerProps> = ({
           <ShieldCheck className="w-4 h-4 text-[#536600] shrink-0" />
           <span className="font-bold">FACTUAL INTEGRITY COMMITMENT:</span>
           <span className="text-[#454843]">
-            RTL synthesis through routing and post-route optimization are completed at the Post-Route Stage (10 DRCs remaining, 0 antenna, 0 glitch). GDSII generation, LVS, and final physical/timing signoff remain pending and are not claimed complete.
+            11 verified stages completed through Route ECO (0 verified DRCs, 0 antenna) and per-group timing fixes (I2O +0.028 ns, Default +0.186 ns — not overall chip WNS). Complete multi-group timing closure, LVS, GDSII delivery, and tape-out remain pending.
           </span>
         </div>
         <div className="shrink-0 font-bold text-[#536600]">

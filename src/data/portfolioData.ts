@@ -90,10 +90,11 @@ export const ENGINEER_PROFILE = {
     { area: 'Clock Tree Synthesis (CCOpt)', tool: 'Cadence Innovus', status: 'COMPLETED' as TechnicalStatus },
     { area: 'Post-CTS Timing & DRV Analysis', tool: 'Cadence Innovus', status: 'COMPLETED' as TechnicalStatus },
     { area: 'Signal Routing & Antenna Check', tool: 'Cadence Innovus', status: 'COMPLETED' as TechnicalStatus },
-    { area: 'Post-Route Timing Opt (LVT & Useful Skew)', tool: 'Cadence Innovus', status: 'COMPLETED' as TechnicalStatus },
+    { area: 'Route ECO & Macro-Pin Via DRC Closure (0 DRCs)', tool: 'Cadence Innovus', status: 'COMPLETED' as TechnicalStatus },
+    { area: 'Post-Route Timing Opt (LVT, Useful Skew, I2O/Default)', tool: 'Cadence Innovus', status: 'COMPLETED' as TechnicalStatus },
     { area: 'Static Timing Analysis (STA)', tool: 'Genus / Innovus / Theory', status: 'COMPLETED' as TechnicalStatus },
     { area: 'Congestion & Hotspot Analysis', tool: 'Cadence Innovus', status: 'COMPLETED' as TechnicalStatus },
-    { area: 'GDSII Generation & Final Signoff (DRC/LVS)', tool: 'Physical Verification', status: 'PLANNED_NOT_STARTED' as TechnicalStatus }
+    { area: 'GDSII Generation & Final Signoff (LVS / Full STA)', tool: 'Physical Verification', status: 'PLANNED_NOT_STARTED' as TechnicalStatus }
   ]
 };
 
@@ -173,7 +174,7 @@ export const RECRUITER_SKILL_GROUPS: RecruiterSkillGroup[] = [
         name: 'Macro Placement & Pin Access',
         level: 'HANDS-ON FLOW',
         toolOrContext: 'Cadence Innovus',
-        details: 'SRAM memory macro placement along periphery, 15 µm halo channels between macros, and preserving routing corridors.'
+        details: '16 SRAM memory macros placed along periphery with 20 µm macro channel spacing, 30% partial placement blockages, and routing corridor preservation.'
       },
       {
         name: 'Power Planning',
@@ -184,26 +185,26 @@ export const RECRUITER_SKILL_GROUPS: RecruiterSkillGroup[] = [
       {
         name: 'Standard-Cell Placement',
         level: 'HANDS-ON FLOW',
-        toolOrContext: 'Cadence Innovus',
-        details: 'Timing-driven global & detailed standard-cell placement (82.6% core util, 0.2% overflow, 1.56 hotspot) with checkPlace legalization.'
+        toolOrContext: 'Cadence Innovus (cva6_fp1.db)',
+        details: 'Timing-driven global & detailed standard-cell placement (82.6% core util, 0.20% overflow, 1.56 hotspot) validated suitable for CTS.'
       },
       {
         name: 'Clock Tree Synthesis (CTS)',
         level: 'HANDS-ON FLOW',
         toolOrContext: 'Cadence Innovus CCOpt',
-        details: 'Synthesizing clock trees using Cadence Innovus CCOpt engine, clock buffer insertion, and post-CTS setup/hold stabilization.'
+        details: 'Synthesizing clock trees using Cadence Innovus CCOpt engine (83.2% util, 0.47% overflow, 14.83 hotspot) and post-CTS timing/DRV evaluation (83.6% util, 0.53% overflow).'
       },
       {
-        name: 'Signal Routing & Antenna Integrity',
+        name: 'Signal Routing, Route ECO & 0-DRC Verification',
         level: 'HANDS-ON FLOW',
-        toolOrContext: 'Cadence Innovus (Post-CTS Stage)',
-        details: 'Executed signal routing from the Post-CTS Stage achieving 0 antenna violations, 0.51% overflow, and reducing geometry DRCs from 40 to 10 in post-route.'
+        toolOrContext: 'Cadence Innovus (cva6_pcts.db → cva6_route.db)',
+        details: 'Routed with 0 antenna violations and 0.51% overflow; resolved 40 initial route DRCs → 10 initial post-route DRCs → 0 verified DRCs via macro-pin via rotation and route_via_with_block_pins_only true.'
       },
       {
         name: 'Post-Route Timing Optimization',
         level: 'HANDS-ON FLOW',
-        toolOrContext: 'Cadence Innovus (Post-Route Stage)',
-        details: 'Improved post-route setup WNS from -0.201 ns to -0.114 ns (TNS -161.833 ns to -28.249 ns) and hold WNS from -0.004 ns to -0.001 ns via LVT enabling and useful skew analysis.'
+        toolOrContext: 'Cadence Innovus (cva6_route.db)',
+        details: 'Conducted LVT exploration and useful skew analysis, and fixed separate path groups: I2O WNS +0.028 ns (max-delay constraints) and Default WNS +0.186 ns (IO delay budget 60% → 40%).'
       }
     ]
   },
@@ -244,10 +245,10 @@ export const RECRUITER_SKILL_GROUPS: RecruiterSkillGroup[] = [
         details: 'Tracking directional routing overflow across stages (Placement 0.2% → CTS 0.47% → Post-CTS 0.53% → Post-Route 0.51% [531 H, 827 V]) and hotspot evolution (1.56 → 18.12).'
       },
       {
-        name: 'Design-Rule Violation Analysis',
+        name: 'Design-Rule Violation Analysis & Route ECO',
         level: 'HANDS-ON FLOW',
         toolOrContext: 'Cadence Innovus',
-        details: 'Reduced routing geometry DRCs by 75% (40 → 10), verified 0 antenna & 0 glitch violations, and tightened max_transition to 1 net (-0.002 ns) after useful skew.'
+        details: 'Investigated wide-metal-jog (WMJ) violations over macro pins, rotated/replaced vias, reran Route ECO (route_via_with_block_pins_only true), and verified 0 DRC violations (40 route → 10 initial post-route → 0 final) with 0 antenna violations.'
       },
       {
         name: 'Timing-versus-Density Trade-offs',
@@ -295,22 +296,20 @@ export const VERIFIED_PROJECTS: VerifiedProject[] = [
   {
     id: 'cva6-riscv',
     slug: 'cva6-riscv-processor',
-    index: '01 / PROJECT',
-    title: 'CVA6 RISC-V Processor — RTL Synthesis through Post-Route Implementation',
-    subtitle: '28 nm Implementation Completed Through Post-Route Analysis (LVT & Useful Skew); GDSII Generation & Final Signoff Pending',
+    index: '01 / FLAGSHIP PROJECT',
+    title: 'CVA6 RISC-V Processor — 28 nm Physical Implementation, Route ECO & Post-Route Timing',
+    subtitle: '11 Verified Implementation & Optimization Stages · 0 Verified DRCs (Post-ECO) · I2O & Default Groups Fixed · GDSII & Signoff Pending',
     category: 'RISC-V_PROCESSOR',
     technologyNode: '28 nm',
     edaToolchain: ['Cadence Genus', 'Cadence Innovus'],
     languages: ['Verilog HDL', 'Tcl', 'Python', 'Linux Shell'],
-    clockConstraint: 'Period: 1.5 ns (~666.67 MHz Target Clock)',
+    clockConstraint: 'Period: 1.5 ns (~666 MHz Single-Clock)',
     completedStages: [
-      'RTL logic synthesis in Cadence Genus (178,799 leaf instances, 28 nm)',
-      'Floorplanning & SRAM macro placement (950 × 916 µm, 850,552 µm² area, 15 µm channels, 30% partial blockage)',
-      'Standard-cell placement (82.6% util, 0.2% overflow, 1.56 hotspot, Setup WNS -0.507 ns)',
-      'Clock Tree Synthesis (CCOpt) & Post-CTS optimization (83.6% util, Setup WNS -0.248 ns, Hold WNS -0.139 ns, 0 max_tran)',
-      'Routing executed from Post-CTS Stage (40 DRCs identified, 0.51% overflow, 18.12 hotspot, 0 antenna violations)',
-      'Post-Route Stage optimization: DRCs reduced 40 → 10 (-75%), 0 antenna & 0 glitch violations',
-      'Post-Route timing refinement: LVT enabling + useful skew reduced Setup WNS -0.201 → -0.114 ns & Hold WNS -0.004 → -0.001 ns'
+      '01–04: RTL Synthesis (Genus, 178,799 cells), Floorplanning (950 × 916, 850,552 µm²), Macro Placement (20 µm channels, 30% partial blockages) & Power Planning',
+      '05–07: Standard-Cell Placement (cva6_fp1.db: 82.6% util, 0.20% overflow, 1.56 hotspot), CCOpt CTS (83.2% util, 0.47% overflow) & Post-CTS Analysis (cva6_cts.db: 83.6% util, 0.53% overflow)',
+      '08–09: Signal Routing (cva6_pcts.db: 40 initial DRCs, 0.51% overflow, 18.12 hotspot, 0 antenna) & Initial Post-Route Analysis (cva6_route.db: 10 initial post-route DRCs)',
+      '10: Route ECO & Macro-Pin Via Optimization (WMJ via rotation + route_via_with_block_pins_only true) → 0 Verified DRC Violations',
+      '11: Post-Route Timing Optimization (LVT exploration, useful skew analysis, I2O group fixed at +0.028 ns WNS, Default group fixed at +0.186 ns WNS)'
     ],
     currentStatus: {
       synthesis: 'COMPLETED',
@@ -326,31 +325,30 @@ export const VERIFIED_PROJECTS: VerifiedProject[] = [
       tapeout: 'NOT_REACHED'
     },
     overview:
-      'End-to-end 28 nm physical implementation of the 64-bit CVA6 RISC-V processor core from RTL synthesis in Cadence Genus through placement, CCOpt Clock Tree Synthesis, detailed routing, and post-route timing/DRC optimization in Cadence Innovus (Floorplanning Stage → Post-Route Stage). Post-route engineering reduced DRC count by 75% (40 → 10) with 0 antenna violations, while LVT enabling and useful skew analysis drove setup WNS from -0.201 ns down to -0.114 ns (violating paths 3,079 → 934) and hold WNS from -0.004 ns down to -0.001 ns (15 → 7 paths). GDSII generation and final physical signoff remain pending.',
+      'Flagship 28 nm physical implementation of the 64-bit CVA6 RISC-V core spanning 11 verified stages across Cadence Genus and Cadence Innovus (cva6_fp1.db → cva6_cts.db → cva6_pcts.db → cva6_route.db). Core implementation progressed through floorplanning (950 × 916, 850,552 µm², 20 µm macro channels, 30% partial blockages), placement (82.6% util, 0.20% overflow, 1.56 hotspot), CCOpt CTS, routing (0 antenna violations), and post-route analysis (10 initial post-route DRCs). Subsequent Route ECO via rotation over macro pins (route_via_with_block_pins_only true) achieved 0 verified DRC violations, while post-route timing work explored LVT and useful skew and fixed the I2O (+0.028 ns WNS) and Default (+0.186 ns WNS) timing groups individually. Overall multi-group timing signoff, LVS, GDSII delivery, and tape-out remain pending.',
     implementationScope: [
-      'Placement (Floorplanning Stage baseline): 82.6% core utilization, 0.2% routing overflow (545 = 250 H + 295 V), 1.56 hotspot (max 0.35), Setup WNS -0.507 ns / TNS -1903.6 ns across 29,204 violating paths',
-      'CTS (Placement Stage baseline): 83.2% core utilization, 0.47% overflow (1,260 = 303 H + 957 V), 14.83 hotspot (max 3.56), Setup WNS -0.301 ns (5,191 paths), Hold WNS -0.209 ns (2,468 paths)',
-      'Post-CTS (Clock Tree Synthesis Stage baseline): 83.6% core utilization, 0.53% overflow (1,418 = 290 H + 1,128 V), 16.39 hotspot (max 2.17), Setup WNS -0.248 ns / TNS -185.141 ns (4,600 paths), Hold WNS -0.139 ns (170 paths), max_tran resolved to 0',
-      'Routing (Post-CTS Stage baseline): 40 DRC violations (EOLSpc 29 M2, WMJ 7 M4, EncEdg 2 VIA1, Short 1 M5, CutEol 1 VIA3), 0.51% overflow (1,357 = 531 H + 827 V), 18.12 hotspot (max 2.43), Setup WNS -0.290 ns (10,107 paths), Hold WNS -0.143 ns (823 paths), 0 Antenna Violations',
-      'Post-Route Timing & DRC Closure Progress (Post-Route Stage): DRCs reduced by 75% from 40 to 10 (WMJ 7 M4, Short 2 [M4/M5], EncEdg 1 VIA3), 0 antenna & 0 glitch violations. LVT enabling improved Setup WNS (-0.201 → -0.122 ns; TNS -161.833 → -29.582 ns; 3,079 → 1,001 paths), and Useful Skew further reduced Setup WNS to -0.114 ns (TNS -28.249 ns; 934 paths; m2r cleared to +0.007 ns), max_tran to 1 net (-0.002 ns), and Hold WNS to -0.001 ns (7 paths)',
-      'Upcoming Pending Milestones: Resolving remaining 10 DRCs and 934 setup / 7 hold paths, GDSII generation / stream-out, final DRC/LVS/antenna physical signoff, final STA signoff, and deliverable database handoff'
+      'Floorplanning & Placement (cva6_fp1.db, suitable for CTS): 950 × 916 die geometry (850,552 µm²), 20 µm macro channel spacing, 30% density partial placement blockages, 82.6% core utilization, 0.20% congestion overflow, and 1.56 hotspot score',
+      'CTS — Iteration 1: 83.2% core utilization, 0.47% overflow (0.11% H, 0.36% V), 14.83 hotspot score; improved congestion relative to earlier placement trials while max-transition violations required post-CTS attention',
+      'Post-CTS Analysis — Iteration 1 (cva6_cts.db): 83.6% core utilization, 0.53% overflow (0.11% H, 0.42% V), 16.39 hotspot score; evaluated setup, hold, transition, and congestion reports',
+      'Routing — Iteration 1 (cva6_pcts.db): 100% reported run utilization (distinct from 82.6% placement utilization), 40 initial DRC violations, 0.51% overflow (0.20% H, 0.31% V), 18.12 hotspot score, and 0 antenna violations',
+      'Post-Route Analysis — Iteration 1 (cva6_route.db): 100% reported run utilization, 10 initial post-route DRCs (not the final DRC count), 0.51% overflow, and 18.12 hotspot score',
+      'Route ECO — Macro-Pin Via Optimization (Final Verified DRC): Investigated wide-metal-jog (WMJ) violations over macro pins, replaced and rotated problematic vias, reran Route ECO with route_via_with_block_pins_only true, and confirmed 0 DRC violations via Innovus VERIFY DRC',
+      'Post-Route Timing Optimization Experiments & Path-Group Fixes: Evaluated LVT cell enabling and useful skew reports (setup & hold); fixed I2O timing group to +0.028 ns WNS via max-delay constraints and fixed Default timing group to +0.186 ns WNS by tightening IO delay budget from 60% to 40% of clock period (reset-to-CDN recovery/removal paths). Neither value is claimed as overall design WNS.'
     ],
     verifiedDeliverables: [
-      'Post-Route DRC summary report screenshot confirming 75% reduction (40 DRCs → 10 DRCs: WMJ 7, Short 2, EncEdg 1)',
-      'Post-Route timing comparison screenshots: Before LVT (-0.201 ns) → After LVT (-0.122 ns) → After Useful Skew (-0.114 ns setup / -0.001 ns hold)',
-      'Routing congestion & DRC spatial die map screenshots (route vs. post-route comparison) and overflow/hotspot report (0.51%, 18.12)',
-      'Route-stage Setup/Hold timing & Antenna report screenshot confirming 0 Antenna Violations across 53,382 paths',
-      'Cadence Innovus post-CTS timing & DRV reports and placement congestion topography captures',
-      'Cadence Innovus 28 nm Floorplanning Stage layout (950 × 916 µm) and Genus synthesis QoR (178,799 leaf cells)',
-      'Tcl automation scripts for Genus synthesis and Innovus floorplan, placement, CCOpt CTS, routing, and post-route optimization'
+      'Cadence Innovus VERIFY DRC terminal capture confirming 0 DRC violations ("Verification Complete : 0 Viols.") across {0.000 0.000 950.320 916.500} after Route ECO',
+      'Before-and-after DRC verification evidence: 40 initial route DRCs → 10 initial post-route DRCs → 0 final verified DRCs',
+      'Cadence Innovus hierarchical Amoeba view (ex_stage_i regions, 16 SRAM macros, top I/O ring)',
+      'Post-Route timing optimization screenshots: Before/After LVT enabling & Useful Skew setup and hold reports',
+      'Routing congestion (0.51% overflow, 18.12 hotspot), spatial die map, and process antenna check (0 violations)',
+      'Post-CTS setup/hold timing & DRV reports, placement congestion topography, floorplan geometry, and Cadence Genus synthesis QoR (178,799 leaf cells)'
     ],
     honestBoundaryNotes: [
-      'CURRENT STAGE: POST-ROUTE IMPLEMENTATION COMPLETED – GDSII GENERATION AND SIGNOFF PENDING.',
-      'Post-route physical implementation and timing optimization (LVT & useful skew) are COMPLETED at the Post-Route Stage.',
-      'Timing is significantly improved across stages (Setup WNS -0.507 ns → -0.114 ns; Hold WNS -0.209 ns → -0.001 ns) but is NOT claimed as zero-violation closed (934 setup & 7 hold paths, 1 max_tran net remain).',
-      'Geometry DRCs were reduced from 40 to 10 (75% reduction); zero-DRC signoff is NOT claimed while 10 DRCs remain.',
-      'Antenna violations: 0 violations verified in route report; Glitch violations: 0 verified in post-route.',
-      'GDSII stream-out, LVS verification, final DRC/STA signoff, and final deliverable handoff are explicitly PENDING and NOT started.'
+      'CURRENT STAGE: 11 VERIFIED STAGES COMPLETED (CORE IMPLEMENTATION 01–09 + ROUTE ECO 0-DRC & POST-ROUTE TIMING OPT 10–11). GDSII & SIGNOFF PENDING.',
+      'DRC PROGRESSION BOUNDARY: Initial route logged 40 DRCs; initial post-route logged 10 DRCs (NOT final); subsequent Route ECO with macro-pin via rotation achieved 0 verified DRC violations in Innovus VERIFY DRC.',
+      'PER-GROUP TIMING BOUNDARY: I2O WNS (+0.028 ns) and Default WNS (+0.186 ns) apply strictly to their respective timing groups — NEVER overall design WNS. Complete timing closure across all timing groups is NOT claimed.',
+      'UTILIZATION BOUNDARY: 82.6% placement core utilization (cva6_fp1.db) is strictly distinct from 100% reported run utilization (with fillers) in routing/post-route reports.',
+      'SIGN-OFF BOUNDARY: LVS verification, full-chip STA signoff, GDSII stream-out, and silicon tape-out have NOT been completed or delivered.'
     ]
   },
   {
@@ -532,26 +530,26 @@ export const TECHNICAL_LEARNING_TOPICS: TechnicalTopic[] = [
   {
     id: 'topic-07',
     index: '07 / IMPLEMENTED',
-    title: 'Post-Route DRC Cleanup, LVT Enabling & Useful Skew Optimization',
-    category: 'POST-ROUTE OPTIMIZATION',
+    title: 'Route ECO (0 Verified DRCs) & Post-Route Timing Optimization',
+    category: 'POST-ROUTE ECO & TIMING',
     status: 'COMPLETED',
     statusLabel: 'COMPLETED (HANDS-ON IMPLEMENTATION)',
     description:
-      'Completed Post-Route Stage physical and timing refinement: reduced DRCs by 75% (40 → 10), maintained 0 antenna & 0 glitch violations, enabled LVT cells (Setup WNS -0.201 → -0.122 ns), and applied useful skew analysis (Setup WNS -0.114 ns, 934 paths; Hold WNS -0.001 ns, 7 paths).',
+      'Resolved the 10 initial post-route DRCs down to 0 verified DRC violations via macro-pin WMJ via rotation and Route ECO (route_via_with_block_pins_only true). Conducted LVT and useful skew experiments, and fixed I2O (+0.028 ns WNS via max-delay) and Default (+0.186 ns WNS via 60%→40% IO delay budget) timing groups.',
     scopeSummary:
-      'Completed in Cadence Innovus during the Post-Route Stage.'
+      'Completed in Cadence Innovus on cva6_route.db with verified 0 DRC violations.'
   },
   {
     id: 'topic-08',
     index: '08 / PENDING MILESTONE',
-    title: 'GDSII Generation & Final Physical Signoff (DRC / LVS / STA)',
+    title: 'GDSII Generation & Final Physical Signoff (LVS / Full-Chip STA)',
     category: 'GDSII & SIGNOFF PENDING',
     status: 'PLANNED_NOT_STARTED',
     statusLabel: 'PENDING (NEXT MILESTONE)',
     description:
-      'Upcoming signoff phase: resolving the remaining 10 DRCs (WMJ 7 on M4, Short 2, EncEdg 1 on VIA3) and remaining 934 setup / 7 hold paths, executing final STA & physical DRC/LVS verification, and streaming out the final GDSII deliverable.',
+      'Upcoming signoff phase following Route ECO 0-DRC verification: closing remaining multi-group timing endpoints across all path groups, executing LVS & final foundry signoff verification, and streaming out GDSII. Not represented as taped out or GDSII-delivered.',
     scopeSummary:
-      'Pending final milestone following completed post-route implementation.'
+      'Pending final milestone following completed post-route ECO & timing optimization.'
   }
 ];
 
@@ -564,8 +562,8 @@ export const CVA6_FLOORPLAN_BLOCKS = [
     y: 720,
     width: 320,
     height: 240,
-    description: 'Instruction cache SRAM macro array placed along northwest core boundary with 15 µm halo channel and 30% partial blockage.',
-    status: 'Routed & Post-Route Opt'
+    description: 'Instruction cache SRAM macro array placed along northwest core boundary with 20 µm macro channels and 30% partial placement blockage.',
+    status: '0 DRCs (Post-ECO)'
   },
   {
     id: 'blk-sram-dcache',
@@ -575,8 +573,8 @@ export const CVA6_FLOORPLAN_BLOCKS = [
     y: 720,
     width: 320,
     height: 240,
-    description: 'Data cache SRAM macro array placed along northeast core boundary with 15 µm halo channel; m2r setup cleared (+0.007 ns).',
-    status: 'Routed & Post-Route Opt'
+    description: 'Data cache SRAM macro array placed along northeast core boundary with 20 µm macro channels; WMJ macro-pin vias resolved via Route ECO.',
+    status: '0 DRCs (Post-ECO)'
   },
   {
     id: 'blk-core-ex',

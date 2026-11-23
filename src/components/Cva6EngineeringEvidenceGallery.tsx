@@ -33,22 +33,41 @@ interface EvidenceItem {
 
 const EVIDENCE_ITEMS: EvidenceItem[] = [
   {
+    id: 'postroute-drc-0-verified',
+    category: 'POST_ROUTE',
+    tag: 'CADENCE INNOVUS // ROUTE ECO VERIFY DRC',
+    title: 'Final Post-ECO DRC Verification (0 Violations)',
+    caption: 'CVA6 (cva6_route.db + Route ECO) — VERIFY DRC Verification Complete : 0 Viols.',
+    description: 'Cadence Innovus VERIFY DRC terminal confirmation across full die {0.000 0.000 950.320 916.500} after investigating WMJ violations, replacing/rotating vias over macro pins, and rerunning Route ECO with route_via_with_block_pins_only true.',
+    src: '/assets/aistudio/image_fe25c52c.png',
+    alt: 'Cadence Innovus VERIFY DRC output showing Verification Complete : 0 Viols. across 950.320 x 916.500 die',
+    stageBadge: 'ROUTE ECO // 0 DRCs VERIFIED',
+    boundaryNote: 'Final documented Innovus VERIFY DRC result (0 Viols.) after Route ECO. Foundry signoff / LVS / GDSII remain pending.',
+    rubric: {
+      what: 'Cadence Innovus VERIFY DRC log confirming zero DRC violations after Route ECO and manual macro-pin via fixes.',
+      tool: 'Cadence Innovus VERIFY DRC (cva6_route.db post-ECO).',
+      stage: 'Stage 10: Route ECO & DRC Cleanup.',
+      technicalDetail: 'Sub-Area {0.000 0.000 950.320 916.500}: 0 Viols. (CPU 0:05:45, Elapsed 0:05:50, Mem 122.2M). Resolved all 10 initial post-route DRCs.',
+      relevance: 'Proves targeted root-cause debugging of macro-pin WMJ violations rather than leaving initial post-route DRCs unresolved.'
+    }
+  },
+  {
     id: 'postroute-drc-10',
     category: 'POST_ROUTE',
-    tag: 'CADENCE INNOVUS // POST-ROUTE DRC',
-    title: 'Post-Route DRC Summary Report (40 → 10 Reduction)',
-    caption: 'CVA6 (Post-Route Stage) — Violation Summary By Layer and Type',
-    description: 'Post-route DRC summary showing a 75% reduction in violations from 40 down to 10 (WMJ: 7 on M4, Short: 2 [M4/M5], EncEdg: 1 on VIA3).',
+    tag: 'CADENCE INNOVUS // INITIAL POST-ROUTE DRC',
+    title: 'Initial Post-Route DRC Summary (10 DRCs — Prior to Route ECO)',
+    caption: 'CVA6 (cva6_route.db, Iteration 1) — Initial Post-Route Violations Before Macro-Pin ECO',
+    description: 'Initial post-route DRC summary showing 10 violations (down from 40 at initial route: 7 WMJ on M4, 2 Short [M4/M5], 1 EncEdg on VIA3). This is the BEFORE state prior to Route ECO; subsequent macro-pin via fixes achieved 0 DRC violations.',
     src: '/assets/aistudio/cva6_postroute_drc_10.png',
-    alt: 'Cadence Innovus post-route DRC summary totaling 10 violations across VIA3, M4, and M5',
-    stageBadge: 'POST-ROUTE // 10 DRCs (-75%)',
-    boundaryNote: 'Authentic Post-Route Stage capture. 10 DRCs remain pending final signoff resolution.',
+    alt: 'Cadence Innovus initial post-route DRC summary totaling 10 violations prior to Route ECO',
+    stageBadge: 'INITIAL POST-ROUTE // 10 DRCs (BEFORE ECO)',
+    boundaryNote: 'Initial post-route Iteration 1 count (10 DRCs) — NOT the final DRC result. Resolved to 0 DRC violations in Stage 10 Route ECO.',
     rubric: {
-      what: 'Post-route DRC violation breakdown by metal/via layer and rule type.',
-      tool: 'Cadence Innovus (Post-Route Stage).',
-      stage: 'Post-Route Physical Optimization.',
-      technicalDetail: 'Resolved all 29 M2 EOLSpc and VIA1 EncEdg errors; remaining: 7 WMJ (M4), 2 Short (M4/M5), 1 EncEdg (VIA3).',
-      relevance: 'Demonstrates 75% DRC cleanup while transparently tracking remaining violations before GDSII stream-out.'
+      what: 'Initial post-route DRC violation breakdown by metal/via layer recorded before Route ECO macro-pin via rotation.',
+      tool: 'Cadence Innovus (cva6_route.db — Iteration 1).',
+      stage: 'Stage 09: Post-Route Analysis (Before Route ECO).',
+      technicalDetail: 'Cleared 29 M2 EOLSpc and VIA1 EncEdg from 40 route DRCs; isolated 7 M4 WMJ, 2 Short, 1 VIA3 EncEdg for targeted Route ECO.',
+      relevance: 'Establishes the verified before-state that drove macro-pin WMJ via rotation and route_via_with_block_pins_only true.'
     }
   },
   {
@@ -131,19 +150,19 @@ const EVIDENCE_ITEMS: EvidenceItem[] = [
     id: 'postroute-congestion-map',
     category: 'POST_ROUTE',
     tag: 'CADENCE INNOVUS // DIE MAP',
-    title: 'Post-Route Die Map & Remaining DRC Marker Distribution',
-    caption: 'CVA6 (Post-Route Stage) — Spatial Map After DRC Cleanup (10 DRCs)',
-    description: 'Physical die view after post-route cleanup showing sparse remaining DRC X-markers compared to the 40-DRC initial route snapshot.',
+    title: 'Initial Post-Route Die Map & DRC Marker Distribution (10 Pre-ECO)',
+    caption: 'CVA6 (cva6_route.db, Iteration 1) — Spatial Map Prior to Macro-Pin Route ECO',
+    description: 'Physical die view at initial post-route showing localized DRC X-markers near SRAM macro pins prior to Route ECO via rotation (which cleared all remaining violations to 0).',
     src: '/assets/aistudio/cva6_postroute_congestion_map.png',
-    alt: 'Cadence Innovus post-route physical layout view showing sparse remaining DRC X markers',
-    stageBadge: 'POST-ROUTE // SPATIAL VIEW',
-    boundaryNote: 'Overflow held at 0.51% and hotspot at 18.12; visible X-markers correspond to the 10 remaining DRCs.',
+    alt: 'Cadence Innovus initial post-route physical layout view showing localized pre-ECO DRC markers',
+    stageBadge: 'POST-ROUTE // PRE-ECO MAP',
+    boundaryNote: 'Overflow 0.51%, hotspot 18.12; markers reflect the 10 initial post-route DRCs subsequently resolved to 0 via Route ECO.',
     rubric: {
-      what: 'Cadence Innovus die canvas after post-route optimization and DRC cleanup.',
+      what: 'Cadence Innovus die canvas after initial post-route showing spatial coordinates of pre-ECO DRC markers.',
       tool: 'Cadence Innovus Physical Design System.',
-      stage: 'Post-Route Physical Verification Preparation.',
-      technicalDetail: 'Significantly fewer DRC violation markers over SRAM periphery and standard-cell rows (10 remaining vs. 40 at route).',
-      relevance: 'Visually confirms localized concentration of the remaining 10 geometry violations.'
+      stage: 'Stage 09: Post-Route Analysis.',
+      technicalDetail: 'Significantly fewer DRC markers vs. 40 at initial route; pinpointed macro-pin WMJ clusters targeted during Stage 10 Route ECO.',
+      relevance: 'Visually traces the spatial root cause of the 10 pre-ECO geometry violations.'
     }
   },
   {
@@ -299,21 +318,40 @@ const EVIDENCE_ITEMS: EvidenceItem[] = [
     }
   },
   {
+    id: 'floorplan-amoeba',
+    category: 'FLOORPLAN',
+    tag: 'CADENCE INNOVUS // HIERARCHICAL AMOEBA VIEW',
+    title: 'CVA6 Hierarchical Amoeba View & Module Placement Footprint',
+    caption: 'CVA6 (28 nm) — Hierarchical Region Distribution (ex_stage_i) & 16 SRAM Macros',
+    description: 'Cadence Innovus Amoeba view revealing how hierarchical logic clusters (ex_stage_i) wrap around the 16 peripheral SRAM macros beneath the top I/O pin ring.',
+    src: '/assets/aistudio/image_f5437343.png',
+    alt: 'Cadence Innovus hierarchical Amoeba view showing ex_stage_i logic footprint and 16 SRAM macros',
+    stageBadge: 'FLOORPLAN // AMOEBA VIEW',
+    boundaryNote: 'Authentic Innovus Amoeba capture illustrating macro channel topology (20 µm spacing) and hierarchical module partitioning.',
+    rubric: {
+      what: 'Hierarchical Amoeba view of the CVA6 64-bit core highlighting ex_stage_i placement footprint and SRAM banks.',
+      tool: 'Cadence Innovus Physical Design System.',
+      stage: 'Floorplanning & Placement Structural Inspection.',
+      technicalDetail: '16 peripheral SRAM macros arranged along left and lower banks with 20 µm channels; central/upper open core allocated to execution logic.',
+      relevance: 'Provides direct architectural visibility into why ex_stage_i and macro channels govern placement congestion and routing demand.'
+    }
+  },
+  {
     id: 'floorplan-geometry',
     category: 'FLOORPLAN',
     tag: 'CADENCE INNOVUS FLOORPLAN',
     title: '28 nm Floorplan Geometry & Macro Channels',
-    caption: 'CVA6 — Core & Die Boundary with 15 µm Macro Channels',
-    description: 'Floorplan view establishing core aspect ratio (950 × 916 µm, 850,552 µm²), peripheral SRAM macros, and 15 µm halo channels.',
+    caption: 'CVA6 (cva6_fp1.db) — Core & Die Boundary (950 × 916, 850,552 µm²)',
+    description: 'Floorplan view establishing core geometry (950 × 916 µm, 850,552 µm²), peripheral SRAM macros, 20 µm macro channel spacing, and 30% density partial placement blockages.',
     src: '/assets/aistudio/image_405b6f5e.png',
     alt: 'Cadence Innovus floorplan layout showing SRAM macros along periphery and central core boundary',
     stageBadge: 'FLOORPLAN // 28 nm GEOMETRY',
-    boundaryNote: 'Dimensions: 950 × 916 µm (850,552 µm²). Macro channels: 15 µm. 30% partial blockage between macros.',
+    boundaryNote: 'Dimensions: 950 × 916 (850,552 µm²). Macro channels: 20 µm. 30% density partial placement blockages.',
     rubric: {
       what: 'Cadence Innovus floorplan database visualization showing 16 SRAM macros placed along the core periphery.',
-      tool: 'Cadence Innovus Physical Design System.',
+      tool: 'Cadence Innovus Physical Design System (cva6_fp1.db).',
       stage: 'Floorplanning & Macro Placement Stage.',
-      technicalDetail: '15 µm halo channels between adjacent macros ensuring routing track availability; core boundary established at 950 × 916 µm.',
+      technicalDetail: '20 µm channels and 30% partial placement blockages preserving routing tracks; core utilization 82.6%, overflow 0.20%, hotspot 1.56.',
       relevance: 'Authenticates genuine physical design floorplan setup for the 64-bit CVA6 processor on the 28 nm process node.'
     }
   },
@@ -384,7 +422,7 @@ export const Cva6EngineeringEvidenceGallery: React.FC<Cva6EngineeringEvidenceGal
             Verified Engineering Evidence Gallery
           </h2>
           <p className="font-sans text-xs md:text-sm text-[#454843] mt-1 max-w-3xl leading-relaxed">
-            Original EDA tool captures from Cadence Genus synthesis through Innovus floorplanning, placement, post-CTS, routing, and Post-Route Stage optimization (DRC 40 &rarr; 10, Antenna 0, LVT &amp; Useful Skew). Every capture includes a 5-point recruiter technical rubric.
+            Original EDA tool captures from Cadence Genus synthesis through Innovus floorplanning, Amoeba view, placement, post-CTS, routing, Route ECO (<strong className="text-[#1b1c18]">40 route &rarr; 10 initial post-route &rarr; 0 verified DRCs</strong>, 0 antenna), and post-route timing optimization (LVT &amp; Useful Skew). Every capture includes a 5-point recruiter technical rubric.
           </p>
         </div>
 

@@ -15,6 +15,7 @@ import { MethodologyFlow } from './components/MethodologyFlow';
 import { TechnicalJournal } from './components/TechnicalJournal';
 import { EdaTerminalConsole } from './components/EdaTerminalConsole';
 import { PersistentFooter } from './components/PersistentFooter';
+import { Cva6ImplementationCaseStudy } from './components/Cva6ImplementationCaseStudy';
 import { Cva6EngineeringEvidenceGallery } from './components/Cva6EngineeringEvidenceGallery';
 import { Cva6TimingVsDensityCaseStudy } from './components/Cva6TimingVsDensityCaseStudy';
 import { Cva6PlacementOptimizationCaseStudy } from './components/Cva6PlacementOptimizationCaseStudy';
@@ -392,13 +393,13 @@ export default function App() {
                             <span className="text-[#757872]">CVA6 Status:</span>
                             <span className="font-bold text-[#536600] flex items-center gap-1">
                               <span className="w-1.5 h-1.5 bg-[#b7d83d]" />
-                              Post-Route Done · GDSII Pending
+                              11 Stages · GDSII Pending
                             </span>
                           </div>
                           <div className="flex justify-between">
-                            <span className="text-[#757872]">Post-Route DRCs:</span>
-                            <span className="font-bold text-[#1b1c18]">
-                              Post-Route Stage · 10 DRCs (from 40)
+                            <span className="text-[#757872]">Post-ECO DRCs:</span>
+                            <span className="font-bold text-[#536600]">
+                              0 Verified (from 10 init PR / 40 route)
                             </span>
                           </div>
                         </div>
@@ -580,15 +581,15 @@ export default function App() {
                   <div className="flex flex-wrap items-center justify-between pb-2 border-b border-[#d8d7ce] gap-2">
                     <div className="flex flex-wrap items-center gap-2">
                       <span className="font-technical text-xs font-bold uppercase text-[#1b1c18]">
-                        IMPLEMENTATION PROGRESSION // ROUTING &amp; POST-ROUTE ANALYSIS
+                        IMPLEMENTATION PROGRESSION // ROUTE ECO (0 DRCs) &amp; POST-ROUTE TIMING
                       </span>
                       <span className="text-[#c5c7c1]">·</span>
                       <span className="font-technical text-xs text-[#536600] font-bold">
-                        [POST-ROUTE COMPLETED · GDSII &amp; SIGNOFF PENDING]
+                        [11 VERIFIED STAGES · GDSII &amp; SIGNOFF PENDING]
                       </span>
                     </div>
                     <span className="font-technical text-xs text-[#757872]">
-                      10-STAGE VERIFIED PROGRESSION
+                      11-STAGE VERIFIED PROGRESSION
                     </span>
                   </div>
 
@@ -695,7 +696,7 @@ export default function App() {
                     CVA6 Core Floorplanning, Placement, CTS &amp; Post-Route Progression
                   </h1>
                   <p className="font-sans text-sm md:text-base text-[#454843] mt-2 max-w-3xl leading-relaxed">
-                    Interactive CAD inspection viewport for the 64-bit CVA6 core implemented in Cadence Innovus on the 28 nm technology node. Review macro arrangements, core boundaries, placement, CCOpt CTS, routing (0 antenna violations), and post-route optimization (DRCs 40 &rarr; 10, Setup WNS -0.114 ns).
+                    Interactive CAD inspection viewport and flagship 7-section implementation case study for the 64-bit CVA6 core in Cadence Innovus (28 nm). Covers 11 verified stages through Route ECO macro-pin via optimization (40 route &rarr; 10 initial post-route &rarr; 0 verified DRCs, 0 antenna) and post-route timing optimization (LVT, useful skew, I2O +0.028 ns, Default +0.186 ns).
                   </p>
 
                   {/* Prominent CVA6 Project Specifications Strip */}
@@ -732,6 +733,9 @@ export default function App() {
                   variant="cva6-to-evidence"
                   className="my-3"
                 />
+
+                {/* Flagship 7-Section CVA6 Implementation Case Study */}
+                <Cva6ImplementationCaseStudy />
 
                 {/* Dedicated CVA6 Actual Engineering Screenshots & QoR Gallery (Collapsible via button) */}
                 <Cva6EngineeringEvidenceGallery isExpanded={isCva6EvidenceExpanded} />
@@ -782,7 +786,7 @@ export default function App() {
                   </p>
                 </div>
 
-                <CaseStudiesSection initialExpandedId="cva6-placement-opt" />
+                <CaseStudiesSection initialExpandedId="cva6-implementation-flagship" />
               </motion.div>
             )}
 
@@ -798,19 +802,19 @@ export default function App() {
               >
                 <div className="border border-[#d8d7ce] bg-[#ffffff] p-6">
                   <div className="flex flex-wrap items-center gap-2 font-technical text-xs text-[#757872] uppercase mb-2">
-                    <span className="font-bold text-[#1b1c18]">IMPLEMENTATION PROGRESSION // ROUTING &amp; POST-ROUTE ANALYSIS</span>
+                    <span className="font-bold text-[#1b1c18]">IMPLEMENTATION PROGRESSION // ROUTE ECO (0 DRCs) &amp; POST-ROUTE TIMING</span>
                     <span>·</span>
-                    <span>[POST-ROUTE STAGE]</span>
+                    <span>[cva6_route.db + ECO]</span>
                     <span>·</span>
                     <span className="text-[#536600] font-bold">
-                      POST-ROUTE COMPLETED – GDSII GENERATION AND SIGNOFF PENDING
+                      11 VERIFIED STAGES · 0 VERIFIED DRCs · GDSII &amp; SIGNOFF PENDING
                     </span>
                   </div>
                   <h1 className="font-serif text-3xl md:text-4xl text-[#1b1c18] font-normal">
-                    Routing, Post-Route Optimization &amp; Pending Signoff Gate
+                    Routing, Route ECO (0 DRCs), Timing Optimization &amp; Pending Signoff Gate
                   </h1>
                   <p className="font-sans text-sm md:text-base text-[#454843] mt-2 max-w-3xl leading-relaxed">
-                    Verified implementation progression: CVA6 progressed through CCOpt CTS, routing (0 antenna violations), and Post-Route Stage optimization (DRCs reduced 40 &rarr; 10; LVT &amp; useful skew Setup WNS -0.114 ns, Hold WNS -0.001 ns). GDSII stream-out and final signoff remain pending.
+                    Verified implementation progression: CVA6 progressed through CCOpt CTS, routing (40 initial DRCs, 0 antenna), initial post-route (10 DRCs), Route ECO macro-pin via optimization (0 verified DRCs via VERIFY DRC), and post-route timing optimization (LVT, useful skew, I2O +0.028 ns, Default +0.186 ns). GDSII stream-out and final signoff remain pending.
                   </p>
                 </div>
 

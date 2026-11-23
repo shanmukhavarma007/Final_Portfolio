@@ -41,17 +41,17 @@ export const MethodologyFlow: React.FC<MethodologyFlowProps> = ({
     },
     {
       step: '05',
-      name: 'Detailed Routing & Post-Route Opt',
-      tool: 'Cadence Innovus — Routing & Opt',
+      name: 'Detailed Routing, Route ECO & Post-Route Opt',
+      tool: 'Cadence Innovus — Routing & ECO',
       status: 'COMPLETED',
-      description: 'Executed signal routing (0 antenna violations, 0.51% overflow) and post-route timing/DRC cleanup (DRCs reduced 40 to 10; LVT & useful skew Setup WNS -0.114 ns, Hold WNS -0.001 ns).'
+      description: 'Executed signal routing (0 antenna, 0.51% overflow), resolved 40 route / 10 initial post-route DRCs to 0 verified DRCs via macro-pin via Route ECO, and ran LVT, useful skew, and I2O (+0.028 ns) / Default (+0.186 ns) group fixes.'
     },
     {
       step: '06',
       name: 'GDSII Generation & Physical Signoff',
       tool: 'Pending Signoff Milestone',
       status: 'PLANNED_NOT_STARTED',
-      description: 'Resolving remaining 10 DRCs and final timing paths, full DRC/LVS/antenna/STA verification, and GDSII stream-out. (Current status: Pending).'
+      description: 'Full multi-group STA timing signoff, LVS verification, external foundry signoff deck checks, and GDSII stream-out. (Current status: Pending — not taped out or GDSII-delivered).'
     }
   ];
 

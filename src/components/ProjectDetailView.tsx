@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { VerifiedProject } from '../data/portfolioData';
 import { ArrowLeft, Copy, Check, Terminal, ShieldCheck, CheckCircle2, AlertCircle, Clock, BookOpen } from 'lucide-react';
+import { Cva6ImplementationCaseStudy } from './Cva6ImplementationCaseStudy';
 import { Cva6EngineeringEvidenceGallery } from './Cva6EngineeringEvidenceGallery';
 import { Cva6TimingVsDensityCaseStudy } from './Cva6TimingVsDensityCaseStudy';
 import { Cva6PlacementOptimizationCaseStudy } from './Cva6PlacementOptimizationCaseStudy';
@@ -29,32 +30,37 @@ init_design
 setPreference -site CORE
 floorPlan -site CORE -d 950.0 916.0 20.0 20.0 20.0 20.0
 
-# Step 3: Macro placement & halo keepouts for SRAM arrays (15 um channels)
-createPlaceHalo -halo 15.0 15.0 15.0 15.0 -allBlock
+# Step 3: Macro placement (20 um channel spacing) & 30% partial placement blockages
+createPlaceHalo -halo 20.0 20.0 20.0 20.0 -allBlock
 
-# Step 4: Standard-Cell Placement & Congestion Optimization in Cadence Innovus
+# Step 4: Standard-Cell Placement & Congestion Optimization (cva6_fp1.db: 82.6% util, 0.20% ovf, 1.56 hotspot)
 setPlaceMode -fp false
 setPlaceMode -place_global_cong_effort high
 place_opt_design -place
 checkPlace
 report_congestion
 
-# Step 5: Clock Tree Synthesis (CCOpt)
+# Step 5: Clock Tree Synthesis (CCOpt) & Post-CTS Analysis (cva6_cts.db)
 create_ccopt_clock_tree_spec -file ccopt.spec
 source ccopt.spec
 ccopt_design -cts
-
-# Step 6: Post-CTS Timing and Electrical DRV Analysis (Clock Tree Synthesis Stage)
 timeDesign -postCTS
 timeDesign -postCTS -hold
 report_constraint -all_violators
 
-# Step 7: Detailed Routing (Post-CTS Stage) & Post-Route Optimization (Post-Route Stage)
+# Step 6: Detailed Routing (cva6_pcts.db: 40 DRCs, 0 Antenna) & Post-Route (cva6_route.db: 10 initial DRCs)
 routeDesign -globalDetail
-verify_drc
 verifyProcessAntenna
-setOptMode -usefulSkewPostRoute true
 optDesign -postRoute -setup -hold
+
+# Step 7: Route ECO — Macro-Pin WMJ Via Optimization -> 0 Verified DRC Violations
+# (After manual replacement/rotation of problematic vias over macro pins)
+setNanoRouteMode -route_via_with_block_pins_only true
+ecoRoute
+verify_drc
+
+# Step 8: Post-Route Timing Optimization (LVT, Useful Skew, I2O max-delay, Default 40% IO budget)
+setOptMode -usefulSkewPostRoute true
 timeDesign -postRoute
 timeDesign -postRoute -hold`,
 
@@ -142,7 +148,7 @@ report_timing -from [get_cells reg_pos*] -to [get_cells reg_neg*] > halfcycle_ti
             <CheckCircle2 className="w-3.5 h-3.5 text-[#cef053]" />
             <span>
               {project.id === 'cva6-riscv'
-                ? 'POST-ROUTE COMPLETED – GDSII & SIGNOFF PENDING'
+                ? '11 VERIFIED STAGES · 0 VERIFIED DRCs (POST-ECO) · GDSII PENDING'
                 : project.id === 'aes-core'
                 ? 'SYNTHESIS: COMPLETED (1.0 ns CLOCK | 0 VIOLATIONS)'
                 : 'STA & SDC: COMPLETED (3 CLOCKS)'}
@@ -163,10 +169,10 @@ report_timing -from [get_cells reg_pos*] -to [get_cells reg_neg*] > halfcycle_ti
             <div>
               <div className="font-technical text-xs font-bold text-[#1b1c18] flex items-center gap-1.5">
                 <ShieldCheck className="w-4 h-4 text-[#536600]" />
-                VERIFIED STATUS: POST-ROUTE IMPLEMENTATION COMPLETED – GDSII GENERATION AND SIGNOFF PENDING
+                VERIFIED STATUS: 11 IMPLEMENTATION &amp; ECO STAGES COMPLETED · 0 VERIFIED DRCs (POST-ECO) · GDSII &amp; SIGNOFF PENDING
               </div>
               <p className="text-xs text-[#454843] mt-1">
-                Completed milestones: RTL synthesis (178,799 cells), floorplan (950 × 916 µm, 30% macro partial blockage), placement, CCOpt CTS, routing (0 antenna violations), and post-route optimization (DRCs 40 &rarr; 10; LVT &amp; useful skew Setup WNS -0.114 ns, Hold WNS -0.001 ns). GDSII &amp; final signoff pending.
+                Completed milestones: RTL synthesis (178,799 cells), floorplan (950 × 916, 850,552 µm², 20 µm channels, 30% partial blockages), placement (82.6% util, 0.20% overflow, 1.56 hotspot), CCOpt CTS, routing (0 antenna), Route ECO macro-pin via fix (40 route &rarr; 10 initial post-route &rarr; 0 verified DRCs), and post-route timing work (LVT, useful skew, I2O +0.028 ns, Default +0.186 ns). GDSII &amp; final signoff pending.
               </p>
             </div>
             <button
@@ -371,9 +377,10 @@ report_timing -from [get_cells reg_pos*] -to [get_cells reg_neg*] > halfcycle_ti
         </div>
       </div>
 
-      {/* CVA6 Dedicated Technical Evidence Gallery: Original EDA Screenshots & Trade-Off Case Studies */}
+      {/* CVA6 Flagship 7-Section Implementation Case Study & Original EDA Evidence Gallery */}
       {project.id === 'cva6-riscv' && (
         <div className="pt-4 space-y-6">
+          <Cva6ImplementationCaseStudy />
           <SiliconTraceReveal variant="cva6-to-evidence" />
           <Cva6EngineeringEvidenceGallery />
           <Cva6TimingVsDensityCaseStudy />

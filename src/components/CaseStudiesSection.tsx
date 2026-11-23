@@ -19,6 +19,7 @@ import {
   Activity
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { Cva6ImplementationCaseStudy } from './Cva6ImplementationCaseStudy';
 import { Cva6PlacementOptimizationCaseStudy } from './Cva6PlacementOptimizationCaseStudy';
 import { Cva6TimingVsDensityCaseStudy } from './Cva6TimingVsDensityCaseStudy';
 
@@ -27,7 +28,7 @@ interface CaseStudiesSectionProps {
 }
 
 export const CaseStudiesSection: React.FC<CaseStudiesSectionProps> = ({
-  initialExpandedId = 'cva6-placement-opt'
+  initialExpandedId = 'cva6-implementation-flagship'
 }) => {
   // State to track which case study is currently expanded for deep-dive exploration
   const [expandedCaseStudy, setExpandedCaseStudy] = useState<string | null>(initialExpandedId);
@@ -143,7 +144,101 @@ export const CaseStudiesSection: React.FC<CaseStudiesSectionProps> = ({
 
       {/* Case Studies Presentation List */}
       <div className="space-y-6">
-        {/* CASE STUDY 01: CVA6 Placement Optimization (Primary Feature) */}
+        {/* FLAGSHIP CASE STUDY: CVA6 End-to-End Implementation, Route ECO (0 DRCs) & Post-Route Timing */}
+        <div className="border-2 border-[#1b1c18] bg-[#ffffff] transition-all">
+          <div className="p-6 md:p-8 bg-[#171a18] text-[#fbf9f3] border-b border-[#333833]">
+            <div className="flex flex-wrap items-center justify-between gap-3 mb-3">
+              <div className="flex flex-wrap items-center gap-2 font-technical text-xs">
+                <span className="px-2 py-0.5 bg-[#cef053] text-[#1b1c18] font-bold">
+                  FLAGSHIP CASE STUDY
+                </span>
+                <span className="text-[#c5c7be] uppercase">
+                  CVA6 RISC-V // 11 VERIFIED STAGES
+                </span>
+                <span className="text-[#454843]">·</span>
+                <span className="text-[#cef053] font-bold uppercase">
+                  0 VERIFIED DRCs (POST-ECO) · I2O &amp; DEFAULT GROUPS FIXED
+                </span>
+              </div>
+              <div className="flex items-center gap-2 font-technical text-xs text-[#82857d]">
+                <span>CADENCE GENUS &amp; INNOVUS</span>
+                <span>·</span>
+                <span>28 nm</span>
+                <span>·</span>
+                <span>1.5 ns (~666 MHz)</span>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+              <div className="lg:col-span-8 space-y-2">
+                <h3 className="font-serif text-2xl md:text-3xl text-[#ffffff] font-normal leading-tight">
+                  CVA6 64-Bit RISC-V Implementation: Floorplan-to-Post-Route ECO, 0-DRC Closure &amp; Timing Optimization
+                </h3>
+                <p className="font-sans text-sm md:text-base text-[#c5c7be] leading-relaxed">
+                  Complete 7-section flagship engineering study spanning 11 verified stages (Core Implementation 01–09 plus Route ECO DRC Cleanup &amp; Post-Route Timing Optimization 10–11), before-and-after macro-pin WMJ via debugging (10 initial post-route DRCs &rarr; 0 verified DRCs), and separate I2O (+0.028 ns) &amp; Default (+0.186 ns) group fixes.
+                </p>
+
+                <div className="pt-2 flex flex-wrap items-center gap-2.5 font-technical text-xs">
+                  <div className="px-2.5 py-1 bg-[#252a26] border border-[#333833] flex items-center gap-1.5">
+                    <span className="text-[#82857d]">Final Verified DRCs:</span>
+                    <strong className="text-[#cef053]">0 Violations (Post-ECO)</strong>
+                  </div>
+                  <div className="px-2.5 py-1 bg-[#252a26] border border-[#333833] flex items-center gap-1.5">
+                    <span className="text-[#82857d]">I2O Group WNS:</span>
+                    <strong className="text-[#cef053]">+0.028 ns (Fixed)</strong>
+                  </div>
+                  <div className="px-2.5 py-1 bg-[#252a26] border border-[#333833] flex items-center gap-1.5">
+                    <span className="text-[#82857d]">Default Group WNS:</span>
+                    <strong className="text-[#cef053]">+0.186 ns (Fixed)</strong>
+                  </div>
+                  <div className="px-2.5 py-1 bg-[#252a26] border border-[#333833] flex items-center gap-1.5">
+                    <span className="text-[#82857d]">Antenna:</span>
+                    <strong className="text-[#ffffff]">0 Violations</strong>
+                  </div>
+                </div>
+              </div>
+
+              <div className="lg:col-span-4 flex flex-col items-start lg:items-end justify-between h-full space-y-3">
+                <button
+                  onClick={() => toggleCaseStudy('cva6-implementation-flagship')}
+                  className="w-full sm:w-auto px-5 py-3 bg-[#cef053] hover:bg-[#b7d83d] text-[#1b1c18] font-technical text-xs uppercase font-bold tracking-wider transition-colors flex items-center justify-center gap-2 cursor-pointer border border-[#cef053]"
+                >
+                  <span>
+                    {expandedCaseStudy === 'cva6-implementation-flagship'
+                      ? '[ COLLAPSE FLAGSHIP STUDY ▲ ]'
+                      : '[ OPEN 7-SECTION FLAGSHIP STUDY → ]'}
+                  </span>
+                  {expandedCaseStudy === 'cva6-implementation-flagship' ? (
+                    <ChevronUp className="w-4 h-4 text-[#1b1c18]" />
+                  ) : (
+                    <ArrowRight className="w-4 h-4 text-[#1b1c18]" />
+                  )}
+                </button>
+                <span className="font-technical text-[11px] text-[#82857d]">
+                  {expandedCaseStudy === 'cva6-implementation-flagship'
+                    ? 'Sections 01–07 open (11-stage timeline, ECO & timing)'
+                    : 'Click to open full 7-section implementation monograph'}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <AnimatePresence>
+            {expandedCaseStudy === 'cva6-implementation-flagship' && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                className="overflow-hidden p-4 md:p-6 bg-[#fbf9f3]"
+              >
+                <Cva6ImplementationCaseStudy />
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+
+        {/* CASE STUDY 01: CVA6 Placement Optimization */}
         <div className="border border-[#1b1c18] bg-[#ffffff] transition-all">
           {/* Card Header & Teaser Strip */}
           <div className="p-6 md:p-8 bg-[#ffffff] border-b border-[#d8d7ce]">

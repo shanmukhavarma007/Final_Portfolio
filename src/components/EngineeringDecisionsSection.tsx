@@ -164,26 +164,26 @@ const ENGINEERING_DECISIONS: EngineeringDecision[] = [
   {
     id: 'post-route-drc-reduction',
     index: 'DECISION 06',
-    title: 'Post-Route DRC Cleanup & Antenna Verification',
-    subtitle: 'Resolving M2 end-of-line spacing violations to cut total DRCs by 75% (40 → 10)',
-    badge: 'POST-ROUTE DRC CLEANUP',
+    title: 'Route ECO — Macro-Pin Via Optimization (40 → 10 Initial PR → 0 Verified DRCs)',
+    subtitle: 'Investigating wide-metal-jog (WMJ) violations over macro pins and achieving 0 verified DRCs via Route ECO',
+    badge: 'ROUTE ECO // 0 DRCs',
     observation:
-      'Initial detailed routing from the Post-CTS Stage introduced 40 geometry DRCs—dominated by 29 EOLSpc violations on M2 alongside 7 WMJ on M4, 2 EncEdg on VIA1, 1 Short on M5, and 1 CutEol on VIA3—while passing antenna checks cleanly (0 violations).',
+      'Initial routing (cva6_pcts.db) logged 40 geometry DRCs with 0 antenna violations, and initial post-route (cva6_route.db) recorded 10 initial post-route DRCs dominated by 7 wide-metal-jog (WMJ) violations on M4 over SRAM macro pins alongside 2 Shorts and 1 VIA3 EncEdg.',
     engineeringConsideration:
-      'Attempting to fix dense lower-layer EOLSpc and via enclosure errors blindly can ripple new routing detours into saturated channels, increasing overflow (0.51%) and hotspot scores (18.12) or degrading setup slack. Targeted post-route track repair must clear lower-layer spacing violations without destabilizing antenna immunity or timing.',
+      'Macro pin geometries create strict wide-metal-jog and via-enclosure rules where default automated routing vias frequently violate spacing along block pin edges. Blindly rerouting whole channels risks perturbing congestion (0.51% overflow, 18.12 hotspot) and antenna compliance.',
     decisionInvestigation:
-      'Executed targeted physical cleanup during the Post-Route Stage, completely eliminating all 29 EOLSpc (M2), 2 EncEdg (VIA1), and 1 CutEol (VIA3) violations. Total DRCs dropped 75% from 40 to 10 (leaving 7 WMJ M4, 2 Short M4/M5, and 1 EncEdg VIA3 pending signoff) with 0.51% overflow, 0 antenna violations, and 0 glitch violations.',
+      'Investigated the WMJ violations over macro pins, manually replaced and rotated problematic vias to resolve the WMJ geometry conflicts, reran Route ECO with route_via_with_block_pins_only true, and executed Cadence Innovus VERIFY DRC across {0.000 0.000 950.320 916.500}, confirming 0 DRC violations while maintaining 0 antenna violations.',
     supportingEvidence: {
-      reportType: 'Post-Route Violation Summary By Layer and Type',
-      edaTool: 'Cadence Innovus (Post-Route Stage)',
+      reportType: 'Cadence Innovus VERIFY DRC Output (Post-Route ECO)',
+      edaTool: 'Cadence Innovus (cva6_route.db + ECO)',
       metrics: [
-        'DRC Count: 40 → 10 (-75%)',
-        'EOLSpc (M2): 29 → 0 Cleared',
-        'Antenna Violations: 0 Verified',
-        'Remaining: 7 WMJ, 2 Short, 1 EncEdg'
+        'Initial Route DRCs: 40 (0 Antenna)',
+        'Initial Post-Route DRCs: 10 (Before ECO)',
+        'Final Verified DRCs: 0 Violations',
+        'ECO Flag: route_via_with_block_pins_only true'
       ],
-      evidenceAsset: '/assets/aistudio/cva6_postroute_drc_10.png',
-      evidenceNote: 'Verified Post-Route Stage DRC table showing 10 remaining violations down from 40 at route.'
+      evidenceAsset: '/assets/aistudio/image_fe25c52c.png',
+      evidenceNote: 'Genuine Cadence Innovus VERIFY DRC terminal log confirming "Verification Complete : 0 Viols." after macro-pin via Route ECO.'
     }
   },
   {
@@ -233,7 +233,31 @@ const ENGINEERING_DECISIONS: EngineeringDecision[] = [
         'max_tran: 3 → 1 net (-0.002 ns)'
       ],
       evidenceAsset: '/assets/aistudio/cva6_postroute_setup_useful_skew.png',
-      evidenceNote: 'Latest Post-Route Stage setup & DRV report after useful skew analysis.'
+      evidenceNote: 'Post-route setup & DRV report from useful skew analysis experiment.'
+    }
+  },
+  {
+    id: 'path-group-sdc-fixes',
+    index: 'DECISION 09',
+    title: 'Separate Timing-Group Constraint Fixes: I2O (+0.028 ns) & Default (+0.186 ns)',
+    subtitle: 'Resolving missing I2O endpoints with max-delay constraints and tightening reset-to-CDN IO delay budgets (60% → 40%)',
+    badge: 'PATH-GROUP SDC FIXES',
+    observation:
+      'Post-route timing analysis revealed distinct root causes in two separate path groups: input-to-output (I2O) paths lacked valid timing endpoints without explicit maximum-delay bounding, while Default group violations originated on reset-port-to-register-CDN paths governed by recovery/removal checks under an overly conservative 60% IO delay budget.',
+    engineeringConsideration:
+      'Fixing constraint-driven path-group violations through blind cell upsizing or LVT swapping wastes area and leakage without correcting the underlying SDC modeling issue. Each path group must be audited and reported independently without conflating a single group WNS with overall chip WNS.',
+    decisionInvestigation:
+      'Applied two targeted constraint corrections: (1) inserted maximum-delay constraints for the I2O group, fixing I2O timing to WNS +0.028 ns; (2) reduced the IO delay budget from 60% to 40% of the clock period for the Default group, fixing Default timing to WNS +0.186 ns. Neither figure is claimed as overall design WNS, and complete multi-group signoff remains pending.',
+    supportingEvidence: {
+      reportType: 'Post-Route Path-Group Timing Verification (I2O & Default)',
+      edaTool: 'Cadence Innovus (cva6_route.db)',
+      metrics: [
+        'I2O Group Status: Fixed (+0.028 ns WNS)',
+        'I2O Fix: Inserted max-delay constraints',
+        'Default Group Status: Fixed (+0.186 ns WNS)',
+        'Default Fix: IO delay budget 60% → 40%'
+      ],
+      evidenceNote: 'Per-group verified results (+0.028 ns I2O and +0.186 ns Default belong to separate timing groups; neither represents overall design WNS).'
     }
   }
 ];

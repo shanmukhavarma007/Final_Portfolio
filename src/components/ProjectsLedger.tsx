@@ -48,7 +48,7 @@ export const ProjectsLedger: React.FC<ProjectsLedgerProps> = ({
               key={project.id}
               whileHover={{ y: -3 }}
               transition={{ duration: 0.25, ease: 'easeOut' }}
-              className="border border-[#d8d7ce] bg-[#ffffff] transition-all flex flex-col justify-between group hover:border-[#1b1c18] hover:shadow-sm"
+              className={`border ${isCva6 ? 'border-2 border-[#1b1c18]' : 'border-[#d8d7ce]'} bg-[#ffffff] transition-all flex flex-col justify-between group hover:border-[#1b1c18] hover:shadow-sm`}
             >
               {/* Card Header Ledger */}
               <div>
@@ -76,7 +76,7 @@ export const ProjectsLedger: React.FC<ProjectsLedgerProps> = ({
 
                     <span className="font-technical text-[11px] px-2 py-0.5 border bg-[#1b1c18] text-[#cef053] border-[#1b1c18] font-bold">
                       {isCva6 
-                        ? 'POST-ROUTE COMPLETED' 
+                        ? '0 DRCs (POST-ECO)' 
                         : isAes 
                         ? 'SYNTHESIS: COMPLETED' 
                         : 'STA & SDC: COMPLETED'}
@@ -104,7 +104,7 @@ export const ProjectsLedger: React.FC<ProjectsLedgerProps> = ({
                     </span>
                     <span className="px-2 py-0.5 bg-[#f5f3ed] border border-[#d8d7ce] text-[#536600] font-semibold text-[11px]">
                       {isCva6 
-                        ? 'GDSII & SIGNOFF PENDING' 
+                        ? '11 STAGES · GDSII PENDING' 
                         : isAes 
                         ? '0 VIOLATING PATHS' 
                         : 'MULTI-BUDGET STA'}
@@ -135,7 +135,7 @@ export const ProjectsLedger: React.FC<ProjectsLedgerProps> = ({
                     {isCva6 && (
                       <div>
                         <span className="font-bold text-[#1b1c18]">CURRENT STATUS: </span>
-                        Post-route implementation completed (DRCs reduced 40 &rarr; 10, 0 antenna, Setup WNS -0.114 ns via LVT &amp; useful skew). GDSII generation and signoff pending.
+                        11 verified stages completed. Route ECO resolved initial post-route 10 DRCs &rarr; <strong className="text-[#536600]">0 verified DRCs</strong> (0 antenna); I2O (+0.028 ns) &amp; Default (+0.186 ns) groups fixed individually. GDSII &amp; final signoff pending.
                       </div>
                     )}
                     {isAes && (
@@ -160,7 +160,7 @@ export const ProjectsLedger: React.FC<ProjectsLedgerProps> = ({
                   <span className="text-[#757872]">LANGUAGES: {project.languages.join(', ')}</span>
                   <span className="text-[#536600] font-bold mt-0.5">
                     {isCva6 
-                      ? '★ VERIFIED POST-ROUTE & CTS EVIDENCE' 
+                      ? '★ FLAGSHIP 7-SECTION CASE STUDY' 
                       : isAes 
                       ? '★ VERIFIED SYNTHESIS QoR' 
                       : '★ VERIFIED STA & SDC REPORTS'}
