@@ -174,7 +174,7 @@ export const RECRUITER_SKILL_GROUPS: RecruiterSkillGroup[] = [
         name: 'Macro Placement & Pin Access',
         level: 'HANDS-ON FLOW',
         toolOrContext: 'Cadence Innovus',
-        details: '16 SRAM memory macros placed along periphery with 20 µm macro channel spacing, 30% partial placement blockages, and routing corridor preservation.'
+        details: '24 SRAM memory macros placed along periphery with 20 µm macro channel spacing, 30% partial placement blockages, and routing corridor preservation.'
       },
       {
         name: 'Power Planning',
